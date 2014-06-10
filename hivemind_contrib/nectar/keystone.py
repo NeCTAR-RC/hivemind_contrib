@@ -31,11 +31,11 @@ def get_tenant(keystone, name_or_id):
 
 @task
 @verbose
-def set_storage_category(tenant, category):
+def set_vicnode_id(tenant, vicnode_id):
     """Used in RDSI reporting to determine if the allocation should appear
     in the report.
 
     """
     keystone = client()
     tenant = get_tenant(keystone, tenant)
-    keystone.tenants.update(tenant.id, storage_allocation_category=category)
+    keystone.tenants.update(tenant.id, vicnode_id=vicnode_id)
