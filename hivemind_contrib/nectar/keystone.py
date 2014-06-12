@@ -1,6 +1,7 @@
 import os
 
 from fabric.api import task
+from prettytable import PrettyTable
 from keystoneclient.v2_0 import client as keystone_client
 from keystoneclient.exceptions import NotFound
 
@@ -29,6 +30,14 @@ def get_tenant(keystone, name_or_id):
     return tenant
 
 
+def get_user(keystone, name_or_id):
+    try:
+        tenant = keystone.users.get(name_or_id)
+    except NotFound:
+        tenant = keystone.users.find(name=name_or_id)
+    return tenant
+
+
 @task
 @verbose
 def set_vicnode_id(tenant, vicnode_id):
@@ -39,3 +48,74 @@ def set_vicnode_id(tenant, vicnode_id):
     keystone = client()
     tenant = get_tenant(keystone, tenant)
     keystone.tenants.update(tenant.id, vicnode_id=vicnode_id)
+
+
+def print_members(tenant):
+    users = PrettyTable(["ID", "Email", "Roles"])
+    for user in tenant.list_users():
+        roles = ', '.join([r.name for r in user.list_roles(tenant)])
+        users.add_row([user.id, user.email, roles])
+    print "Members of %s:" % tenant.name
+    print str(users)
+
+
+@task
+@verbose
+def list_members(tenant):
+    """
+    """
+    keystone = client()
+    tenant = get_tenant(keystone, tenant)
+    print_members(tenant)
+
+
+@task
+@verbose
+def add_tenant_member(tenant, user):
+    """
+    """
+    keystone = client()
+    tenant = get_tenant(keystone, tenant)
+    tenant_manager = get_user(keystone, user)
+    tenant_manager_role = keystone.roles.find(name='Member')
+    tenant.add_user(tenant_manager, tenant_manager_role)
+    print_members(tenant)
+
+
+@task
+@verbose
+def remove_tenant_member(tenant, user):
+    """
+    """
+    keystone = client()
+    tenant = get_tenant(keystone, tenant)
+    tenant_manager = get_user(keystone, user)
+    for role in tenant_manager.list_roles(tenant):
+        tenant.remove_user(tenant_manager, role)
+    print_members(tenant)
+
+
+@task
+@verbose
+def add_tenant_manager(tenant, user):
+    """
+    """
+    keystone = client()
+    tenant = get_tenant(keystone, tenant)
+    tenant_manager = get_user(keystone, user)
+    tenant_manager_role = keystone.roles.find(name='TenantManager')
+    tenant.add_user(tenant_manager, tenant_manager_role)
+    print_members(tenant)
+
+
+@task
+@verbose
+def remove_tenant_manager(tenant, user):
+    """
+    """
+    keystone = client()
+    tenant = get_tenant(keystone, tenant)
+    tenant_manager = get_user(keystone, user)
+    tenant_manager_role = keystone.roles.find(name='TenantManager')
+    tenant.remove_user(tenant_manager, tenant_manager_role)
+    print_members(tenant)

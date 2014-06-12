@@ -59,7 +59,7 @@ setup(
       [hivemind.modules]
       iptables = hivemind_contrib.iptables
       libvirt = hivemind_contrib.libvirt
-      nectar = hivemind_contrib.nectar
+      nectar = hivemind_contrib.nectar.*
       nova = hivemind_contrib.nova
       gerrit = hivemind_contrib.gerrit
       packages = hivemind_contrib.packages
