@@ -7,6 +7,9 @@ first_list([], _).
 first_list([F], F).
 first_list([F | Rest], F).
 
+score(Category, Score, User) :-
+  gerrit:commit_label(label(Category, Score), User).
+
 % Sum the votes in a category. Uses a helper function score/2
 % to select out only the score values the given category.
 sum(VotesNeeded, Category, P) :-
