@@ -18,7 +18,7 @@ add_category_min_score(In, Category, Min,  P) :-
 
   %% sum the author scores
   gerrit:commit_author(Author),
-  findall(AuthorScore, score(Category, Score, Author), AuthorScores),
+  findall(AuthorScore, score(Category, AuthorScore, Author), AuthorScores),
   sum_list(AuthorScores, AuthorSum),
 
   %% calculate the total
