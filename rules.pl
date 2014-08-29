@@ -21,8 +21,7 @@ add_category_min_score(In, Category, Min,  P) :-
   sum_list(AuthorScores, AuthorSum),
 
   %% calculate the total
-  TotalSum is Sum - AuthorSum,
-  TotalSum >= Min, !,
+  Sum - AuthorSum >= Min, !,
 
   findall(User, score(Category, Score, User), Users),
   first_list(Users, FirstUser),
