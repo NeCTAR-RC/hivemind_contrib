@@ -21,6 +21,7 @@ sum(VotesNeeded, Category, P) :-
   gerrit:commit_author(Author),
   findall(AuthorScore, score(Category, AuthorScore, Author), AuthorScores),
   sum_list(AuthorScores, AuthorSum),
+  !,
 
   %% calculate the total
   Sum - AuthorSum >= VotesNeeded, !,
