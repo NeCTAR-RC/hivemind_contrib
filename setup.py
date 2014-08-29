@@ -57,14 +57,15 @@ setup(
       # -*- Entry points: -*-
 
       [hivemind.modules]
-      iptables = hivemind_contrib.iptables
-      libvirt = hivemind_contrib.libvirt
-      nectar = hivemind_contrib.nectar.*
-      nova = hivemind_contrib.nova
       gerrit = hivemind_contrib.gerrit
+      iptables = hivemind_contrib.iptables
+      keystone = hivemind_contrib.keystone
+      libvirt = hivemind_contrib.libvirt
+      nova = hivemind_contrib.nova
       packages = hivemind_contrib.packages
       packaging = hivemind_contrib.packaging
       pbuilder = hivemind_contrib.pbuilder
+      rcshibboleth = hivemind_contrib.rcshibboleth
       repo = hivemind_contrib.repo
       swift = hivemind_contrib.swift
       """,
