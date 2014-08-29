@@ -31,5 +31,5 @@ sum(VotesNeeded, Category, P) :-
 sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
 
 submit_rule(S) :-
-  sum(2, 'Code-Review', CR),
+  sum(10, 'Code-Review', CR),
   gerrit:max_with_block(-1, 1, 'Verified', V).
