@@ -2,7 +2,7 @@
 Hivemind Contrib
 ===============================
 
-A collection of hivemind tasks.
+A collection of Hivemind tasks.
 
 * Free software: GPLv2 License
 
