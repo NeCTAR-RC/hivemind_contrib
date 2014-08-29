@@ -11,10 +11,20 @@ score(Category, Score, User) :-
   gerrit:commit_label(label(Category, Score), User).
 
 add_category_min_score(In, Category, Min,  P) :-
+  %% sum the review scores
   findall(Score, score(Category, Score, User), Scores),
   findall(User, score(Category, Score, User), Users),
   sum_list(Scores, Sum),
-  Sum >= Min, !,
+
+  %% sum the author scores
+  gerrit:commit_author(Author),
+  findall(AuthorScore, score(Category, Score, Author), AuthorScores),
+  sum_list(AuthorScores, AuthorSum),
+
+  %% calculate the total
+  TotalSum is Sum - Author_sum,
+  TotalSum >= Min, !,
+
   first_list(Users, FirstUser),
   P = [label(Category, ok(FirstUser)) | In].
 
