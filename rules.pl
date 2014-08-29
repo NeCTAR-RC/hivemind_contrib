@@ -23,7 +23,7 @@ sum(VotesNeeded, Category, P) :-
   Sum - AuthorSum >= VotesNeeded, !,
   findall(User, score(Category, Score, User), Users),
   first_list(Users, FirstUser),
-  P = label(Category, ok(_)).
+  P = label(Category, ok(FirstUser)).
 sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
 
 submit_rule(S) :-
