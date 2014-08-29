@@ -10,7 +10,7 @@ score(Category, Score, User) :-
 % to select out only the score values the given category.
 sum(VotesNeeded, Category, label(Category, ok(_))) :-
   %% sum the review scores
-  findall(Score, score(Category, Score, _), All),
+  findall(Score, score(Category, Score, User), All),
   sum_list(All, Sum),
 
   %% sum the author scores
