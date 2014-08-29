@@ -1,28 +1,23 @@
 % -*- mode: prolog -*-
 
-sum_list([], 0).
-sum_list([H | Rest], Sum) :- sum_list(Rest,Tmp), Sum is H + Tmp.
-
-score(Category, Score, User) :-
-  gerrit:commit_label(label(Category, Score), User).
+submit_rule(submit(CR, V)) :-
+  sum(2, 'Code-Review', CR),
+  gerrit:max_with_block(-1, 1, 'Verified', V).
 
 % Sum the votes in a category. Uses a helper function score/2
 % to select out only the score values the given category.
 sum(VotesNeeded, Category, label(Category, ok(_))) :-
-  %% sum the review scores
-  findall(Score, score(Category, Score, User), All),
+  findall(Score, score(Category, Score), All),
   sum_list(All, Sum),
-
-  %% sum the author scores
-  gerrit:commit_author(Author),
-  findall(AuthorScore, score(Category, AuthorScore, Author), AuthorScores),
-  sum_list(AuthorScores, AuthorSum),
-
-  %% calculate the total
-  Sum - AuthorSum >= VotesNeeded, !,
+  Sum >= VotesNeeded,
   !.
 sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
 
-submit_rule(S) :-
-  sum(2, 'Code-Review', CR),
-  gerrit:max_with_block(-1, 1, 'Verified', V).
+score(Category, Score) :-
+  gerrit:commit_label(label(Category, Score), User).
+
+% Simple Prolog routine to sum a list of integers.
+sum_list(List, Sum)   :- sum_list(List, 0, Sum).
+sum_list([X|T], Y, S) :- Z is X + Y, sum_list(T, Z, S).
+sum_list([], S, S).
+
