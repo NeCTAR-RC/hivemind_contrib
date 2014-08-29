@@ -10,23 +10,20 @@ first_list([F | Rest], F).
 score(Category, Score, User) :-
   gerrit:commit_label(label(Category, Score), User).
 
-sum(VotesNeeded, Category, P) :-
-  %% sum the review scores
-  findall(Score, score(Category, Score, User), All),
-  sum_list(All, Sum),
-
-  %% sum the author scores
-  gerrit:commit_author(Author),
-  findall(AuthorScore, score(Category, AuthorScore, Author), AuthorScores),
-  sum_list(AuthorScores, AuthorSum),
-
-  %% calculate the total
-  Sum - AuthorSum >= VotesNeeded, !,
+add_category_min_score(In, Category, Min,  P) :-
+  findall(Score, score(Category, Score, User), Scores),
   findall(User, score(Category, Score, User), Users),
+  sum_list(Scores, Sum),
+  Sum >= Min, !,
   first_list(Users, FirstUser),
-  P = label(Category, ok(FirstUser)).
-sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
+  P = [label(Category, ok(FirstUser)) | In].
+
+add_category_min_score(In, Category, Min, P) :-
+  P = [label(Category, need(Min)) | In].
 
 submit_rule(S) :-
-  sum(2, 'Code-Review', CR),
-  gerrit:max_with_block(-1, 1, 'Verified', V).
+  gerrit:default_submit(X),
+  X =.. [submit | Ls],
+  gerrit:remove_label(Ls, label('Code-Review', _), NoCR),
+  add_category_min_score(NoCR, 'Code-Review', 2, Labels),
+  S =.. [submit | Labels].
