@@ -13,7 +13,6 @@ score(Category, Score, User) :-
 add_category_min_score(In, Category, Min,  P) :-
   %% sum the review scores
   findall(Score, score(Category, Score, User), Scores),
-  findall(User, score(Category, Score, User), Users),
   sum_list(Scores, Sum),
 
   %% sum the author scores
@@ -25,6 +24,7 @@ add_category_min_score(In, Category, Min,  P) :-
   TotalSum is Sum - AuthorSum,
   TotalSum >= Min, !,
 
+  findall(User, score(Category, Score, User), Users),
   first_list(Users, FirstUser),
   P = [label(Category, ok(FirstUser)) | In].
 
