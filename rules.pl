@@ -10,8 +10,6 @@ first_list([F | Rest], F).
 score(Category, Score, User) :-
   gerrit:commit_label(label(Category, Score), User).
 
-% Sum the votes in a category. Uses a helper function score/2
-% to select out only the score values the given category.
 sum(VotesNeeded, Category, P) :-
   %% sum the review scores
   findall(Score, score(Category, Score, User), All),
@@ -21,7 +19,6 @@ sum(VotesNeeded, Category, P) :-
   gerrit:commit_author(Author),
   findall(AuthorScore, score(Category, AuthorScore, Author), AuthorScores),
   sum_list(AuthorScores, AuthorSum),
-  !,
 
   %% calculate the total
   Sum - AuthorSum >= VotesNeeded, !,
@@ -31,5 +28,5 @@ sum(VotesNeeded, Category, P) :-
 sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
 
 submit_rule(S) :-
-  sum(10, 'Code-Review', CR),
+  sum(2, 'Code-Review', CR),
   gerrit:max_with_block(-1, 1, 'Verified', V).
