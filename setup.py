@@ -25,7 +25,7 @@ test_requirements = [
 setup(
     name='hivemind_contrib',
     version='0.1',
-    description='Python Boilerplate contains all the boilerplate you need to create a Python package.',
+    description='A collection of plugins for use with Hivemind.',
     long_description=readme + '\n\n' + history,
     author='Russell Sim',
     author_email='russell.sim@gmail.com',
