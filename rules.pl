@@ -33,6 +33,8 @@ add_category_min_score(In, Category, Min, P) :-
 submit_rule(S) :-
   gerrit:default_submit(X),
   X =.. [submit | Ls],
-  gerrit:remove_label(Ls, label('Code-Review', _), NoCR),
-  add_category_min_score(NoCR, 'Code-Review', 2, Labels),
+  gerrit:commit_author(Author),
+  gerrit:remove_label(Ls, label('MaxNoBlock', Author), NoCR),
+  gerrit:remove_label(NoCR, label('Code-Review', _), NoCR1),
+  add_category_min_score(NoCRl, 'Code-Review', 2, Labels),
   S =.. [submit | Labels].
