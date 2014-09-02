@@ -49,7 +49,7 @@ def parse_openstack_release(branch):
 
 GIT_DESCRIBE_VERSION_REGEX = re.compile(
     r"""
-    ^(?P<major>\d+)\.
+    ^v?(?P<major>\d+)\.
     (?P<minor>\d+)
     (?:\.(?P<patch>\d+)){0,1}
     (?:-(?P<commits>\d+)
