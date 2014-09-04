@@ -54,7 +54,7 @@ mirrors = {
 
 ubuntu_mirrors = {
     'precise': 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/',
-    'trusty': 'http://mirror.aarnet.edu.au/pub/ubuntu/archive',
+    'trusty': 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/',
 }
 
 
