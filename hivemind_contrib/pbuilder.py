@@ -35,17 +35,20 @@ mirrors = {
                 "deb http://download.rc.nectar.org.au/nectar-ubuntu precise main",
                 "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-grizzly main",
                 "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-grizzly-testing main",
-                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-testing main"],
+                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-testing main",
+                "deb http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/ precise-updates main universe"],
     'havana': ["deb http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu precise-updates/havana main",
                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise main",
                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-havana main",
                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-havana-testing main",
-               "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-testing main"],
+               "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-testing main",
+               "deb http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/ precise-updates main universe"],
     'icehouse': [
         "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty main",
         "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty-icehouse main",
         "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty-icehouse-testing main",
-        "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty-testing main"
+        "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty-testing main",
+        "deb http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/ trusty-updates main universe"
     ],
 }
 
