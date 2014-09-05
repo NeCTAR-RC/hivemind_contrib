@@ -72,7 +72,7 @@ def push_config(remote='origin'):
 
     """
     git.assert_in_repository()
-    local('git push %s meta/config:refs/for/refs/meta/config' % remote)
+    local('git push %s meta/config:refs/meta/config' % remote)
 
 
 @task
