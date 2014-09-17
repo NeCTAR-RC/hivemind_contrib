@@ -1,5 +1,5 @@
 wheel==0.23.0
-python-keystoneclient
-python-novaclient
-MySQL-python
-prettytable
+pbr
+mox
+pytest
+mock
