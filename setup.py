@@ -68,5 +68,6 @@ setup(
       rcshibboleth = hivemind_contrib.rcshibboleth
       repo = hivemind_contrib.repo
       swift = hivemind_contrib.swift
+      upgrade = hivemind_contrib.upgrade
       """,
 )
