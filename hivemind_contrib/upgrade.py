@@ -70,8 +70,14 @@ def puppet_agent(sync=False):
 
 @runs_once
 @task
-def print_hosts():
-    print env.roledefs
+def print_hosts(for_role=None):
+    for role, roledef in env.roledefs.items():
+        if for_role is not None and for_role != role:
+            continue
+        print role
+        for host in roledef:
+            print '  -', host
+        print
 
 
 @parallel(pool_size=5)
