@@ -1,0 +1,23 @@
+Source: python-hivemind-contrib
+Section: unknown
+Priority: optional
+Maintainer: Russell Sim <russell.sim@gmail.com>
+Build-Depends: debhelper (>= 9), python-all (>= 2.6), python-setuptools
+Build-Depends-Indep: pep8,
+                     python-pytest,
+                     python-mysqldb,
+                     python-mox,
+                     python-mock,
+                     python-prettytable,
+                     python-setuptools (>= 0.6.24),
+                     python-keystoneclient,
+                     python-novaclient,
+                     python-hivemind
+Standards-Version: 3.9.5
+Homepage: https://github.com/NeCTAR-RC/hivemind_contrib
+
+Package: python-hivemind-contrib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Description: A collection of plugins for hivemind.
+ hivemind_contrib, A collection of plugins for hivemind.
