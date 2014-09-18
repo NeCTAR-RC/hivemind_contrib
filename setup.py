@@ -1,14 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-import os
-import sys
-
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
 
 readme = open('README.rst').read()
@@ -19,25 +9,18 @@ requirements = [
     'python-novaclient',
     'MySQL-python',
     'prettytable',
-]
-
-test_requirements = [
-    # TODO: put package test requirements here
+    'hivemind',
 ]
 
 setup(
-    name='hivemind_contrib',
-    version='0.1',
+    name='hivemind-contrib',
+    version='0.1.0',
     description='A collection of plugins for use with Hivemind.',
     long_description=readme + '\n\n' + history,
     author='Russell Sim',
     author_email='russell.sim@gmail.com',
-    url='https://github.com/russell/hivemind_contrib',
-    packages=[
-        'hivemind_contrib',
-    ],
-    package_dir={'hivemind_contrib':
-                 'hivemind_contrib'},
+    url='https://github.com/NeCTAR-RC/hivemind_contrib',
+    packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,
     install_requires=requirements,
     license="GPLv2",
@@ -54,9 +37,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
     ],
-    test_suite='tests',
-    tests_require=test_requirements,
-      entry_points="""
+    entry_points="""
       # -*- Entry points: -*-
 
       [hivemind.modules]
