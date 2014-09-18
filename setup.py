@@ -21,10 +21,6 @@ requirements = [
     'prettytable',
 ]
 
-test_requirements = [
-    # TODO: put package test requirements here
-]
-
 setup(
     name='hivemind_contrib',
     version='0.1',
@@ -54,9 +50,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
     ],
-    test_suite='tests',
-    tests_require=test_requirements,
-      entry_points="""
+    entry_points="""
       # -*- Entry points: -*-
 
       [hivemind.modules]
