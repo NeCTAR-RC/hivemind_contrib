@@ -51,6 +51,7 @@ setup(
       packages = hivemind_contrib.packages
       packaging = hivemind_contrib.packaging
       pbuilder = hivemind_contrib.pbuilder
+      puppetdb = hivemind_contrib.puppetdb.tasks
       rcshibboleth = hivemind_contrib.rcshibboleth
       repo = hivemind_contrib.repo
       swift = hivemind_contrib.swift
