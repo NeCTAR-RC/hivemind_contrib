@@ -12,7 +12,9 @@ requirements = [
     'hivemind',
     'sqlalchemy',
     'requests',
+    'pyrabbit',
 ]
+
 
 setup(
     name='hivemind-contrib',
@@ -52,6 +54,7 @@ setup(
       packaging = hivemind_contrib.packaging
       pbuilder = hivemind_contrib.pbuilder
       puppetdb = hivemind_contrib.puppetdb.tasks
+      rabbit = hivemind_contrib.rabbit
       rcshibboleth = hivemind_contrib.rcshibboleth
       repo = hivemind_contrib.repo
       swift = hivemind_contrib.swift
