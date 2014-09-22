@@ -4,14 +4,18 @@ Build a package
 import ConfigParser
 import os
 from os.path import expanduser
+import tempfile
 
 from fabric.api import task, local, get, settings, shell_env, hosts
+import requests
+
 from hivemind.decorators import verbose
 
 ARCH = "amd64"
 
 STABLE_RELEASE = "icehouse"
 OPENSTACK_RELEASES = ['icehouse', 'havana', 'grizzly']
+NECTAR_REPOS = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 
 
 def dist_from_release(release):
@@ -20,14 +24,23 @@ def dist_from_release(release):
     return 'precise'
 
 
+def apt_key_recv_key(key_id, keyring):
+    local("apt-key --keyring %s adv "
+          "--keyserver keyserver.ubuntu.com "
+          "--recv-keys %s" % (keyring, key_id))
+
+
 def build_trusted():
     db = "~/.trusted.gpg"
     local("touch {0}".format(db))
-    local("apt-key --keyring {0} adv --keyserver keyserver.ubuntu.com --recv-keys 5EDB1B62EC4926EA".format(db))
-    local("apt-key --keyring {0} adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5".format(db))
-    with settings(user='root'):
-        get("/data/web/nectar-ubuntu/nectar-custom.gpg", "/tmp/nectar-custom.gpg")
-    local("gpg --no-default-keyring --keyring /tmp/nectar-custom.gpg --export | gpg --no-default-keyring --keyring {0} --import".format(db))
+    apt_key_recv_key("5EDB1B62EC4926EA", db)
+    apt_key_recv_key("40976EAF437D05B5", db)
+    with tempfile.NamedTemporaryFile() as tmp_gpg:
+        response = requests.get(NECTAR_REPOS + "nectar-custom.gpg")
+        tmp_gpg.write(response.content)
+        local("gpg --no-default-keyring --keyring %s --export "
+              "| gpg --no-default-keyring --keyring %s --import"
+              % (tmp_gpg.name, db))
 
 
 mirrors = {
