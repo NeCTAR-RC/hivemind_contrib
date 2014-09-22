@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_e219ce7a",
+        "filename": "hivemind_contrib/puppetdb/tasks.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2014-09-22T03:59:03Z",
+      "side": 1,
+      "message": "can this default to puppetdb",
+      "range": {
+        "startLine": 8,
+        "startChar": 32,
+        "endLine": 8,
+        "endChar": 38
+      },
+      "revId": "649894adaf7d24949633d8cf4a29b2e0221abe9f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
