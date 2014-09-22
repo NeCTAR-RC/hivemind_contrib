@@ -6,6 +6,8 @@ import os
 from os.path import expanduser
 
 from fabric.api import task, local, get, settings, shell_env, hosts
+import requests
+
 from hivemind.decorators import verbose
 
 ARCH = "amd64"
@@ -25,9 +27,10 @@ def build_trusted():
     local("touch {0}".format(db))
     local("apt-key --keyring {0} adv --keyserver keyserver.ubuntu.com --recv-keys 5EDB1B62EC4926EA".format(db))
     local("apt-key --keyring {0} adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5".format(db))
-    with settings(user='root'):
-        get("/data/web/nectar-ubuntu/nectar-custom.gpg", "/tmp/nectar-custom.gpg")
-    local("gpg --no-default-keyring --keyring /tmp/nectar-custom.gpg --export | gpg --no-default-keyring --keyring {0} --import".format(db))
+    with open("/tmp/nectar-custom.gpg", "w") as tmp_gpg:
+        response = requests.get("http://download.rc.nectar.org.au/nectar-ubuntu/nectar-custom.gpg", )
+        tmp_gpg.write(response.content)
+        local("gpg --no-default-keyring --keyring /tmp/nectar-custom.gpg --export | gpg --no-default-keyring --keyring {0} --import".format(db))
 
 
 mirrors = {
