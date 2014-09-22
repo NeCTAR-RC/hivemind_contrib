@@ -11,6 +11,7 @@ requirements = [
     'prettytable',
     'hivemind',
     'sqlalchemy',
+    'requests',
 ]
 
 setup(
