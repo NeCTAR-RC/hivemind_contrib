@@ -12,7 +12,7 @@ Filter out packages:
 """
 from itertools import chain
 from fabric.api import (env, parallel, runs_once, execute,
-                        prompt, show, puts, task)
+                        prompt, settings, show, puts, task)
 from hivemind import apt, operations, puppet
 
 from hivemind_contrib import swift
@@ -42,9 +42,10 @@ def upgrade(exclude="", verbose=False, upgrade_method=apt.upgrade,
         apt.print_changes_perhost(packages)
     else:
         apt.print_changes(packages)
-    do_it = prompt("Do you want to continue?", default="y")
-    if do_it not in ("y", "Y"):
-        return
+    with settings(abort_on_prompts=False):
+        do_it = prompt("Do you want to continue?", default="y")
+        if do_it not in ("y", "Y"):
+            return
     if pre_method is not None:
         execute(pre_method)
     execute(upgrade_method, packages=packages)
