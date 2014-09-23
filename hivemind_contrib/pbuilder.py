@@ -6,7 +6,7 @@ import os
 from os.path import expanduser
 import tempfile
 
-from fabric.api import task, local, get, settings, shell_env, hosts
+from fabric.api import task, local, shell_env, hosts, puts
 import requests
 
 from hivemind.decorators import verbose
@@ -89,10 +89,16 @@ def pbuilder_env(os_release):
 
 @task
 @verbose
-@hosts('mirrors.melbourne.nectar.org.au')
 def create(os_release=STABLE_RELEASE):
     """Create an environment for building packages."""
     dist = dist_from_release(os_release)
+    path = '/var/cache/pbuilder/base-{dist}-{os_release}-{arch}.cow'.format(
+        arch=ARCH, dist=dist, os_release=os_release)
+
+    if os.path.exists(path):
+        puts('PBuilder base image already exists at %s' % path)
+        return
+
     build_trusted()
     keyring = expanduser("~/.trusted.gpg")
 
@@ -101,14 +107,18 @@ def create(os_release=STABLE_RELEASE):
     components = "main universe"
 
     with shell_env(ARCH=ARCH, DIST=dist):
-        local('git-pbuilder create --basepath /var/cache/pbuilder/base-{dist}-{os_release}-{arch}.cow --mirror {mirror} --components "{components}" --othermirror "{mirrors}" --keyring {keyring} --debootstrapopts --keyring={keyring}'.format(
-            mirror=mirror,
-            components=components,
-            mirrors="|".join(other_mirrors),
-            keyring=keyring,
-            arch=ARCH,
-            dist=dist,
-            os_release=os_release))
+        local('git-pbuilder create --basepath {basepath}'
+              ' --mirror {mirror}'
+              ' --components "{components}"'
+              ' --othermirror "{mirrors}"'
+              ' --keyring {keyring}'
+              ' --debootstrapopts'
+              ' --keyring={keyring}'.format(
+                  mirror=mirror,
+                  components=components,
+                  mirrors="|".join(other_mirrors),
+                  keyring=keyring,
+                  basepath=path))
 
 
 @task
