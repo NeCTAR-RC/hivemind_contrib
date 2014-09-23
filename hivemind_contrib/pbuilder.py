@@ -96,8 +96,7 @@ def create(os_release=STABLE_RELEASE):
         arch=ARCH, dist=dist, os_release=os_release)
 
     if os.path.exists(path):
-        puts('PBuilder base image already exists at %s' % path)
-        return
+        raise Exception('PBuilder base image already exists at %s' % path)
 
     build_trusted()
     keyring = expanduser("~/.trusted.gpg")
