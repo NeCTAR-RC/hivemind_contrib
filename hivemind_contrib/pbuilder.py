@@ -15,7 +15,9 @@ ARCH = "amd64"
 
 STABLE_RELEASE = "icehouse"
 OPENSTACK_RELEASES = ['icehouse', 'havana', 'grizzly']
-NECTAR_REPOS = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
+NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
+CLOUD_ARCHIVE= 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
+UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
 
 
 def dist_from_release(release):
@@ -36,7 +38,7 @@ def build_trusted():
     apt_key_recv_key("5EDB1B62EC4926EA", db)
     apt_key_recv_key("40976EAF437D05B5", db)
     with tempfile.NamedTemporaryFile() as tmp_gpg:
-        response = requests.get(NECTAR_REPOS + "nectar-custom.gpg")
+        response = requests.get(NECTAR_REPO + "nectar-custom.gpg")
         tmp_gpg.write(response.content)
         local("gpg --no-default-keyring --keyring %s --export "
               "| gpg --no-default-keyring --keyring %s --import"
@@ -44,25 +46,24 @@ def build_trusted():
 
 
 mirrors = {
-    'grizzly': ["deb http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu precise-updates/grizzly main",
-                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise main",
-                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-grizzly main",
-                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-grizzly-testing main",
-                "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-testing main",
-                "deb http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/ precise-updates main universe"],
-    'havana': ["deb http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu precise-updates/havana main",
-               "deb http://download.rc.nectar.org.au/nectar-ubuntu precise main",
-               "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-havana main",
-               "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-havana-testing main",
-               "deb http://download.rc.nectar.org.au/nectar-ubuntu precise-testing main",
-               "deb http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/ precise-updates main universe"],
+    'grizzly': ["deb " + CLOUD_ARCHIVE + " precise-updates/grizzly main",
+                "deb " + NECTAR_REPO + " precise main",
+                "deb " + NECTAR_REPO + " precise-grizzly main",
+                "deb " + NECTAR_REPO + " precise-grizzly-testing main",
+                "deb " + NECTAR_REPO + " precise-testing main",
+                "deb " + UBUNTU_MIRROR + " precise-updates main universe"],
+    'havana': ["deb " + CLOUD_ARCHIVE + " precise-updates/havana main",
+               "deb " + NECTAR_REPO + " precise main",
+               "deb " + NECTAR_REPO + " precise-havana main",
+               "deb " + NECTAR_REPO + " precise-havana-testing main",
+               "deb " + NECTAR_REPO + " precise-testing main",
+               "deb " + UBUNTU_MIRROR + " precise-updates main universe"],
     'icehouse': [
-        "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty main",
-        "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty-icehouse main",
-        "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty-icehouse-testing main",
-        "deb http://download.rc.nectar.org.au/nectar-ubuntu trusty-testing main",
-        "deb http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/ trusty-updates main universe"
-    ],
+        "deb " + NECTAR_REPO + " trusty main",
+        "deb " + NECTAR_REPO + " trusty-icehouse main",
+        "deb " + NECTAR_REPO + " trusty-icehouse-testing main",
+        "deb " + NECTAR_REPO + " trusty-testing main",
+        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
 }
 
 ubuntu_mirrors = {
