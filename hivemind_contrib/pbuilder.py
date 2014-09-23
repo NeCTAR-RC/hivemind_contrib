@@ -40,6 +40,7 @@ def build_trusted():
     with tempfile.NamedTemporaryFile() as tmp_gpg:
         response = requests.get(NECTAR_REPO + "nectar-custom.gpg")
         tmp_gpg.write(response.content)
+        tmp_gpg.flush()
         local("gpg --no-default-keyring --keyring %s --export "
               "| gpg --no-default-keyring --keyring %s --import"
               % (tmp_gpg.name, db))
