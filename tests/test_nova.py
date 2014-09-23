@@ -1,6 +1,7 @@
-import mox
-from hivemind import nova
 import hivemind.decorators
+import mox
+
+from hivemind_contrib import nova
 
 
 NOVA_MANAGE_OUTPUT = """Binary           Host                                 Zone             Status     State Updated_At

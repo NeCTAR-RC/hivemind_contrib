@@ -1,7 +1,7 @@
 import unittest
 import mock
 
-from hivemind import iptables
+from hivemind_contrib import iptables
 
 
 IPTABLES_OUTPUT = """Chain INPUT (policy ACCEPT)
@@ -98,7 +98,7 @@ class NodeFixture(mock.MagicMock):
 
 class IptablesTestCase(unittest.TestCase):
 
-    @mock.patch('hivemind.iptables.run')
+    @mock.patch('hivemind_contrib.iptables.run')
     @mock.patch('hivemind.decorators.env', new_callable=NodeFixture)
     def test_list(self, mock_env, mock_run):
         """Test that the correct packages are parsed out of the apt output."""
