@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_d2ed84f1",
+        "filename": "hivemind_contrib/puppetdb/puppetdb.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-26T05:35:11Z",
+      "side": 1,
+      "message": "this will probably not work very well in the future.  you should change it to either none, or expose it out to the constructor.",
+      "range": {
+        "startLine": 36,
+        "startChar": 34,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "740bcd38892664a15f34fa57ed4cd3a7336ec274",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
