@@ -22,6 +22,30 @@
       "revId": "3f9d0fdbe8b6988b00c956f8ac9c3d1e607a8e4b",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa9182_f2fb6045",
+        "filename": "hivemind_contrib/rabbit.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-09-29T04:14:18Z",
+      "side": 1,
+      "message": "Yeah I dunno. Command aliasing seems a bit heavy-weight for cases like this. Though I guess you should only have one command alias per env...",
+      "parentUuid": "3afa9182_52d6b4c6",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 68
+      },
+      "revId": "3f9d0fdbe8b6988b00c956f8ac9c3d1e607a8e4b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
