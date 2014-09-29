@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afa9182_52d6b4c6",
+        "filename": "hivemind_contrib/rabbit.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-09-29T04:02:05Z",
+      "side": 1,
+      "message": "are you sure you wan\u0027t to go down this path?\n\nI think this overlaps with the command aliasing?",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 68
+      },
+      "revId": "3f9d0fdbe8b6988b00c956f8ac9c3d1e607a8e4b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
