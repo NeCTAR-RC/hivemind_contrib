@@ -77,7 +77,7 @@ def debian_version(old_version, version):
         deb_version += ".{patch}"
     if new_version['revision'] is not None:
         deb_version += "+a{commits}~g{revision}"
-    deb_version += "-{debian}"
+    deb_version += "+{distribution}-{debian}"
     return deb_version.format(**new_version)
 
 
@@ -179,8 +179,9 @@ def buildpackage(release=None, upload=True):
         source_package = dpkg_parsechangelog()
         current_version = source_package["Version"]
         version['debian'] = get_debian_commit_number()
-        release_version = debian_version(current_version, version)
         dist = dist_from_release(release)
+        version['distribution'] = dist
+        release_version = debian_version(current_version, version)
         local("dch -v {0} -D {1}-{2} --force-distribution 'Released'"
               .format(release_version, dist, release))
         local("git add debian/changelog")
