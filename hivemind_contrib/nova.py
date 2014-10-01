@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import urlparse
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -10,6 +11,8 @@ from novaclient import client as nova_client
 from hivemind.decorators import verbose, only_for, configurable
 from hivemind.operations import run
 from hivemind.util import current_host
+
+from hivemind_contrib.swift import client as swift_client
 
 DEFAULT_AZ = 'melbourne-qh2'
 DEFAULT_SECURITY_GROUPS = 'default,openstack-node,puppet-client'
@@ -96,11 +99,9 @@ def server_address(client, id):
                 return address['addr']
 
 
-def combine_files(*files):
+def combine_files(file_contents):
     combined_message = MIMEMultipart()
-    for filename in files:
-        with open(filename) as fh:
-            contents = fh.read()
+    for i, contents in enumerate(file_contents):
         for content_type, start in FILE_TYPES.items():
             if contents.startswith(start):
                 break
@@ -111,9 +112,22 @@ def combine_files(*files):
         sub_message = MIMEText(contents, content_type,
                                sys.getdefaultencoding())
         sub_message.add_header('Content-Disposition',
-                               'attachment; filename="%s"' % (filename))
+                               'attachment; filename="file-%s"' % i)
         combined_message.attach(sub_message)
     return combined_message
+
+
+def file_contents(filenames):
+    for filename in filenames:
+        url = urlparse.urlsplit(filename)
+        if url.scheme == 'swift':
+            resp = swift_client().get_object(url.netloc, url.path.strip('/'))
+            yield resp[1]
+        elif not url.scheme:
+            with open(url.path) as fh:
+                yield fh.read()
+        else:
+            raise ValueError('Unrecognised url scheme %s' % url.scheme)
 
 
 @task
@@ -152,14 +166,15 @@ def boot(name, key_name=None, image_id=None, flavor='m1.small',
             key, value = option.split('=')
             nics[-1][key] = value
 
-    resp = nova.servers.create(name=name,
-                               flavor=flavor_id,
-                               security_groups=security_groups.split(','),
-                               userdata=str(combine_files(*userdata)),
-                               image=image_id,
-                               nics=nics,
-                               availability_zone=availability_zone,
-                               key_name=key_name)
+    resp = nova.servers.create(
+        name=name,
+        flavor=flavor_id,
+        security_groups=security_groups.split(','),
+        userdata=str(combine_files(file_contents(userdata))),
+        image=image_id,
+        nics=nics,
+        availability_zone=availability_zone,
+        key_name=key_name)
 
     server_id = resp.id
     ip_address = wait_for(lambda: server_address(nova, resp.id),

@@ -7,6 +7,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 requirements = [
     'python-keystoneclient',
     'python-novaclient',
+    'python-swiftclient',
     'MySQL-python',
     'prettytable',
     'hivemind',
