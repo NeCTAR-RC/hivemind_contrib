@@ -156,20 +156,20 @@ def get_debian_commit_number():
 
 @task
 @verbose
-def buildpackage(release=None, upload=True):
+def buildpackage(os_release=None, upload=True):
     """Build a package for the current repository."""
     git.assert_in_repository()
     version = git_version()
     current_branch = git.current_branch()
-    if release is None:
-        release = parse_openstack_release(current_branch)
+    if os_release is None:
+        os_release = parse_openstack_release(current_branch)
 
     if os.path.exists(os.path.join(git.root_dir(), 'debian/')):
         deb_branch = current_branch
     else:
         deb_branch = debian_branch(version)
         if not git.branch_exists(deb_branch):
-            deb_branch = "debian/{0}".format(release)
+            deb_branch = "debian/{0}".format(os_release)
         if not git.branch_exists(deb_branch):
             deb_branch = 'debian'
         assert git.branch_exists(deb_branch), \
@@ -179,15 +179,15 @@ def buildpackage(release=None, upload=True):
         source_package = dpkg_parsechangelog()
         current_version = source_package["Version"]
         version['debian'] = get_debian_commit_number()
-        dist = dist_from_release(release)
+        dist = dist_from_release(os_release)
         version['distribution'] = dist
         release_version = debian_version(current_version, version)
         local("dch -v {0} -D {1}-{2} --force-distribution 'Released'"
-              .format(release_version, dist, release))
+              .format(release_version, dist, os_release))
         local("git add debian/changelog")
         local("git commit -m \"{0}\"".format("Updated Changelog"))
         git_buildpackage(current_branch, upstream_tree=merge.old_head,
-                         release=release)
+                         release=os_release)
         # Regenerate the source package information since it's changed
         # since we updated the changelog.
         source_package = dpkg_parsechangelog()
@@ -198,19 +198,19 @@ def buildpackage(release=None, upload=True):
 
 @task
 @verbose
-def buildbackport(release=None, revision=1, upload=True):
+def buildbackport(os_release=None, revision=1, upload=True):
     """Build a package from a downloaded deb source."""
     assert os.path.exists('debian/'), "can't find debian directory."
     source_package = dpkg_parsechangelog()
     current_version = source_package["Version"]
-    if not release:
-        release = STABLE_RELEASE
-    dist = dist_from_release(release)
+    if not os_release:
+        os_release = STABLE_RELEASE
+    dist = dist_from_release(os_release)
     release_version = backport_version(current_version, revision)
     if 'nectar' not in current_version:
         local("dch -v {0} -D {1}-{2} --force-distribution 'Backported'"
-              .format(release_version, dist, release))
-    pbuilder_buildpackage(release=release)
+              .format(release_version, dist, os_release))
+    pbuilder_buildpackage(release=os_release)
     if upload:
         # Regenerate the source package information since it's changed
         # since we updated the changelog.
