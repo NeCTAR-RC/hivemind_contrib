@@ -62,11 +62,34 @@ def print_members(tenant):
 @task
 @verbose
 def list_members(tenant):
-    """
+    """List the members of a project and their roles
     """
     keystone = client()
     tenant = get_tenant(keystone, tenant)
     print_members(tenant)
+
+
+def print_memberships(user):
+    tenants = PrettyTable(["ID", "Tenant", "Roles"])
+    keystone = client()
+    for tenant in keystone.tenants.list():
+        for t_user in tenant.list_users():
+            if t_user.id == user.id:
+                roles = ', '.join([r.name for r in user.list_roles(tenant)])
+                tenants.add_row([tenant.id, tenant.name, roles])
+    print "Memberships of %s:" % user.name
+    print str(tenants)
+
+
+@task
+@verbose
+def list_memberships(tenant):
+    """List the project that a user is a member of and their role.
+
+    """
+    keystone = client()
+    user = get_user(keystone, tenant)
+    print_memberships(user)
 
 
 @task
