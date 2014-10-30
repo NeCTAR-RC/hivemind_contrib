@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_8be3cd04",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-30T22:45:33Z",
+      "side": 1,
+      "message": "This seems a bit crazy as there are \u003e 5000 tenants in prod?\n\nYou could use /v3/role_assignments to implement this in one call.",
+      "revId": "175fb15b83cbcfa900fe90aa1d89f2500aea2b70",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_4be28504",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-10-30T22:45:33Z",
+      "side": 1,
+      "message": "I think this is meant to be user?",
+      "range": {
+        "startLine": 86,
+        "startChar": 21,
+        "endLine": 86,
+        "endChar": 27
+      },
+      "revId": "175fb15b83cbcfa900fe90aa1d89f2500aea2b70",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
