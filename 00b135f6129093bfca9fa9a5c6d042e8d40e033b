@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_d1c0e42c",
+        "filename": "hivemind_contrib/swift.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2014-12-01T22:30:37Z",
+      "side": 1,
+      "message": "Could we take it to accept GB and then just do a \n\nGB * 1024 * 1024 * 1024 \n\nSaves me getting a calculator out...",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 62
+      },
+      "revId": "00b135f6129093bfca9fa9a5c6d042e8d40e033b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
