@@ -14,7 +14,7 @@ from hivemind.decorators import verbose
 ARCH = "amd64"
 
 STABLE_RELEASE = "icehouse"
-OPENSTACK_RELEASES = ['icehouse', 'havana', 'grizzly']
+OPENSTACK_RELEASES = ['juno', 'icehouse', 'havana', 'grizzly']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -63,6 +63,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " trusty main",
         "deb " + NECTAR_REPO + " trusty-icehouse main",
         "deb " + NECTAR_REPO + " trusty-icehouse-testing main",
+        "deb " + NECTAR_REPO + " trusty-testing main",
+        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
+    'juno': [
+        "deb " + CLOUD_ARCHIVE + " trusty-updates/juno main",
+        "deb " + NECTAR_REPO + " trusty main",
+        "deb " + NECTAR_REPO + " trusty-juno main",
+        "deb " + NECTAR_REPO + " trusty-juno-testing main",
         "deb " + NECTAR_REPO + " trusty-testing main",
         "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
 }
