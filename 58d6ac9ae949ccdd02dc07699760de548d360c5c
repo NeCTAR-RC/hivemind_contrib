@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_940f6a2e",
+        "filename": "hivemind_contrib/pbuilder.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2014-12-03T03:50:02Z",
+      "side": 1,
+      "message": "icehouse?",
+      "range": {
+        "startLine": 71,
+        "startChar": 40,
+        "endLine": 72,
+        "endChar": 48
+      },
+      "revId": "58d6ac9ae949ccdd02dc07699760de548d360c5c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
