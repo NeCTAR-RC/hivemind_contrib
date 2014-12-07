@@ -25,7 +25,7 @@ env.output_prefix = False
 @runs_once
 @task
 def upgrade(exclude="", verbose=False, upgrade_method=apt.upgrade,
-            pre_method=None, post_method=None):
+            pre_method=None, post_method=None, unattended=False):
 
     exclude = exclude.split(";")
     execute(apt.update)
@@ -42,10 +42,11 @@ def upgrade(exclude="", verbose=False, upgrade_method=apt.upgrade,
         apt.print_changes_perhost(packages)
     else:
         apt.print_changes(packages)
-    with settings(abort_on_prompts=False):
-        do_it = prompt("Do you want to continue?", default="y")
-        if do_it not in ("y", "Y"):
-            return
+    if not unattended:
+        with settings(abort_on_prompts=False):
+            do_it = prompt("Do you want to continue?", default="y")
+            if do_it not in ("y", "Y"):
+                return
     if pre_method is not None:
         execute(pre_method)
     execute(upgrade_method, packages=packages)
