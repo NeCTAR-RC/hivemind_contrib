@@ -12,7 +12,7 @@ import os
 import re
 
 from debian import deb822
-from fabric.api import task, local, hosts, run, execute
+from fabric.api import task, local, hosts, run, execute, settings
 
 from hivemind import git
 from hivemind.decorators import verbose
@@ -154,16 +154,7 @@ def get_debian_commit_number():
     return local(command,  capture=True)
 
 
-@task
-@verbose
-def buildpackage(os_release=None, upload=True):
-    """Build a package for the current repository."""
-    git.assert_in_repository()
-    version = git_version()
-    current_branch = git.current_branch()
-    if os_release is None:
-        os_release = parse_openstack_release(current_branch)
-
+def discover_debian_branch(current_branch, version, os_release=None):
     if os.path.exists(os.path.join(git.root_dir(), 'debian/')):
         deb_branch = current_branch
     else:
@@ -174,7 +165,20 @@ def buildpackage(os_release=None, upload=True):
             deb_branch = 'debian'
         assert git.branch_exists(deb_branch), \
             "Debian branch %s doesn't exist" % deb_branch
+    return deb_branch
 
+
+@task
+@verbose
+def buildpackage(os_release=None, upload=True):
+    """Build a package for the current repository."""
+    git.assert_in_repository()
+    version = git_version()
+    current_branch = git.current_branch()
+    if os_release is None:
+        os_release = parse_openstack_release(current_branch)
+    deb_branch = discover_debian_branch(current_branch, version,
+                                        os_release=os_release)
     with git.temporary_merge(deb_branch) as merge:
         source_package = dpkg_parsechangelog()
         current_version = source_package["Version"]
@@ -243,3 +247,25 @@ def create_deb_branch(branch_name, source_debian_dir):
           """| sed -n -e 's/^Version: //p')" debian/rules""")
     local("git add debian")
     local('git commit -m "Initial import of debian package"')
+
+
+@task
+@verbose
+def refresh_patches():
+    git.assert_clean_repository()
+    current_branch = git.current_branch()
+    os_release = parse_openstack_release(current_branch)
+    version = git_version()
+    deb_branch = discover_debian_branch(current_branch, version=version)
+    with settings(warn_only=True):
+        local("git checkout %s -- debian" % deb_branch)
+        more_patches = True
+        while more_patches:
+            rv = local("quilt push && quilt refresh")
+            more_patches = rv.return_code == 0
+        local("quilt pop -a")
+        local("git checkout %s" % deb_branch)
+        local("git add -u")
+        local('git commit -m "Refreshed patches"')
+        local("git checkout %s" % current_branch)
+        local("git clean -fdx")
