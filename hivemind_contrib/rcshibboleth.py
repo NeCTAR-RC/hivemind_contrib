@@ -5,9 +5,12 @@ from prettytable import PrettyTable
 from sqlalchemy import create_engine
 from sqlalchemy import (Table, Column, Integer, String,
                         DateTime, MetaData, Enum, PickleType)
-from sqlalchemy.sql import not_, and_, select, func, or_
+from sqlalchemy.sql import not_, and_, select, func, or_, update
 
 from hivemind.decorators import configurable
+
+from hivemind_contrib import keystone, nova
+
 
 metadata = MetaData()
 users = Table('user', metadata,
@@ -105,3 +108,71 @@ def find_duplicate(field=['email', 'displayname', 'user_id'], details=False):
         users1 = db.execute(sql)
         user_list.extend(users1)
     print_users(user_list)
+
+
+def keystone_ids_from_email(db, email):
+    sql = select([users.c.user_id])
+    sql = sql.where(users.c.email == email)
+    result = db.execute(sql)
+    results = list(result)
+    return list(set(map(lambda r: r[users.c.user_id], results)))
+
+
+@task
+def link_account(existing_email, new_email):
+    db = connect()
+    ids = keystone_ids_from_email(db, existing_email)
+    new_email_ids = keystone_ids_from_email(db, new_email)
+
+    if len(ids) != 1:
+        print 'User has multiple accounts with email %s' % existing_email
+        return
+
+    user_id = ids[0]
+    orphan_user_id = new_email_ids[0]
+
+    print '%s: %s' % (existing_email, user_id)
+    print '%s: %s' % (new_email, orphan_user_id)
+
+    if user_id == orphan_user_id:
+        print 'Those accounts are already linked'
+        return
+
+    client = keystone.client()
+    user = client.users.get(orphan_user_id)
+    project = client.tenants.get(user.tenantId)
+    servers = nova.client().servers.list(search_opts={
+        'all_tenants': True, 'project_id': project.id})
+
+    if len(servers):
+        print 'Soon to be orphaned project has active instances.'
+        print 'Advise user to terminate them.'
+        return
+
+    print
+    print 'Confirm that you want to:'
+    print ' - Link %s to account %s' % (new_email, existing_email)
+    print ' - Delete orphan Keystone project %s' % (project.name)
+    print ' - Delete orphan Keystone user %s' % (user.name)
+    print
+
+    response = raw_input('(yes/no): ')
+    if response != 'yes':
+        return
+
+    print 'Linking account.'
+    sql = (update(users)
+           .where(users.c.email == new_email)
+           .values(user_id=user_id))
+    result = db.execute(sql)
+
+    if result.rowcount == 0:
+        print 'Something went wrong.'
+        return
+
+    print 'Deleting orphaned Keystone project %s (%s).' % (
+        project.name, project.id)
+    client.tenants.delete(project.id)
+    print 'Deleting orphaned Keystone user %s (%s).' % (user.name, user.id)
+    client.users.delete(user.id)
+    print 'All done.'
