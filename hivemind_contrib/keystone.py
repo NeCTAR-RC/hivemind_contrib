@@ -1,25 +1,34 @@
+import collections
 import os
 
 from fabric.api import task
 from prettytable import PrettyTable
 from keystoneclient.v2_0 import client as keystone_client
+from keystoneclient.v3 import client as keystone_client_v3
 from keystoneclient.exceptions import NotFound
 
 from hivemind.decorators import verbose, configurable
 
 
 @configurable('nectar.openstack.client')
-def client(url=None, username=None, password=None, tenant=None):
+def client(url=None, username=None, password=None, tenant=None, version=2):
     url = os.environ.get('OS_AUTH_URL', url)
     username = os.environ.get('OS_USERNAME', username)
     password = os.environ.get('OS_PASSWORD', password)
     tenant = os.environ.get('OS_TENANT_NAME', tenant)
     assert url and username and password and tenant
-    return keystone_client.Client(username=username,
-                                  password=password,
-                                  tenant_name=tenant,
-                                  insecure=True,
-                                  auth_url=url)
+    if version == 2:
+        return keystone_client.Client(username=username,
+                                      password=password,
+                                      tenant_name=tenant,
+                                      insecure=True,
+                                      auth_url=url)
+    else:
+        return keystone_client_v3.Client(username=username,
+                                         password=password,
+                                         project_name=tenant,
+                                         user_domain_id='default',
+                                         auth_url=url.replace('2.0', '3'))
 
 
 def get_tenant(keystone, name_or_id):
@@ -119,3 +128,42 @@ def remove_tenant_manager(tenant, user):
     tenant_manager_role = keystone.roles.find(name='TenantManager')
     tenant.remove_user(tenant_manager, tenant_manager_role)
     print_members(tenant)
+
+
+@task
+@verbose
+def user_projects(user):
+    keystone = client(version=3)
+    projects = keystone.projects.list()
+    projects = {project.id: project for project in projects}
+    roles = keystone.roles.list()
+    roles = {role.id: role for role in roles}
+
+    try:
+        user = keystone.users.get(user)
+    except Exception:
+        user = keystone.users.find(name=user)
+
+    if user is None:
+        print("Unknown user")
+        return
+
+    user_project_roles = collections.defaultdict(list)
+    for role in keystone.role_assignments.list(user=user):
+        try:
+            project_id = role.scope['project']['id']
+        except KeyError:
+            continue
+        role_id = role.role['id']
+        user_project_roles[project_id].append(roles[role_id])
+
+    table = PrettyTable(["ID", "Name", "Roles"])
+    table.sortby = "Name"
+    table.sort_key = lambda x: x[0].lower()
+    table.align = 'l'
+    for project_id, roles in user_project_roles.items():
+        roles = ', '.join(sorted([role.name for role in roles]))
+        project = projects[project_id]
+        table.add_row([project.id, project.name, roles])
+    print "Projects and roles for user %s:" % user.name
+    print str(table)
