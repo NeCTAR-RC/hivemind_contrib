@@ -10,6 +10,7 @@ from fabric.api import task, local, shell_env
 import requests
 
 from hivemind.decorators import verbose
+from hivemind import git
 
 ARCH = "amd64"
 
@@ -96,8 +97,12 @@ def pbuilder_env(os_release):
 
 @task
 @verbose
-def create(os_release=STABLE_RELEASE):
+def create(os_release=None):
     """Create an environment for building packages."""
+    current_branch = git.current_branch()
+    if os_release is None:
+        from hivemind_contrib.packaging import parse_openstack_release
+        os_release = parse_openstack_release(current_branch)
     dist = dist_from_release(os_release)
     path = '/var/cache/pbuilder/base-{dist}-{os_release}-{arch}.cow'.format(
         arch=ARCH, dist=dist, os_release=os_release)
@@ -129,15 +134,23 @@ def create(os_release=STABLE_RELEASE):
 
 @task
 @verbose
-def shell(os_release=STABLE_RELEASE):
+def shell(os_release=None):
     """Open a shell in the packaging environment."""
+    current_branch = git.current_branch()
+    if os_release is None:
+        from hivemind_contrib.packaging import parse_openstack_release
+        os_release = parse_openstack_release(current_branch)
     with pbuilder_env(os_release):
         local("git-pbuilder login")
 
 
 @task
 @verbose
-def update(os_release=STABLE_RELEASE):
+def update(os_release=None):
     """Update the packaging environment."""
+    current_branch = git.current_branch()
+    if os_release is None:
+        from hivemind_contrib.packaging import parse_openstack_release
+        os_release = parse_openstack_release(current_branch)
     with pbuilder_env(os_release):
         local("git-pbuilder update")
