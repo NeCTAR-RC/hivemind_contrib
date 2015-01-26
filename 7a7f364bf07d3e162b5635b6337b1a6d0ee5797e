@@ -16,6 +16,24 @@
       "revId": "7a7f364bf07d3e162b5635b6337b1a6d0ee5797e",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa2559ec_cdd79dec",
+        "filename": "hivemind_contrib/pbuilder.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-01-26T22:13:10Z",
+      "side": 1,
+      "message": "Circular dependency",
+      "parentUuid": "fa2559ec_8dcda560",
+      "revId": "7a7f364bf07d3e162b5635b6337b1a6d0ee5797e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
