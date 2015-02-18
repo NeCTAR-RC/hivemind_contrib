@@ -46,6 +46,30 @@
       "revId": "3f9d0fdbe8b6988b00c956f8ac9c3d1e607a8e4b",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_ce8cc382",
+        "filename": "hivemind_contrib/rabbit.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000084
+      },
+      "writtenOn": "2015-02-18T03:03:26Z",
+      "side": 1,
+      "message": "I\u0027m still not convinced, i don\u0027t see that it\u0027s weight is any different.  How is this better than,\n\n [cmd:rabbit.monitor_production]\n @command \u003d rabbit.monitor_queues\n host \u003d localhost\n username \u003d guest\n password \u003d guest\n\nThe only difference I can see is that when calling the command there will be slightly different semantics.\n\n hivemind rabbit.monitor --environment production\n\nvs\n\n hivemind rabbit.monitor_production\n\nPassing in the environment seems to make this command different to the other commands which increases the cognitive load.  If passing in the environment is the better way to do this then why don\u0027t we make this a top level argument that is used to figure out which config file to load?\n\nso the command would be\n\n hivemind --environment production rabbit.monitor",
+      "parentUuid": "3afa9182_f2fb6045",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 68
+      },
+      "revId": "3f9d0fdbe8b6988b00c956f8ac9c3d1e607a8e4b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
