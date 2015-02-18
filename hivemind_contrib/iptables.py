@@ -3,7 +3,7 @@ from itertools import chain
 from collections import defaultdict
 
 from prettytable import PrettyTable
-from fabric.api import task, puts, execute, env, hosts
+from fabric.api import task, puts, execute, env, hosts, show
 from fabric.utils import error
 from hivemind.operations import run
 
@@ -83,4 +83,5 @@ def sync_vm_rules(project_id=None):
         nova_client = client()
         server = nova_client.servers.get(uuid)
         project_id = server.tenant_id
-    run('nova-manage project sync_secgroups %s' % project_id)
+    with show('stdout', 'stderr'):
+        run('nova-manage project sync_secgroups %s' % project_id)
