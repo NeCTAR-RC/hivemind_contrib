@@ -3,4 +3,5 @@ pbr
 mox
 pytest
 mock
+pyrabbit
 -e git://github.com/NeCTAR-RC/hivemind.git#egg=hivemind
