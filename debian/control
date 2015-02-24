@@ -12,7 +12,8 @@ Build-Depends-Indep: pep8,
                      python-setuptools (>= 0.6.24),
                      python-keystoneclient,
                      python-novaclient,
-                     python-hivemind
+                     python-hivemind,
+                     python-pyrabbit
 Standards-Version: 3.9.5
 Homepage: https://github.com/NeCTAR-RC/hivemind_contrib
 
