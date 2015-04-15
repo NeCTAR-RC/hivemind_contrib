@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da2a55be_525cea25",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-04-15T00:41:24Z",
+      "side": 1,
+      "message": "Image ID",
+      "range": {
+        "startLine": 60,
+        "startChar": 15,
+        "endLine": 60,
+        "endChar": 23
+      },
+      "revId": "5daa08e65dd7eeef53175e91f685775271cff0ff",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
