@@ -54,9 +54,18 @@ def set_vicnode_id(tenant, vicnode_id):
     in the report.
 
     """
+    set_project_metadata(tenant, 'vicnode_id', vicnode_id)
+
+
+@task
+@verbose
+def set_project_metadata(project, key, value):
+    """Set a key value pair on a keystone project
+    """
     keystone = client()
-    tenant = get_tenant(keystone, tenant)
-    keystone.tenants.update(tenant.id, vicnode_id=vicnode_id)
+    project = get_tenant(keystone, project)
+    kwargs = {key: value}
+    keystone.tenants.update(project.id, **kwargs)
 
 
 def print_members(tenant):
