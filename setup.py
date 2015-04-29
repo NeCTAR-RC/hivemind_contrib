@@ -59,6 +59,7 @@ setup(
       rabbit = hivemind_contrib.rabbit
       rcshibboleth = hivemind_contrib.rcshibboleth
       repo = hivemind_contrib.repo
+      reporting = hivemind_contrib.reporting
       swift = hivemind_contrib.swift
       upgrade = hivemind_contrib.upgrade
       """,
