@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f61a0_e84893ce",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-04-30T02:12:35Z",
+      "side": 1,
+      "message": "Can we make the variables all uppercase?",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "ec66aba9ef4adbd42c37e9907e3ae69b0e5f8712",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
