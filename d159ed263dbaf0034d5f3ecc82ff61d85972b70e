@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f61a0_a85dfb4a",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2015-04-30T15:50:39Z",
+      "side": 1,
+      "message": "tpyo",
+      "range": {
+        "startLine": 60,
+        "startChar": 57,
+        "endLine": 60,
+        "endChar": 64
+      },
+      "revId": "d159ed263dbaf0034d5f3ecc82ff61d85972b70e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1f61a0_885ab74e",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2015-04-30T15:50:39Z",
+      "side": 1,
+      "message": "Please make these allocation api specific names, e.g., NECTAR_ALLOCATIONS_..., just so it\u0027s clear they are separate to OpenStack credentials and endpoints.",
+      "range": {
+        "startLine": 67,
+        "startChar": 39,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "d159ed263dbaf0034d5f3ecc82ff61d85972b70e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
