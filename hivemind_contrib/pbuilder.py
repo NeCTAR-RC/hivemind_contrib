@@ -14,7 +14,7 @@ from hivemind import git
 
 ARCH = "amd64"
 
-STABLE_RELEASE = "icehouse"
+STABLE_RELEASE = "juno"
 OPENSTACK_RELEASES = ['juno', 'icehouse', 'havana', 'grizzly']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
