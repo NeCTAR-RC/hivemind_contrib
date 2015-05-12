@@ -73,7 +73,7 @@ def vm_rules():
 
 
 @task
-@hosts('celli1.rc.nectar.org.au')
+@hosts('cellj1.rc.nectar.org.au')
 def sync_vm_rules(project_id=None):
     """Sync security groups for the given instance UUID (-I)"""
     if not env.instance_uuid and project_id is None:
