@@ -7,13 +7,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from fabric.api import task
 from novaclient import client as nova_client
-
+from prettytable import PrettyTable
 from hivemind.decorators import verbose, only_for, configurable
 from hivemind.operations import run
 from hivemind.util import current_host
 
 from hivemind_contrib.swift import client as swift_client
-
 DEFAULT_AZ = 'melbourne-qh2'
 DEFAULT_SECURITY_GROUPS = 'default,openstack-node,puppet-client'
 
@@ -181,3 +180,52 @@ def boot(name, key_name=None, image_id=None, flavor='m1.small',
                           "Server never got an IP address.")
     print server_id
     print ip_address
+
+
+@task
+@verbose
+def list_host_aggregates(availability_zone, hostname=[]):
+    """Prints a pretty table of hosts in for each aggregate in AZ
+
+       :param str availability_zone: The availability zone that the aggregates
+         are in
+       :param str hostname: Only display hostname in table. Use multiple times
+         for more then one host
+    """
+
+    nova = client()
+
+    # filters for aggregates in availability_zone
+    aggregate_list = nova.aggregates.list()
+    aggregates = []
+    for aggregate in aggregate_list:
+        if aggregate.availability_zone == availability_zone:
+            aggregates.append(aggregate)
+
+    hosts = []
+    # loads hosts from aggregates if not specified
+    if not hostname:
+        for aggregate in aggregates:
+            hosts.extend(aggregate.hosts)
+    else:
+        hosts = hostname
+
+    # unique hosts
+    hosts = list(set(hosts))
+    hosts.sort()
+
+    # builds table
+    header = ["Aggregates"] + hosts
+    table = PrettyTable(header)
+    table.align["Aggregates"] = 'l'
+    aggregates.sort()
+    for aggregate in aggregates:
+        row = [aggregate.name]
+        for host in hosts:
+            if host in aggregate.hosts:
+                row.append("X")
+            else:
+                row.append("")
+        table.add_row(row)
+
+    print table
