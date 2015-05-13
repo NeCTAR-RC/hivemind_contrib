@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1f61a0_b1c9e25c",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-05-13T02:21:58Z",
+      "side": 1,
+      "message": "should be called hostnames since a list?",
+      "range": {
+        "startLine": 189,
+        "startChar": 44,
+        "endLine": 189,
+        "endChar": 52
+      },
+      "revId": "00eb43a32fa93cb83cb583f86f08232610c65e9b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
