@@ -46,6 +46,30 @@
       "revId": "00eb43a32fa93cb83cb583f86f08232610c65e9b",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba1f61a0_d11c56c4",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-05-13T04:26:27Z",
+      "side": 1,
+      "message": "Ahh ok, I was thinking you\u0027d specify it like \nhivemind list_host_aggregates --hostnames hosta,hostb,hostc\n\nIf that\u0027s not the case then this is ok. Maybe an example in the help string",
+      "parentUuid": "ba1f61a0_d1c0d62c",
+      "range": {
+        "startLine": 189,
+        "startChar": 44,
+        "endLine": 189,
+        "endChar": 52
+      },
+      "revId": "00eb43a32fa93cb83cb583f86f08232610c65e9b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
