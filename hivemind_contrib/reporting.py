@@ -5,6 +5,7 @@ import datetime
 import requests
 from fabric.api import task
 import collections
+from prettytable import PrettyTable
 
 import hivemind_contrib.keystone as hm_keystone
 import hivemind_contrib.nova as hm_nova
@@ -24,6 +25,54 @@ def csv_output(headings, rows, filename=None):
         csv_output.writerow(map(lambda x: str(x).encode('utf-8'), row))
     if filename is not None:
         fp.close()
+
+
+def pretty_output(headings, rows, filename=None):
+    if filename is None:
+        fp = sys.stdout
+    else:
+        fp = open(filename, 'wb')
+    pp = PrettyTable(headings)
+    for r in rows:
+        pp.add_row(r)
+    print >> fp, str(pp)
+
+
+@task
+@verbose
+def allocation_homes(csv=False, filename=None):
+    """Get the allocation_homes for all projects. If this
+metadata field is not set in keystone (see keystone hivemind
+commands), the value reported is the email domains for all
+tenant managers belonging to this project.
+    """
+    keystone = hm_keystone.client_session(version=3)
+    all_users = map(lambda x: x.to_dict(), keystone.users.list())
+    email_dict = {x['id']: x['email'].split("@")[-1] for x in all_users
+                  if 'email' in x and x['email'] is not None}
+    projects = keystone.projects.list()
+    managers = collections.defaultdict(list)
+    for user_role in keystone.role_assignments.list(role=14):
+        if 'project' in user_role.scope:
+            managers[user_role.scope['project']['id']].append(
+                user_role.user['id'])
+    headings = ["Tenant ID", "Allocation Home(s)"]
+    records = []
+    for proj in projects:
+        if "allocation_home" in proj.to_dict():
+            records.append([proj.id, proj.allocation_home])
+        else:
+            if len(managers[proj.id]) == 0:
+                continue
+            institutions = set()
+            for tm in managers[proj.id]:
+                if tm in email_dict:
+                    institutions.add(email_dict[tm])
+            records.append([proj.id, ",".join(institutions)])
+    if csv:
+        csv_output(headings, records, filename=filename)
+    else:
+        pretty_output(headings, records, filename=filename)
 
 
 @task
