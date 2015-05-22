@@ -5,6 +5,8 @@ from fabric.api import task
 from prettytable import PrettyTable
 from keystoneclient.v2_0 import client as keystone_client
 from keystoneclient.v3 import client as keystone_client_v3
+from keystoneclient import session as keystone_session
+from keystoneclient.auth import identity as keystone_identity
 from keystoneclient.exceptions import NotFound
 
 from hivemind.decorators import verbose, configurable
@@ -31,11 +33,35 @@ def client(url=None, username=None, password=None, tenant=None, version=2):
                                          auth_url=url.replace('2.0', '3'))
 
 
+def client_session(url=None, username=None,
+                   password=None, tenant=None, version=2):
+    url = os.environ.get('OS_AUTH_URL', url)
+    username = os.environ.get('OS_USERNAME', username)
+    password = os.environ.get('OS_PASSWORD', password)
+    tenant = os.environ.get('OS_TENANT_NAME', tenant)
+    assert url and username and password and tenant
+    auth = keystone_identity.v2.Password(username=username,
+                                         password=password,
+                                         tenant_name=tenant,
+                                         auth_url=url)
+    session = keystone_session.Session(auth=auth)
+    if version == 2:
+        return keystone_client.Client(session=session)
+    else:
+        return keystone_client_v3.Client(session=session)
+
+
 def get_tenant(keystone, name_or_id):
-    try:
-        tenant = keystone.tenants.get(name_or_id)
-    except NotFound:
-        tenant = keystone.tenants.find(name=name_or_id)
+    if keystone.version == 'v3':
+        try:
+            tenant = keystone.projects.get(name_or_id)
+        except NotFound:
+            tenant = keystone.projects.find(name=name_or_id)
+    else:
+        try:
+            tenant = keystone.tenants.get(name_or_id)
+        except NotFound:
+            tenant = keystone.tenants.find(name=name_or_id)
     return tenant
 
 
@@ -55,6 +81,37 @@ def set_vicnode_id(tenant, vicnode_id):
 
     """
     set_project_metadata(tenant, 'vicnode_id', vicnode_id)
+
+
+@task
+@verbose
+def add_home_institution(project, institute_domain):
+    """Used to add the university/intitution that hosts
+the project.
+
+    """
+    keystone = client()
+    proj = get_tenant(keystone, project)
+    proj_dict = proj.to_dict()
+    if 'allocation_home' in proj_dict:
+        homes = proj.allocation_home.split(',')
+    else:
+        homes = []
+    if institute_domain not in homes:
+        homes.append(institute_domain)
+        set_project_metadata(project,
+                             'allocation_home',
+                             ",".join(homes))
+
+
+@task
+@verbose
+def set_home_institution(project, institute_domain):
+    """Used to overwrite the current the university/intitution that
+hosts the project.
+
+    """
+    set_project_metadata(project, 'allocation_home', institute_domain)
 
 
 @task
