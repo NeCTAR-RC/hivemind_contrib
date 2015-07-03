@@ -145,10 +145,27 @@ def clear_project_metadata(project, key):
     """Set a key on a keystone project to None.
 API doesn't appear to be able to delete the key
     """
-    keystone = client()
-    project = get_tenant(keystone, project)
-    kwargs = {key: None}
-    keystone.tenants.update(project.id, **kwargs)
+    set_project_metadata(project.id, key, None)
+
+
+@task
+@verbose
+def set_user_metadata(user, key, value):
+    """Set a key value pair on a keystone user
+    """
+    keystone = client(version=3)
+    user = get_user(keystone, user)
+    kwargs = {key: value}
+    keystone.users.update(user.id, **kwargs)
+
+
+@task
+@verbose
+def clear_user_metadata(user, key):
+    """Set a key on a keystone user to None.
+API doesn't appear to be able to delete the key
+    """
+    set_user_metadata(user, key, None)
 
 
 def print_members(tenant):
