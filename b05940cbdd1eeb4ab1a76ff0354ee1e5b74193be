@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_50185d84",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2015-07-10T00:26:02Z",
+      "side": 1,
+      "message": "Is there a reason why you don\u0027t want to set value\u003dNone? Then you don\u0027t need another method to clear.",
+      "range": {
+        "startLine": 156,
+        "startChar": 33,
+        "endLine": 156,
+        "endChar": 38
+      },
+      "revId": "b05940cbdd1eeb4ab1a76ff0354ee1e5b74193be",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
