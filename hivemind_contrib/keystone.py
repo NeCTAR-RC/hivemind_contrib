@@ -139,8 +139,6 @@ def set_project_metadata(project, key, value):
     keystone.tenants.update(project.id, **kwargs)
 
 
-@task
-@verbose
 def clear_project_metadata(project, key):
     """Set a key on a keystone project to None.
 API doesn't appear to be able to delete the key
