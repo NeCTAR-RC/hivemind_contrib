@@ -22,6 +22,30 @@
       "revId": "cb99c019144456cc1980e0ef8f1a259949abc441",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_04d8671c",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-07-20T02:23:39Z",
+      "side": 1,
+      "message": "No that is correct, check out where this method is used. I think the bug is that this has a @task decorator when it is a private method. Either way it is out of scope on this change",
+      "parentUuid": "9a245df4_44d53f42",
+      "range": {
+        "startLine": 148,
+        "startChar": 25,
+        "endLine": 148,
+        "endChar": 35
+      },
+      "revId": "cb99c019144456cc1980e0ef8f1a259949abc441",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
