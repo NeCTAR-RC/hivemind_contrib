@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a245df4_0213325d",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2015-08-04T06:21:44Z",
+      "side": 1,
+      "message": "update to be similar to review #3118?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "52042bb07b4157b31d4416de61b125db715c3164",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a245df4_e20ffe2c",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2015-08-04T06:21:44Z",
+      "side": 1,
+      "message": "virtualenv would be better since you are installing so many packages",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 6
+      },
+      "revId": "52042bb07b4157b31d4416de61b125db715c3164",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
