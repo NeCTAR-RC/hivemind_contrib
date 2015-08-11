@@ -15,7 +15,7 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "juno"
-OPENSTACK_RELEASES = ['juno', 'icehouse', 'havana', 'grizzly']
+OPENSTACK_RELEASES = ['kilo', 'juno', 'icehouse', 'havana', 'grizzly']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -71,6 +71,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " trusty main",
         "deb " + NECTAR_REPO + " trusty-juno main",
         "deb " + NECTAR_REPO + " trusty-juno-testing main",
+        "deb " + NECTAR_REPO + " trusty-testing main",
+        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
+    'kilo': [
+        "deb " + CLOUD_ARCHIVE + " trusty-updates/kilo main",
+        "deb " + NECTAR_REPO + " trusty main",
+        "deb " + NECTAR_REPO + " trusty-kilo main",
+        "deb " + NECTAR_REPO + " trusty-kilo-testing main",
         "deb " + NECTAR_REPO + " trusty-testing main",
         "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
 }
