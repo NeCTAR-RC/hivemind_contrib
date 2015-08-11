@@ -54,7 +54,7 @@ def clone(project_name):
 
 @task
 @verbose
-def checkout_config(remote='origin'):
+def checkout_config(remote='gerrit'):
     """Checkout a projects configuration branch.
 
     """
@@ -67,7 +67,7 @@ def checkout_config(remote='origin'):
 
 @task
 @verbose
-def push_config(remote='origin'):
+def push_config(remote='gerrit'):
     """Push a projects configuration branch.
 
     """
