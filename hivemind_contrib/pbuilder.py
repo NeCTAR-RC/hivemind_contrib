@@ -15,7 +15,7 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "juno"
-OPENSTACK_RELEASES = ['kilo', 'juno', 'icehouse', 'havana', 'grizzly']
+OPENSTACK_RELEASES = ['liberty', 'kilo', 'juno', 'icehouse', 'havana']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -48,12 +48,6 @@ def build_trusted():
 
 
 mirrors = {
-    'grizzly': ["deb " + CLOUD_ARCHIVE + " precise-updates/grizzly main",
-                "deb " + NECTAR_REPO + " precise main",
-                "deb " + NECTAR_REPO + " precise-grizzly main",
-                "deb " + NECTAR_REPO + " precise-grizzly-testing main",
-                "deb " + NECTAR_REPO + " precise-testing main",
-                "deb " + UBUNTU_MIRROR + " precise-updates main universe"],
     'havana': ["deb " + CLOUD_ARCHIVE + " precise-updates/havana main",
                "deb " + NECTAR_REPO + " precise main",
                "deb " + NECTAR_REPO + " precise-havana main",
@@ -78,6 +72,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " trusty main",
         "deb " + NECTAR_REPO + " trusty-kilo main",
         "deb " + NECTAR_REPO + " trusty-kilo-testing main",
+        "deb " + NECTAR_REPO + " trusty-testing main",
+        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
+    'liberty': [
+        "deb " + CLOUD_ARCHIVE + " trusty-updates/liberty main",
+        "deb " + NECTAR_REPO + " trusty main",
+        "deb " + NECTAR_REPO + " trusty-liberty main",
+        "deb " + NECTAR_REPO + " trusty-liberty-testing main",
         "deb " + NECTAR_REPO + " trusty-testing main",
         "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
 }
