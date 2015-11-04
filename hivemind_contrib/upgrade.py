@@ -26,32 +26,33 @@ env.output_prefix = False
 @task
 def upgrade(exclude="", verbose=False, upgrade_method=apt.upgrade,
             pre_method=None, post_method=None, unattended=False):
+    # one hour command timeout, one minute connect)
+    with settings(command_timeout=3600, timeout=60):
+        exclude = exclude.split(";")
+        execute(apt.update)
+        packages = execute(apt.verify)
+        apt.filter_packages(packages, exclude)
 
-    exclude = exclude.split(";")
-    execute(apt.update)
-    packages = execute(apt.verify)
-    apt.filter_packages(packages, exclude)
-
-    #check if there are packages available for upgrade
-    count_packages = len(list(set(chain(*[p.keys()
-                         for p in packages.values()]))))
-    if count_packages is 0:
-        print "No packages to upgrade"
-        return
-    if verbose:
-        apt.print_changes_perhost(packages)
-    else:
-        apt.print_changes(packages)
-    if not unattended:
-        with settings(abort_on_prompts=False):
-            do_it = prompt("Do you want to continue?", default="y")
-            if do_it not in ("y", "Y"):
-                return
-    if pre_method is not None:
-        execute(pre_method)
-    execute(upgrade_method, packages=packages)
-    if post_method is not None:
-        execute(post_method)
+        # check if there are packages available for upgrade
+        count_packages = len(list(set(chain(*[p.keys()
+                             for p in packages.values()]))))
+        if count_packages is 0:
+            print "No packages to upgrade"
+            return
+        if verbose:
+            apt.print_changes_perhost(packages)
+        else:
+            apt.print_changes(packages)
+        if not unattended:
+            with settings(abort_on_prompts=False):
+                do_it = prompt("Do you want to continue?", default="y")
+                if do_it not in ("y", "Y"):
+                    return
+        if pre_method is not None:
+            execute(pre_method)
+        execute(upgrade_method, packages=packages)
+        if post_method is not None:
+            execute(post_method)
 
 
 @runs_once
