@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_57f2059b",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-12-01T03:39:05Z",
+      "side": 1,
+      "message": "If these packages are needed then they should be added to the requirments.txt file.\n\nWhat commands need these installed as I just did a fresh install without these and all looks good although I haven\u0027t tried all commands so maybe some of them need these?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "84acb39742008cdf45a07c5228b5bbd02550a42b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
