@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a106d94_b77259e3",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2015-12-01T05:12:25Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "84acb39742008cdf45a07c5228b5bbd02550a42b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_f77331e5",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2015-12-01T05:12:25Z",
+      "side": 1,
+      "message": "please extend underline to the length of the heading",
+      "revId": "84acb39742008cdf45a07c5228b5bbd02550a42b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_1777edd5",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2015-12-01T05:12:25Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "84acb39742008cdf45a07c5228b5bbd02550a42b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_d76d5506",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2015-12-01T05:12:25Z",
+      "side": 1,
+      "message": "You have requested an impossible situation!\n\nI don\u0027t think this is possible, libmariadbclient-dev and libmysqlclient-dev conflict. I would suggest installing only libmariadbclient-dev.\n\n# apt-get install libmariadbclient-dev libssl-dev libmysqlclient-dev python-virtualenv\nReading package lists... Done\nBuilding dependency tree       \nReading state information... Done\npython-virtualenv is already the newest version.\npython-virtualenv set to manually installed.\nSome packages could not be installed. This may mean that you have\nrequested an impossible situation or if you are using the unstable\ndistribution that some required packages have not yet been created\nor been moved out of Incoming.\nThe following information may help to resolve the situation:\n\nThe following packages have unmet dependencies:\n libmariadbclient-dev : Breaks: libmysqlclient-dev\nE: Unable to correct problems, you have held broken packages.",
+      "revId": "84acb39742008cdf45a07c5228b5bbd02550a42b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_57f2059b",
         "filename": "README.rst",
         "patchSetId": 2
