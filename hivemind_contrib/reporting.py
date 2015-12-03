@@ -43,7 +43,6 @@ def pretty_output(headings, rows, filename=None):
 def ssl_warnings(enabled=False):
     if not enabled:
         logging.captureWarnings(True)
-    
 
 @task
 @verbose
@@ -117,7 +116,7 @@ def allocation_managers(csv=False, filename=None, sslwarnings=False):
 
 @task
 @verbose
-def get_project_usage_csv(start_date=None, end_date=None, 
+def get_project_usage_csv(start_date=None, end_date=None,
                           filename=None, sslwarnings=False):
     """Get accumulated instance usage statistics for all projects.
     Date strings should be ISO 8601 to minute precision
@@ -145,11 +144,12 @@ def get_project_usage_csv(start_date=None, end_date=None,
                 nova.usage.list(start, end, detailed=True))
     csv_output(headings, usage, filename=filename)
 
+
 @task
 @verbose
-def get_instance_usage_csv(start_date=None, end_date=None, 
+def get_instance_usage_csv(start_date=None, end_date=None,
                            filename=None, sslwarnings=False):
-    """Get individual instance usage for all projects, including tenant and 
+    """Get individual instance usage for all projects, including tenant and
     availability zones.  Date strings should be ISO 8601 to minute precision
     without timezone information.
     """
@@ -162,17 +162,16 @@ def get_instance_usage_csv(start_date=None, end_date=None,
 
     tenants = {x.id: x for x in keystone.tenants.list()}
     usage = []
-    nos_tenants = 0
     for u in nova.usage.list(start, end, detailed=True):
         tenant_id = u.tenant_id
         tenant_name = tenants[tenant_id].name if tenant_id in tenants else None
-        
+
         # The Nova API doesn't allow "show" on deleted instances, but
         # we can get the info using "list --deleted".  The problem is
         # figuring out how to avoid retrieving irrelevant instances,
         # and at the same time how to avoid too many requests.
-        # 
-        # Attempt #1 - use the tenant_id and the instance's name to 
+        #
+        # Attempt #1 - use the tenant_id and the instance's name to
         # focus queries.
         # Attempt #2 - as #1, but after N lookups by name for a tenant,
         # just fetch all of the deleted instances.
@@ -191,12 +190,12 @@ def get_instance_usage_csv(start_date=None, end_date=None,
                     except:
                         print 'Cannot find instance {0} in {1}' \
                             .format(instance_id, u.tenant_id)
-                if instance == None:
+                if instance is None:
                     instance = {'OS-EXT-AZ:availability_zone': 'unknown'}
 
                 usage.append([tenant_id, tenant_name, instance_id, name,
-                              iu['state'], iu['flavor'], iu['hours'], 
-                              iu['vcpus'], iu['memory_mb'], iu['local_gb'], 
+                              iu['state'], iu['flavor'], iu['hours'],
+                              iu['vcpus'], iu['memory_mb'], iu['local_gb'],
                               instance['OS-EXT-AZ:availability_zone']])
         except:
             traceback.print_exc(file=sys.stdout)
@@ -217,12 +216,12 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
                 search_opts={'deleted': True,
                              'all_tenants': True,
                              'tenant_id': tenant_id,
-                             'name' : name})
+                             'name': name})
             if len(instances) == 0:
-                print "No deleted '{0}' instances in {1}".format(name, 
+                print "No deleted '{0}' instances in {1}".format(name,
                                                                  tenant_id)
         except:
-            print "Can't get deleted '{0}' instances in {1}".format(name, 
+            print "Can't get deleted '{0}' instances in {1}".format(name,
                                                                     tenant_id)
             traceback.print_exc(file=sys.stdout)
             instances = []
@@ -250,13 +249,12 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
             lambda i: i.id == instance_id,
             instances)[0].to_dict()
     except:
-        print 'Cannot find deleted instance {0} in {1}'.format(instance_id, 
+        print 'Cannot find deleted instance {0} in {1}'.format(instance_id,
                                                                tenant_id)
         return None
 
 class NectarApiSession(requests.Session):
     """Class to encapsulate the rest api endpoint with a requests session.
-    
     """
     def __init__(self, api_url=None, api_username=None,
                  api_password=None, *args, **kwargs):
@@ -284,7 +282,6 @@ class NectarApiSession(requests.Session):
 @verbose
 def get_general_allocations_information(filename=None, sslwarnings=False):
     """Get standard allocations information and global quotas for all projects.
-
     """
     ssl_warnings(enabled=sslwarnings)
     api_endpoint = NectarApiSession()
@@ -319,10 +316,9 @@ def get_general_allocations_information(filename=None, sslwarnings=False):
 
 @task
 @verbose
-def get_local_allocations_information(filename=None, availability_zone=None, 
+def get_local_allocations_information(filename=None, availability_zone=None,
                                       sslwarnings=False):
     """Get local quota information for all projects.
-
     """
     ssl_warnings(enabled=sslwarnings)
     api_endpoint = NectarApiSession()
