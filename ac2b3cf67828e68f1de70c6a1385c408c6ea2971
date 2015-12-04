@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_c809342e",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-12-04T00:36:14Z",
+      "side": 1,
+      "message": "This could be made a bit simpler, something like:\n\nprojects \u003d keystone.projects.list()\nfor project in projects:\n    for user in project.list_users():\n        roles \u003d \u0027, \u0027.join([r.name for r in user.list_roles(project)])\n        if \u0027TenantManager\u0027 in roles:\n            Do something",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 51
+      },
+      "revId": "ac2b3cf67828e68f1de70c6a1385c408c6ea2971",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_a80e7832",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2015-12-04T00:36:14Z",
+      "side": 1,
+      "message": "would be good to use keystone v3 api here too, V2 is going to be deprecated soon. Basically just change to use projects I think should be pretty simple?",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 79
+      },
+      "revId": "ac2b3cf67828e68f1de70c6a1385c408c6ea2971",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
