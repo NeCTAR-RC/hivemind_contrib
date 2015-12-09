@@ -1,20 +1,11 @@
-===============================
 Hivemind Contrib
-===============================
+================
 
-A collection of hivemind tasks.
+A repository containing a collection of hivemind tasks.
 
-* Free software: GPLv2 License
+Installation
+------------
 
-Install
--------
+This repository should be installed following the documentation at:
 
-You need the following packages ::
-
-  sudo apt-get install libmariadbclient-dev libcrypto-dev libssl-dev
-
-Features
---------
-
-* TODO
-
+https://github.com/NeCTAR-RC/hivemind
