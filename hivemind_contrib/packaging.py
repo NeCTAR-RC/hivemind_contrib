@@ -121,7 +121,7 @@ def pbuilder_buildpackage(release):
 
 def git_buildpackage(current_branch, upstream_tree, release):
     with pbuilder.pbuilder_env(release):
-        local("git-buildpackage -sa --git-debian-branch={0} "
+        local("gbp buildpackage -sa --git-debian-branch={0} "
               "--git-upstream-tree={1} --git-no-pristine-tar "
               "--git-force-create".format(current_branch, upstream_tree))
 

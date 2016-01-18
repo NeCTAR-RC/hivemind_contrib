@@ -92,7 +92,10 @@ ubuntu_mirrors = {
 def package_export_dir():
     config = ConfigParser.ConfigParser()
     config.read(os.path.expanduser('~/.gbp.conf'))
-    return os.path.abspath(config.get('git-buildpackage', 'export-dir'))
+    try:
+        return os.path.abspath(config.get('git-buildpackage', 'export-dir'))
+    except ConfigParser.NoSectionError:
+        return os.path.abspath(config.get('buildpackage', 'export-dir'))
 
 
 def pbuilder_env(os_release):
