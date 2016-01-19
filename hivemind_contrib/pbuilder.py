@@ -98,9 +98,11 @@ def package_export_dir():
         return os.path.abspath(config.get('buildpackage', 'export-dir'))
 
 
-def pbuilder_env(os_release):
+def pbuilder_env(os_release, name=None):
     dist = dist_from_release(os_release)
     dist_release = '{0}-{1}'.format(dist, os_release)
+    if name:
+        dist_release = '{0}-{1}'.format(dist_release, name)
     output_dir = os.path.join(package_export_dir(), dist_release)
     return shell_env(ARCH=ARCH, DIST=dist_release,
                      GIT_PBUILDER_OUTPUT_DIR=output_dir)
@@ -114,13 +116,16 @@ def get_os_release_from_current_branch():
 
 @task
 @verbose
-def create(os_release=None):
+def create(os_release=None, extra_mirror=None, name=None):
     """Create an environment for building packages."""
     if os_release is None:
         os_release = get_os_release_from_current_branch()
     dist = dist_from_release(os_release)
-    path = '/var/cache/pbuilder/base-{dist}-{os_release}-{arch}.cow'.format(
-        arch=ARCH, dist=dist, os_release=os_release)
+    path = '/var/cache/pbuilder/base-{dist}-{os_release}'.format(
+        dist=dist, os_release=os_release)
+    if name:
+        path = '{path}-{name}'.format(path=path, name=name)
+    path = '{path}-{arch}.cow'.format(path=path, arch=ARCH)
 
     if os.path.exists(path):
         raise Exception('PBuilder base image already exists at %s' % path)
@@ -131,6 +136,9 @@ def create(os_release=None):
     mirror = ubuntu_mirrors[dist]
     other_mirrors = mirrors[os_release]
     components = "main universe"
+
+    if extra_mirror:
+        other_mirrors.append(extra_mirror)
 
     with shell_env(ARCH=ARCH, DIST=dist):
         local('git-pbuilder create --basepath {basepath}'
@@ -149,19 +157,19 @@ def create(os_release=None):
 
 @task
 @verbose
-def shell(os_release=None):
+def shell(os_release=None, name=None):
     """Open a shell in the packaging environment."""
     if os_release is None:
         os_release = get_os_release_from_current_branch()
-    with pbuilder_env(os_release):
+    with pbuilder_env(os_release, name):
         local("git-pbuilder login")
 
 
 @task
 @verbose
-def update(os_release=None):
+def update(os_release=None, name=None):
     """Update the packaging environment."""
     if os_release is None:
         os_release = get_os_release_from_current_branch()
-    with pbuilder_env(os_release):
+    with pbuilder_env(os_release, name):
         local("git-pbuilder update")
