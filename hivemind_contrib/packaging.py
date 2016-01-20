@@ -114,13 +114,13 @@ def upload_filepath(source_package):
     return package_filepath(source_package, 'upload')
 
 
-def pbuilder_buildpackage(release):
-    with pbuilder.pbuilder_env(release):
+def pbuilder_buildpackage(release, name=None):
+    with pbuilder.pbuilder_env(release, name):
         local("git-pbuilder -sa")
 
 
-def git_buildpackage(current_branch, upstream_tree, release):
-    with pbuilder.pbuilder_env(release):
+def git_buildpackage(current_branch, upstream_tree, release, name=None):
+    with pbuilder.pbuilder_env(release, name):
         local("gbp buildpackage -sa --git-debian-branch={0} "
               "--git-upstream-tree={1} --git-no-pristine-tar "
               "--git-force-create".format(current_branch, upstream_tree))
@@ -170,7 +170,7 @@ def discover_debian_branch(current_branch, version, os_release):
 
 @task
 @verbose
-def buildpackage(os_release=None, upload=True):
+def buildpackage(os_release=None, name=None, upload=True):
     """Build a package for the current repository."""
     git.assert_in_repository()
     version = git_version()
@@ -190,7 +190,7 @@ def buildpackage(os_release=None, upload=True):
         local("git add debian/changelog")
         local("git commit -m \"{0}\"".format("Updated Changelog"))
         git_buildpackage(current_branch, upstream_tree=merge.old_head,
-                         release=os_release)
+                         release=os_release, name=name)
         # Regenerate the source package information since it's changed
         # since we updated the changelog.
         source_package = dpkg_parsechangelog()
@@ -201,7 +201,7 @@ def buildpackage(os_release=None, upload=True):
 
 @task
 @verbose
-def buildbackport(os_release=None, revision=1, upload=True):
+def buildbackport(os_release=None, name=None, revision=1, upload=True):
     """Build a package from a downloaded deb source."""
     assert os.path.exists('debian/'), "can't find debian directory."
     source_package = dpkg_parsechangelog()
@@ -213,7 +213,7 @@ def buildbackport(os_release=None, revision=1, upload=True):
     if 'nectar' not in current_version:
         local("dch -v {0} -D {1}-{2} --force-distribution 'Backported'"
               .format(release_version, dist, os_release))
-    pbuilder_buildpackage(release=os_release)
+    pbuilder_buildpackage(release=os_release, name=name)
     if upload:
         # Regenerate the source package information since it's changed
         # since we updated the changelog.
