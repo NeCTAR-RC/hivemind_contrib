@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_524b0759",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-03-18T02:39:14Z",
+      "side": 1,
+      "message": "these look like they are required attributes so I wouldn\u0027t put a default in. You would also not need the assert below. Hiveminds built in arg passing will handle that for you",
+      "range": {
+        "startLine": 151,
+        "startChar": 27,
+        "endLine": 151,
+        "endChar": 57
+      },
+      "revId": "ab7af6a42aa3df764fa4c53f168e27c848e19344",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
