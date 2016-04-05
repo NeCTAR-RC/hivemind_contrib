@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bad4c104_65920059",
+        "filename": "hivemind_contrib/ospurge.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-05T23:05:37Z",
+      "side": 1,
+      "message": "Yeah, this should bit should have been removed. Will fix in the next amend. We\u0027re no longer going to do this.",
+      "parentUuid": "bad4c104_05b5b4ed",
+      "range": {
+        "startLine": 32,
+        "startChar": 28,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "f38c4c633136d674cf1f2ac38bc48ec1b052b809",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad4c104_25bab8de",
         "filename": "hivemind_contrib/ospurge.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-04-05T13:06:09Z",
       "side": 1,
       "message": "Does ospurge itself do the disablement of the project too?",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "f38c4c633136d674cf1f2ac38bc48ec1b052b809",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_859f045f",
+        "filename": "hivemind_contrib/ospurge.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-05T23:05:37Z",
+      "side": 1,
+      "message": "It can remove the project after resources have been cleaned out, but nothing about disabling. We\u0027ll do this in another step in the next amend",
+      "parentUuid": "bad4c104_25bab8de",
       "range": {
         "startLine": 51,
         "startChar": 11,
