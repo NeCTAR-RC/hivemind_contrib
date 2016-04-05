@@ -1,0 +1,1 @@
+-e git://github.com/NeCTAR-RC/ospurge.git#egg=ospurge
