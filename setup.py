@@ -52,6 +52,7 @@ setup(
       keystone = hivemind_contrib.keystone
       libvirt = hivemind_contrib.libvirt
       nova = hivemind_contrib.nova
+      ospurge = hivemind_contrib.ospurge
       packages = hivemind_contrib.packages
       packaging = hivemind_contrib.packaging
       pbuilder = hivemind_contrib.pbuilder
