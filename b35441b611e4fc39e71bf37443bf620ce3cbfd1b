@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bad4c104_9003c0b7",
+        "filename": "README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-06T23:40:19Z",
+      "side": 1,
+      "message": "I didn\u0027t want it to be a hard dependency for installing hivemind",
+      "parentUuid": "bad4c104_859384f9",
+      "revId": "b35441b611e4fc39e71bf37443bf620ce3cbfd1b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad4c104_a59088ed",
         "filename": "hivemind_contrib/ospurge.py",
         "patchSetId": 4
@@ -47,6 +65,30 @@
       "writtenOn": "2016-04-06T00:40:46Z",
       "side": 1,
       "message": "any error handling / retcode check needed for the shell out to ospurge?",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 12
+      },
+      "revId": "b35441b611e4fc39e71bf37443bf620ce3cbfd1b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_70f63cd9",
+        "filename": "hivemind_contrib/ospurge.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-06T23:40:19Z",
+      "side": 1,
+      "message": "Intention was that the user would have to watch the output and decide if it needs to be run again or not. In some cases, a secgroup fails to delete because the previous server delete hadn\u0027t quite completed",
+      "parentUuid": "bad4c104_6523e005",
       "range": {
         "startLine": 56,
         "startChar": 4,
