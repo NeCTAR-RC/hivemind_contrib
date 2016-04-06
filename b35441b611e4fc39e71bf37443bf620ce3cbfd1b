@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "bad4c104_859384f9",
+        "filename": "README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2016-04-06T01:42:04Z",
+      "side": 1,
+      "message": "Can this be added to requirements.txt instead?",
+      "revId": "b35441b611e4fc39e71bf37443bf620ce3cbfd1b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_a59088ed",
+        "filename": "hivemind_contrib/ospurge.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2016-04-06T01:42:04Z",
+      "side": 1,
+      "message": "Because this is a destructive operation, might it be better to enumerate what \"all\" means? ie:\n\"\"\"Purge all resources including instances, volumes, images, snapshots, objects and roles from a project.\"\"\"",
+      "revId": "b35441b611e4fc39e71bf37443bf620ce3cbfd1b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad4c104_6523e005",
         "filename": "hivemind_contrib/ospurge.py",
         "patchSetId": 4
