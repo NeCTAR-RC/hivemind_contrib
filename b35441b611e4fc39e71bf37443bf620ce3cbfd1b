@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_6523e005",
+        "filename": "hivemind_contrib/ospurge.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-04-06T00:40:46Z",
+      "side": 1,
+      "message": "any error handling / retcode check needed for the shell out to ospurge?",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 12
+      },
+      "revId": "b35441b611e4fc39e71bf37443bf620ce3cbfd1b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
