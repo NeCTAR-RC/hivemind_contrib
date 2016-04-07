@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bad4c104_d0046880",
+        "filename": "README.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-04-07T02:09:44Z",
+      "side": 1,
+      "message": "That\u0027s a fair point - we should keep it as easy as possible to install base hivemind. Two slightly better options:\n1/ create an optional-requirements.txt (this is just convention)\n2/ put the extra dependency in the setup.py like: https://pythonhosted.org/setuptools/setuptools.html#declaring-extras-optional-features-with-their-own-dependencies",
+      "parentUuid": "bad4c104_9003c0b7",
+      "revId": "b35441b611e4fc39e71bf37443bf620ce3cbfd1b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad4c104_a59088ed",
         "filename": "hivemind_contrib/ospurge.py",
         "patchSetId": 4
@@ -89,6 +107,30 @@
       "side": 1,
       "message": "Intention was that the user would have to watch the output and decide if it needs to be run again or not. In some cases, a secgroup fails to delete because the previous server delete hadn\u0027t quite completed",
       "parentUuid": "bad4c104_6523e005",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 12
+      },
+      "revId": "b35441b611e4fc39e71bf37443bf620ce3cbfd1b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_f0bb2cc2",
+        "filename": "hivemind_contrib/ospurge.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-04-07T02:09:44Z",
+      "side": 1,
+      "message": "In the not too distant future I can see us moving to de-provisioning projects (i.e., non PTs) and probably wanting the final step in that process to be this. In that case there won\u0027t be an attendant operator. But I\u0027m happy to patch later to make that better if you prefer.",
+      "parentUuid": "bad4c104_70f63cd9",
       "range": {
         "startLine": 56,
         "startChar": 4,
