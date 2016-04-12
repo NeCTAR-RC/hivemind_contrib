@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bad4c104_166ec801",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-04-12T06:00:07Z",
+      "side": 1,
+      "message": "Yeah that will raise an exception",
+      "parentUuid": "bad4c104_b6a7dc4e",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 293,
+        "endChar": 40
+      },
+      "revId": "d0e8aa9a71386ecb1e1052fc2f3694b17c3a5041",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad4c104_96aad817",
         "filename": "hivemind_contrib/keystone.py",
         "patchSetId": 4
