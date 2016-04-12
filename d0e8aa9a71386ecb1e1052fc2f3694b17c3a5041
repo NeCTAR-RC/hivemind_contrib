@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_b6a7dc4e",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-04-12T05:58:18Z",
+      "side": 1,
+      "message": "does this raise an exception if the user doesn\u0027t exist? if not then we need a check to make sure we don\u0027t do a partial update.",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 293,
+        "endChar": 40
+      },
+      "revId": "d0e8aa9a71386ecb1e1052fc2f3694b17c3a5041",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_96aad817",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-04-12T05:58:18Z",
+      "side": 1,
+      "message": "let\u0027s be consistent with regard to naming, so pick either \u0027bot\u0027 or \u0027robot\u0027 (\u0027robot_user\u0027 is probably overly verbose) and use that both as the username suffix and role name",
+      "range": {
+        "startLine": 294,
+        "startChar": 43,
+        "endLine": 295,
+        "endChar": 28
+      },
+      "revId": "d0e8aa9a71386ecb1e1052fc2f3694b17c3a5041",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_d6638018",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-04-12T05:58:18Z",
+      "side": 1,
+      "message": "do we want to give the bot user the Member role too?",
+      "range": {
+        "startLine": 309,
+        "startChar": 4,
+        "endLine": 309,
+        "endChar": 41
+      },
+      "revId": "d0e8aa9a71386ecb1e1052fc2f3694b17c3a5041",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
