@@ -1,5 +1,7 @@
 import collections
 import os
+import string
+import random
 
 from fabric.api import task
 from prettytable import PrettyTable
@@ -274,3 +276,35 @@ def user_projects(user):
         table.add_row([project.id, project.name, roles])
     print "Projects and roles for user %s:" % user.name
     print str(table)
+
+
+def generate_random_password(length=12):
+    chars = string.letters + string.digits
+    return ''.join((random.choice(chars)) for x in range(length))
+
+
+@task
+@verbose
+def add_robot_account(tenant, user):
+    """ Create a robot account for a given tenant and user
+    """
+    keystone = client()
+    tenant = get_tenant(keystone, tenant)
+    tenant_manager = get_user(keystone, user)
+    robot_role = keystone.roles.find(name='robot_user')
+    robot_name = "{name}_bot".format(name=tenant.name)
+    password = generate_random_password()
+    new_user = keystone.users.create(robot_name, password=password, email=None,
+                                     tenant_id=tenant.id, enabled=True)
+
+    set_user_metadata(new_user, 'nectar_proxy_owner', tenant_manager.id)
+
+    print("Robot account details:")
+    table = PrettyTable(["User ID", "Username", "Password",
+                         "Proxy owner", "Proxy owner ID"])
+    table.add_row([new_user.id, new_user.name, password, 
+                   tenant_manager.name, tenant_manager.id])
+    print(str(table))
+
+    tenant.add_user(new_user, robot_role)
+    user_projects(new_user)
