@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bad4c104_364aec80",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-12T06:04:47Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "bad4c104_96aad817",
+      "range": {
+        "startLine": 294,
+        "startChar": 43,
+        "endLine": 295,
+        "endChar": 28
+      },
+      "revId": "d0e8aa9a71386ecb1e1052fc2f3694b17c3a5041",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad4c104_d6638018",
         "filename": "hivemind_contrib/keystone.py",
         "patchSetId": 4
@@ -106,6 +130,30 @@
       "writtenOn": "2016-04-12T06:01:04Z",
       "side": 1,
       "message": "If you do create user and pass in a tenant ID id will also add the \"member role\" role as defined in the keystone config",
+      "parentUuid": "bad4c104_d6638018",
+      "range": {
+        "startLine": 309,
+        "startChar": 4,
+        "endLine": 309,
+        "endChar": 41
+      },
+      "revId": "d0e8aa9a71386ecb1e1052fc2f3694b17c3a5041",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_b67efcac",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-12T06:04:47Z",
+      "side": 1,
+      "message": "It\u0027s applied in the user create when we pass the tenant id",
       "parentUuid": "bad4c104_d6638018",
       "range": {
         "startLine": 309,
