@@ -8,6 +8,11 @@ from email.mime.text import MIMEText
 from fabric.api import task
 from novaclient import client as nova_client
 from prettytable import PrettyTable
+from sqlalchemy import create_engine, desc
+from sqlalchemy import (Table, Column, Integer, String,
+                        DateTime, MetaData, Enum, PickleType)
+from sqlalchemy.sql import not_, and_, select, func, or_, update
+
 from hivemind.decorators import verbose, only_for, configurable
 from hivemind.operations import run
 from hivemind.util import current_host
@@ -21,6 +26,18 @@ FILE_TYPES = {
     'cloud-config': '#cloud-config',
     'x-shellscript': '#!',
 }
+
+metadata = MetaData()
+instances_table = Table('instances', metadata,
+                        Column('created_at', DateTime()),
+                        Column('uuid', String(36)),
+                        Column('image_ref', String(255)))
+
+
+@configurable('connection')
+def db_connect(uri):
+    engine = create_engine(uri)
+    return engine.connect()
 
 
 @configurable('nectar.openstack.client')
@@ -97,6 +114,32 @@ def server_address(client, id):
         for address in addresses:
             if address.get('addr'):
                 return address['addr']
+
+
+def all_servers(client, limit=None, host=None, status=None, image=None):
+    servers = []
+    marker = None
+    opts = {"all_tenants": True}
+    if host:
+        opts['host'] = host
+    if status:
+        opts['status'] = status
+    if limit:
+        opts['limit'] = limit
+    if image:
+        opts['image'] = image
+    while True:
+        if marker:
+            opts["marker"] = marker
+        result = client.servers.list(search_opts=opts)
+        if not result:
+            break
+        servers.extend(result)
+        # Quit if we have got enough servers.
+        if limit and len(servers) >= int(limit):
+            break
+        marker = servers[-1].id
+    return servers
 
 
 def combine_files(file_contents):
