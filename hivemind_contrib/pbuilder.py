@@ -15,7 +15,7 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "juno"
-OPENSTACK_RELEASES = ['liberty', 'kilo', 'juno', 'icehouse', 'havana']
+OPENSTACK_RELEASES = ['mitaka', 'liberty', 'kilo', 'juno']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -48,18 +48,6 @@ def build_trusted():
 
 
 mirrors = {
-    'havana': ["deb " + CLOUD_ARCHIVE + " precise-updates/havana main",
-               "deb " + NECTAR_REPO + " precise main",
-               "deb " + NECTAR_REPO + " precise-havana main",
-               "deb " + NECTAR_REPO + " precise-havana-testing main",
-               "deb " + NECTAR_REPO + " precise-testing main",
-               "deb " + UBUNTU_MIRROR + " precise-updates main universe"],
-    'icehouse': [
-        "deb " + NECTAR_REPO + " trusty main",
-        "deb " + NECTAR_REPO + " trusty-icehouse main",
-        "deb " + NECTAR_REPO + " trusty-icehouse-testing main",
-        "deb " + NECTAR_REPO + " trusty-testing main",
-        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
     'juno': [
         "deb " + CLOUD_ARCHIVE + " trusty-updates/juno main",
         "deb " + NECTAR_REPO + " trusty main",
@@ -81,11 +69,17 @@ mirrors = {
         "deb " + NECTAR_REPO + " trusty-liberty-testing main",
         "deb " + NECTAR_REPO + " trusty-testing main",
         "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
+    'mitaka': [
+        "deb " + NECTAR_REPO + " xenial main",
+        "deb " + NECTAR_REPO + " xenial-liberty main",
+        "deb " + NECTAR_REPO + " xenial-liberty-testing main",
+        "deb " + NECTAR_REPO + " xenial-testing main",
+        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
 }
 
 ubuntu_mirrors = {
-    'precise': 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/',
     'trusty': 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/',
+    'xenial': 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/',
 }
 
 
