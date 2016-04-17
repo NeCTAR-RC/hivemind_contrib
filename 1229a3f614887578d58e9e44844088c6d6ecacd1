@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_46109f4e",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-17T23:05:04Z",
+      "side": 1,
+      "message": "why empty where first, then just one append?\ncan you just do where \u003d [nova.instances_table.c.image_ref.like(i[\u0027id\u0027])] ?",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 68
+      },
+      "revId": "1229a3f614887578d58e9e44844088c6d6ecacd1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
