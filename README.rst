@@ -35,3 +35,12 @@ This will only purge the following resources:
  * Cinder Volumes
  * Ceilometer Alarms
  * Heat Stacks
+
+
+### git-buildpackage
+
+The pbuilder packaging commands require the Ubuntu `git-buildpackge` package
+to be installed. These commands will also require that you are a sudoer:
+
+![Example of sudo]
+(http://imgs.xkcd.com/comics/sandwich.png)
