@@ -71,8 +71,8 @@ mirrors = {
         "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
     'mitaka': [
         "deb " + NECTAR_REPO + " xenial main",
-        "deb " + NECTAR_REPO + " xenial-liberty main",
-        "deb " + NECTAR_REPO + " xenial-liberty-testing main",
+        "deb " + NECTAR_REPO + " xenial-mitaka main",
+        "deb " + NECTAR_REPO + " xenial-mitaka-testing main",
         "deb " + NECTAR_REPO + " xenial-testing main",
         "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
 }
