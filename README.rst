@@ -35,3 +35,14 @@ This will only purge the following resources:
  * Cinder Volumes
  * Ceilometer Alarms
  * Heat Stacks
+
+
+### git-buildpackage
+
+The pbuilder packaging commands require the Ubuntu `git-buildpackge` package
+to be installed. You should modify your sudoers configuration so that
+cowbuilder can be run as root without entering a password. So create a file
+/etc/sudoers.d/cowbuilder with content like the following::
+
+    andrew ALL=NOPASSWD:SETENV:/usr/sbin/cowbuilder
+
