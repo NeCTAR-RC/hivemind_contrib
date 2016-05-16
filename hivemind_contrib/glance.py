@@ -14,11 +14,10 @@ from hivemind_contrib import nova
 
 
 def get_glance_client(kc, api_version=1, endpoint=None):
-    if endpoint is None:
-        image_endpoint = kc.service_catalog.url_for(service_type='image')
-        image_endpoint = image_endpoint.replace('v1', '')
-    else:
+    if endpoint:
         image_endpoint = endpoint
+    else:
+        image_endpoint = kc.service_catalog.url_for(service_type='image')
     gc = glance_client.Client(api_version, image_endpoint, token=kc.auth_token)
     return gc
 
