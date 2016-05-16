@@ -22,8 +22,8 @@ UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
 
 
 def dist_from_release(release):
-    if release == 'havana':
-        return 'precise'
+    if release == 'mitaka':
+        return 'xenial'
     return 'trusty'
 
 
@@ -40,6 +40,13 @@ def build_trusted():
     apt_key_recv_key("40976EAF437D05B5", db)
     with tempfile.NamedTemporaryFile() as tmp_gpg:
         response = requests.get(NECTAR_REPO + "nectar-custom.gpg")
+        tmp_gpg.write(response.content)
+        tmp_gpg.flush()
+        local("gpg --no-default-keyring --keyring %s --export "
+              "| gpg --no-default-keyring --keyring %s --import"
+              % (tmp_gpg.name, db))
+    with tempfile.NamedTemporaryFile() as tmp_gpg:
+        response = requests.get(NECTAR_REPO + "nectar-archive-key-2016.gpg")
         tmp_gpg.write(response.content)
         tmp_gpg.flush()
         local("gpg --no-default-keyring --keyring %s --export "
