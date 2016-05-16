@@ -22,9 +22,9 @@ UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
 
 
 def dist_from_release(release):
-    if release == 'havana':
-        return 'precise'
-    return 'trusty'
+    if release in ('icehouse', 'juno', 'kilo', 'liberty'):
+        return 'trusty'
+    return 'xenial'
 
 
 def apt_key_recv_key(key_id, keyring):
