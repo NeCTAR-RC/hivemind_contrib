@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_94e72612",
+        "filename": "hivemind_contrib/pbuilder.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2016-05-16T01:59:09Z",
+      "side": 1,
+      "message": "how about making the older release the exceptions to the rule, ie\n\nif release in (\u0027icehouse\u0027, \u0027juno\u0027, \u0027kilo\u0027, \u0027liberty\u0027):\n  return \u0027trusty\u0027\nreturn \u0027xenial\u0027",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "25946d72cca2e919116e6cf65976082730d5da56",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
