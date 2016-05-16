@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_14615639",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-05-16T04:01:46Z",
+      "side": 1,
+      "message": "should we default to v2 here now too?",
+      "range": {
+        "startLine": 16,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "b57581a74b7ccd33c92946b0984829562019c3e2",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
