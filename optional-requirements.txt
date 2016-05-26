@@ -1,1 +1,2 @@
 -e git://github.com/NeCTAR-RC/ospurge.git#egg=ospurge
+-e git://github.com/NeCTAR-RC/python-freshdesk.git#egg=freshdesk
