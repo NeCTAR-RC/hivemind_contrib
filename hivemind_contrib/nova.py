@@ -96,6 +96,16 @@ def get_flavor_id(client, flavor_name):
     raise Exception("Can't find flavor %s" % flavor_name)
 
 
+def get_flavor(client, flavor_id):
+    """Get a flavor ID"""
+    return client.flavors.get(flavor_id)
+
+
+def get_image(client, image_id):
+    """Get an image by ID"""
+    return client.images.get(image_id)
+
+
 def wait_for(func, error_message):
     for i in xrange(60):
         ret = func()
