@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_b5fc2140",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-05-26T04:48:59Z",
+      "side": 1,
+      "message": "can you ass a full example eg.\n[cfg:hivemind_contrib.security.freshdesk]\napi_key \u003d XYZ",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 62
+      },
+      "revId": "3c3fa83323f19efdcca1600465d356325e8c280a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_d8e47c3d",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-05-26T04:48:59Z",
+      "side": 1,
+      "message": "maybe this should live in neutron.py and do it like the other clients?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 47
+      },
+      "revId": "3c3fa83323f19efdcca1600465d356325e8c280a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_f8d06055",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-05-26T04:48:59Z",
+      "side": 1,
+      "message": "should like in nova.py",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 34
+      },
+      "revId": "3c3fa83323f19efdcca1600465d356325e8c280a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_18d6e44f",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-05-26T04:48:59Z",
+      "side": 1,
+      "message": "should live in keystone.py",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "3c3fa83323f19efdcca1600465d356325e8c280a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_38cba8a6",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-05-26T04:48:59Z",
+      "side": 1,
+      "message": "should live nova",
+      "revId": "3c3fa83323f19efdcca1600465d356325e8c280a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad4c104_58d06c50",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-05-26T04:48:59Z",
+      "side": 1,
+      "message": "move to nova.py",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 47
+      },
+      "revId": "3c3fa83323f19efdcca1600465d356325e8c280a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
