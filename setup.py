@@ -57,7 +57,6 @@ setup(
       packaging = hivemind_contrib.packaging
       pbuilder = hivemind_contrib.pbuilder
       puppetdb = hivemind_contrib.puppetdb.tasks
-      rabbit = hivemind_contrib.rabbit
       rcshibboleth = hivemind_contrib.rcshibboleth
       repo = hivemind_contrib.repo
       reporting = hivemind_contrib.reporting
