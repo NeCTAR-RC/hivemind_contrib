@@ -14,7 +14,6 @@ requirements = [
     'hivemind',
     'sqlalchemy',
     'requests',
-    'pyrabbit',
 ]
 
 setup(
