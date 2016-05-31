@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Russell Sim <russell.sim@gmail.com>
 Build-Depends: debhelper (>= 9), python-all (>= 2.6), python-setuptools
 Build-Depends-Indep: pep8,
+                     dh_python,
                      python-pytest,
                      python-mysqldb,
                      python-mox,
@@ -18,6 +19,6 @@ Homepage: https://github.com/NeCTAR-RC/hivemind_contrib
 
 Package: python-hivemind-contrib
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Depends: ${misc:Depends}, ${python:Depends}, python-mysqldb
 Description: A collection of plugins for hivemind.
  hivemind_contrib, A collection of plugins for hivemind.
