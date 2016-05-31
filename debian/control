@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Russell Sim <russell.sim@gmail.com>
 Build-Depends: debhelper (>= 9), python-all (>= 2.6), python-setuptools
 Build-Depends-Indep: pep8,
-                     dh_python,
+                     dh-python,
                      python-pytest,
                      python-mysqldb,
                      python-mox,
