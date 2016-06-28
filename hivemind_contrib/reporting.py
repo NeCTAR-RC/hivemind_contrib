@@ -245,7 +245,7 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
     if len(instances) == 0:
         return None
     try:
-        filter(
+        return filter(
             lambda i: i.id == instance_id,
             instances)[0].to_dict()
     except:
