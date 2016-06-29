@@ -242,8 +242,6 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
             traceback.print_exc(file=sys.stdout)
             instances = []
         cache['*-*-ALL-*-*'] = instances
-    if len(instances) == 0:
-        return None
     try:
         return filter(
             lambda i: i.id == instance_id,
