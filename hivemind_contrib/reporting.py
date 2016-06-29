@@ -117,14 +117,13 @@ def allocation_managers(csv=False, filename=None, sslwarnings=False):
 
 @task
 @verbose
-def get_project_usage_csv(start_date=None, end_date=None,
+def get_project_usage_csv(start_date, end_date,
                           filename=None, sslwarnings=False):
     """Get accumulated instance usage statistics for all projects.
     Date strings should be ISO 8601 to minute precision
     without timezone information.
     """
     ssl_warnings(enabled=sslwarnings)
-    assert start_date and end_date
     start = datetime.datetime.strptime(start_date, "%Y-%m-%dT%H:%M")
     end = datetime.datetime.strptime(end_date, "%Y-%m-%dT%H:%M")
     keystone = hm_keystone.client_session(version=3)
