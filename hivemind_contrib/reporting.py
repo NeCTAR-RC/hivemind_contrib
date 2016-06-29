@@ -148,7 +148,7 @@ def get_project_usage_csv(start_date=None, end_date=None,
 
 @task
 @verbose
-def get_instance_usage_csv(start_date, end_date,
+def get_instance_usage_csv(start_date, end_date, tenant=None,
                            filename=None, sslwarnings=False):
     """Get individual instance usage for all projects, including tenant and
     availability zones.  Date strings should be ISO 8601 to minute precision
@@ -160,9 +160,15 @@ def get_instance_usage_csv(start_date, end_date,
     keystone = hm_keystone.client_session(version=3)
     nova = hm_nova.client()
 
-    tenants = {x.id: x for x in keystone.projects.list()}
+    if tenant:
+        tenants = {tenant: keystone.projects.get(tenant)}
+        raw_usage = [nova.usage.get(tenant, start, end)]
+    else:
+        tenants = {x.id: x for x in keystone.projects.list()}
+        raw_usage = nova.usage.list(start, end, detailed=True)
+    
     usage = []
-    for u in nova.usage.list(start, end, detailed=True):
+    for u in raw_usage:
         tenant_id = u.tenant_id
         tenant_name = tenants[tenant_id].name if tenant_id in tenants else None
 
