@@ -212,9 +212,13 @@ def get_instance_usage_csv(start_date, end_date, tenant=None,
 
 
 def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
-    if name in cache:
+    # Since we need to use 'list' to retrieve info about deleted instances,
+    # we keep a cache of the instances we have previously retrieved.  For the
+    # first few queries (< 4) we query by tenant_id & instance name.  After
+    # that we do a query to fetch all deleted instances for the tenant ...
+    if name in cache:             # Lookup instances for name
         instances = cache[name]
-    elif len(cache) < 4:        # N == 4 ...
+    elif len(cache) < 4:          # Caching for a name
         try:
             instances = nova.servers.list(
                 detailed=True,
@@ -231,9 +235,9 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
             traceback.print_exc(file=sys.stdout)
             instances = []
         cache[name] = instances
-    elif '*-*-ALL-*-*' in cache:
+    elif '*-*-ALL-*-*' in cache:  # Lookup the "all instances" name
         instances = cache['*-*-ALL-*-*']
-    else:
+    else:                         # Cache "all instances"
         try:
             instances = nova.servers.list(
                 detailed=True,
@@ -247,6 +251,7 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
             traceback.print_exc(file=sys.stdout)
             instances = []
         cache['*-*-ALL-*-*'] = instances
+    # Lookup the specific instance in the cached list of deleted instances
     try:
         return filter(
             lambda i: i.id == instance_id,
