@@ -9,7 +9,10 @@ from hivemind_contrib import nova
 from hivemind_contrib.show import generate_instance_info
 from hivemind_contrib.show import generate_instance_sg_rules_info
 
-from freshdesk.v2.api import API
+try:
+    from freshdesk.v2.api import API
+except ImportError:
+    API = None
 
 
 @decorators.configurable('freshdesk')
@@ -38,6 +41,8 @@ def get_freshdesk_config(api_key=None,
 
 def get_freshdesk_client():
     domain, api_key = get_freshdesk_config()
+    if not API:
+        error("You will need to install python-freshdesk to use this function")
     return API(domain, api_key)
 
 
