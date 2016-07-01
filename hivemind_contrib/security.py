@@ -9,7 +9,11 @@ from hivemind_contrib import nova
 from hivemind_contrib.show import generate_instance_info
 from hivemind_contrib.show import generate_instance_sg_rules_info
 
-from freshdesk.v2.api import API
+try:
+    from freshdesk.v2.api import API
+except:
+    # OK missing for testing
+    pass
 
 
 @decorators.configurable('freshdesk')
