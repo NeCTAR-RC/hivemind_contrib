@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_b37d07ea",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2016-07-01T06:57:33Z",
+      "side": 1,
+      "message": "suggest have a line min_cache_size \u003d 4 \nand then use that, rather than explaining what the 4 is about.",
+      "revId": "bb7b5572d548862f239023f341760866af49de05",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
