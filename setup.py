@@ -9,6 +9,7 @@ requirements = [
     'python-keystoneclient',
     'python-novaclient',
     'python-swiftclient',
+    'python-neutronclient',
     'prettytable',
     'hivemind',
     'sqlalchemy',
