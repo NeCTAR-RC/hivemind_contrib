@@ -117,6 +117,31 @@ def promote(image_id, dry_run=True):
 
 
 @task
+@decorators.verbose
+def archive(image_id, dry_run=True):
+    """Archive an EOL image by moving it to the <NECTAR_ARCHIVES> tenant."""
+    if dry_run:
+        print("Running in dry run mode")
+
+    archive_tenant = get_archive_tenant()
+    gc = get_glance_client(keystone.client())
+    try:
+        image = gc.images.get(image_id)
+    except exc.HTTPNotFound:
+        error("Image ID not found.")
+
+    if dry_run:
+        print("Would archive image {} ({}) to tenant {} ({})"
+              .format(image.name, image.id,
+                      archive_tenant.name, archive_tenant.id))
+    else:
+        print("Archiving image {} ({}) to tenant {} ({})"
+              .format(image.name, image.id,
+                      archive_tenant.name, archive_tenant.id))
+        change_tenant(image, archive_tenant)
+
+
+@task
 def public_audit():
     """Print usage information about all public images
 
