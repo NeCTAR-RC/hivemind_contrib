@@ -53,6 +53,15 @@ def change_tenant(image, tenant):
     image.update(owner=tenant.id)
 
 
+def remove_property(image, prop):
+    """remove a given property, only applicable to Glance v1"""
+    properties = image.properties
+    if prop in properties:
+        properties.pop(prop)
+        image.update(purge_props=True)
+        image.update(properties=properties)
+
+
 def match(name, build, image):
     """return true if image's name == name, and nectar_build < build"""
     try:
@@ -97,11 +106,18 @@ def promote(image_id, dry_run=True):
             print("Would archive image {} ({}) build {} to tenant {} ({})"
                   .format(i.name, i.id, i.properties['nectar_build'],
                           archive_tenant.name, archive_tenant.id))
+            if 'murano_image_info' in i.properties:
+                print('Would remove murano image properties from {}'
+                      .format(i.id))
         else:
             change_tenant(i, archive_tenant)
             print("Archiving image {} ({}) build {} to tenant {} ({})"
                   .format(i.name, i.id, i.properties['nectar_build'],
                           archive_tenant.name, archive_tenant.id))
+            if 'murano_image_info' in i.properties:
+                print('Removing murano image properties from {}'
+                      .format(i.id))
+                remove_property(i, 'murano_image_info')
 
     if image.is_public:
         print("Image {} ({}) already set public"
@@ -134,11 +150,17 @@ def archive(image_id, dry_run=True):
         print("Would archive image {} ({}) to tenant {} ({})"
               .format(image.name, image.id,
                       archive_tenant.name, archive_tenant.id))
+        if 'murano_image_info' in image.properties:
+            print('Would remove murano image properties from {}'
+                  .format(image.id))
     else:
         print("Archiving image {} ({}) to tenant {} ({})"
               .format(image.name, image.id,
                       archive_tenant.name, archive_tenant.id))
         change_tenant(image, archive_tenant)
+        if 'murano_image_info' in image.properties:
+            print('Removing murano image properties from {}'.format(image.id))
+            remove_property(image, 'murano_image_info')
 
 
 @task
