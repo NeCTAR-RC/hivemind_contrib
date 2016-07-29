@@ -285,14 +285,17 @@ def generate_random_password(length=24):
 
 @task
 @verbose
-def add_bot_account(tenant, user):
-    """ Create a bot account for a given tenant and user
+def add_bot_account(tenant, user, suffix='bot'):
+    """ Create a bot account for a given tenant and user.
+
+    Name of the bot will be created as <tenant_name>_bot, unless suffix
+    is specified.
     """
     keystone = client()
     tenant = get_tenant(keystone, tenant)
     real_user = get_user(keystone, user)
     bot_role = keystone.roles.find(name='bot_user')
-    bot_name = "{name}_bot".format(name=tenant.name)
+    bot_name = "{name}_{suffix}".format(name=tenant.name, suffix=suffix)
     password = generate_random_password()
     new_user = keystone.users.create(bot_name, password=password, email=None,
                                      tenant_id=tenant.id, enabled=True)
