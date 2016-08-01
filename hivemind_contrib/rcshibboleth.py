@@ -103,7 +103,7 @@ def find_duplicate(field=['email', 'displayname', 'user_id'], details=False):
         sql = sql.where(and_(
             field == filter,
             or_(not_(users.c.user_id.in_(ignored_ids)),
-                users.c.user_id == None)))
+                users.c.user_id is None)))
         sql = sql.where(field == filter)
         users1 = db.execute(sql)
         user_list.extend(users1)
