@@ -1,5 +1,5 @@
 import os
-from fabric.api import (env, task, local)
+from fabric.api import (task, local)
 
 from hivemind.decorators import verbose
 from hivemind import util, git
@@ -81,8 +81,8 @@ def push_without_review(project_name, branch):
     """Push the given git branch to a remote gerrit repo."""
     git.assert_in_repository()
     user = gitreview_username()
-    local('git push ssh://%s@review.rc.nectar.org.au:29418/%s %s:refs/heads/%s' % (
-          user, project_name, branch, branch))
+    url = 'git push ssh://%s@review.rc.nectar.org.au:29418/%s %s:refs/heads/%s'
+    local(url % (user, project_name, branch, branch))
 
 
 @task
