@@ -48,7 +48,7 @@ def stop_services(services='all'):
         run("swift-init all stop",
             warn_only=True, quiet=True)
     elif services is 'background':
-        #stop non-server process on storage node
+        # stop non-server process on storage node
         run("swift-init account-replicator stop")
         run("swift-init account-reaper stop")
         run("swift-init account-auditor stop")
@@ -71,7 +71,8 @@ def start_services():
 
 
 def print_results(services):
-    p = lambda x: "\n ".join(x)
+    def p(s):
+        return '\n '.join(x for x in s)
     for k, v in services.iteritems():
         if len(v[0])is 0:
             puts("[%s]\n %s\n %s" % (k, blue("=> running"), "None"))
@@ -89,8 +90,8 @@ def pre_upgrade(nagios=None):
 
     if nagios is not None:
         nagios.ensure_host_maintenance(outage)
-    #stop the puppet service, in order
-    #to run puppet manually using agent
+    # stop the puppet service, in order
+    # to run puppet manually using agent
     puppet.stop_service()
     backup_ring()
     if 'swift-node' in identify_role_service():
@@ -103,7 +104,7 @@ def pre_upgrade(nagios=None):
 
 
 def upgrade(packages=[]):
-    wait=600
+    wait = 600
     if isinstance(packages, dict):
         packages = packages[env.host_string]
     if not packages:
@@ -129,8 +130,8 @@ def post_upgrade(nagios=None):
 
 
 def identify_role_service():
-    #function to get what roledefs a host
-    #belongs to. e.g sp01 -> swift-proxy
+    # function to get what roledefs a host
+    # belongs to. e.g sp01 -> swift-proxy
 
     if len(env.roles) is 0:
         return [k for k, v in env.roledefs.items()
