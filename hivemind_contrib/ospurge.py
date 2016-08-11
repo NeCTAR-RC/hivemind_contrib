@@ -59,7 +59,7 @@ def purge_project(tenant_name, dry_run=True):
     cmd = ("ospurge --dont-delete-project --own-project --username {username} "
            "--password {password} --admin-project {tenant} {run_opt}"
            "".format(username=username, password=password,
-                     tenant=tenant_name, run_opt=run_opt))
+                     tenant=tenant.name, run_opt=run_opt))
     print("Running: {}".format(cmd.replace(password, 'xxxx')))
     run(cmd)
 
