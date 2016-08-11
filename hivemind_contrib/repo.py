@@ -39,11 +39,10 @@ def list_distributions():
 def cp_package(package, source, dest):
     """Copy a package from a source to a destination distribution."""
     with cd("/data/web/nectar-ubuntu"), hide("stdout"):
-        packages = run((
-                "reprepro listfilter %s '$Source (==%s)' | awk '{print $2}' "
-                "| sort | uniq") % (source, package))
-        run("reprepro copy %s %s %s" % (
-            dest, source, " ".join(packages.splitlines())))
+        packages = run("reprepro listfilter %s '$Source (==%s)' | "
+                       "awk '{print $2}' | sort | uniq" % (source, package))
+        run("reprepro copy %s %s %s" %
+            (dest, source, " ".join(packages.splitlines())))
 
 
 @task

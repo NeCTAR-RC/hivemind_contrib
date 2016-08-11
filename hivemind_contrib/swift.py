@@ -90,8 +90,7 @@ def pre_upgrade(nagios=None):
 
     if nagios is not None:
         nagios.ensure_host_maintenance(outage)
-    # stop the puppet service, in order
-    # to run puppet manually using agent
+    # stop the puppet service, in order to run puppet manually using agent
     puppet.stop_service()
     backup_ring()
     if 'swift-node' in identify_role_service():
@@ -130,9 +129,7 @@ def post_upgrade(nagios=None):
 
 
 def identify_role_service():
-    # function to get what roledefs a host
-    # belongs to. e.g sp01 -> swift-proxy
-
+    # function to get what roledefs a host belongs to. e.g sp01 -> swift-proxy
     if len(env.roles) is 0:
         return [k for k, v in env.roledefs.items()
                 if util.current_host() in v]
