@@ -69,7 +69,7 @@ def get_ticket_recipients(instance):
 def lock_instance(instance_id, dry_run=True):
     """pause and lock an instance"""
     if dry_run:
-        print('Running in dry-run mode')
+        print('Running in dry-run mode (use --no-dry-run for realsies)')
 
     fd = get_freshdesk_client()
     nc = nova.client()
@@ -121,7 +121,7 @@ def lock_instance(instance_id, dry_run=True):
 
         if dry_run:
             print('Would create ticket with details:')
-            print('  To:      {}'.format(','.join(email_addresses)))
+            print('  To:      {}'.format(email_addresses))
             print('  Subject: {}'.format(subject))
 
             print('Would add instance details to ticket:')
@@ -129,10 +129,12 @@ def lock_instance(instance_id, dry_run=True):
             print(generate_instance_sg_rules_info(instance_id))
         else:
             print('Creating new Freshdesk ticket')
-            ticket = fd.tickets.create_ticket(
-                description=body,
-                subject=subject, email='no-reply@rc.nectar.org.au',
-                priority=4, cc_emails=email_addresses, tags=['security'])
+            ticket = fd.tickets.create_ticket(description=body,
+                subject=subject,
+                email='no-reply@rc.nectar.org.au',
+                cc_emails=email_addresses,
+                priority=4,
+                tags=['security'])
             ticket_id = ticket.id
             ticket_url = 'https://{}/helpdesk/tickets/{}'\
                          .format(fd.domain, ticket_id)
@@ -163,11 +165,12 @@ def lock_instance(instance_id, dry_run=True):
         instance.lock()
 
         # Add reply to user
+        email_addresses = get_ticket_recipients(instance)
         print('Replying to ticket with action details')
         action = 'Instance <b>{} ({})</b> has been <b>paused and locked</b> '\
                  'pending further investigation'\
                  .format(instance.name, instance_id)
-        fd.comments.create_reply(ticket_id, action)
+        fd.comments.create_reply(ticket_id, action, cc_emails=email_addresses)
 
 
 @task
@@ -175,7 +178,7 @@ def lock_instance(instance_id, dry_run=True):
 def unlock_instance(instance_id, dry_run=True):
     """unlock an instance"""
     if dry_run:
-        print('Running in dry-run mode')
+        print('Running in dry-run mode (use --no-dry-run for realsies)')
 
     fd = get_freshdesk_client()
     nc = nova.client()
@@ -208,10 +211,11 @@ def unlock_instance(instance_id, dry_run=True):
         instance.unlock()
 
         # Add reply to user
+        email_addresses = get_ticket_recipients(instance)
         print('Replying to ticket with action details')
         action = 'Instance <b>{} ({})</b> has been <b>unpaused and '\
                  'unlocked</b>'.format(instance.name, instance_id)
-        fd.comments.create_reply(ticket_id, action)
+        fd.comments.create_reply(ticket_id, action, cc_emails=email_addresses)
 
         # Set ticket status=resolved
         print('Setting ticket #{} status to resolved'.format(ticket_id))
@@ -223,7 +227,7 @@ def unlock_instance(instance_id, dry_run=True):
 def delete_instance(instance_id, dry_run=True):
     """delete an instance"""
     if dry_run:
-        print('Running in dry-run mode')
+        print('Running in dry-run mode (use --no-dry-run for realsies)')
 
     fd = get_freshdesk_client()
     nc = nova.client()
