@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_fbf088cb",
+        "filename": "hivemind_contrib/packaging.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2016-08-17T00:46:48Z",
+      "side": 1,
+      "message": "not expert with regex, should this be the one being changed to \\w ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 29,
+        "endLine": 54,
+        "endChar": 34
+      },
+      "revId": "bc15ab3c883c57e849e557c8744310290cdc4acd",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
