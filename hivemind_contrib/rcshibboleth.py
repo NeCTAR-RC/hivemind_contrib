@@ -1,6 +1,7 @@
 from urlparse import urlparse
 
 from fabric.api import task, puts
+from fabric.utils import error
 from prettytable import PrettyTable
 from sqlalchemy import create_engine
 from sqlalchemy import (Table, Column, Integer, String,
@@ -176,3 +177,56 @@ def link_account(existing_email, new_email):
     print 'Deleting orphaned Keystone user %s (%s).' % (user.name, user.id)
     client.users.delete(user.id)
     print 'All done.'
+
+
+@task
+def link_duplicate(email, dry_run=True):
+    """ Link multiple accounts. Useful for IdP persistant token change.
+    """
+    print('Running in dry-run mode (--no-dry-run for realsies)')
+    db = connect()
+
+    fields = [
+        ('id', users.c.id),
+        ('user_id', users.c.user_id),
+        ('state', users.c.state),
+    ]
+
+    sql = select([f[1] for f in fields])
+    sql = sql.where(users.c.email == email)
+    result = db.execute(sql)
+
+    labels = [f[0] for f in fields]
+    results = [dict(zip(labels,row)) for row in result]
+
+    user_id = None
+    update_ids = []
+    for e in results:
+        if e['state'] == 'created':
+            user_id = e['user_id']
+        else:
+            if e['state'] == 'registered':
+                update_ids.append(e['id'])
+
+    if not user_id:
+        error('Keystone user ID not found for %s' % email)
+        return
+
+    if not update_ids:
+        error('No duplicate rcshibboleth accounts found')
+        return
+
+    sql = (update(users)
+           .where(users.c.id.in_(update_ids))
+           .values(user_id=user_id, state='created'))
+
+    if dry_run:
+        print('Would link accounts for %s' % email)
+    else:
+        print('Linking accounts for %s' % email)
+        result = db.execute(sql)
+        if result.rowcount > 0:
+            print('Updated %d entries' % result.rowcount)
+        else:
+            error('No entries updated. Something went wrong.')
+
