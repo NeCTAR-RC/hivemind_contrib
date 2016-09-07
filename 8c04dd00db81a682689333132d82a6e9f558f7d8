@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_72b652de",
+        "filename": "hivemind_contrib/rcshibboleth.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-07T04:41:01Z",
+      "side": 1,
+      "message": "this is always printed",
+      "range": {
+        "startLine": 186,
+        "startChar": 3,
+        "endLine": 186,
+        "endChar": 64
+      },
+      "revId": "8c04dd00db81a682689333132d82a6e9f558f7d8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
