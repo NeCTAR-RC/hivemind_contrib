@@ -1,11 +1,14 @@
 from urlparse import urlparse
 
 from fabric.api import task, puts
+from fabric.utils import error
 from prettytable import PrettyTable
 from sqlalchemy import create_engine
 from sqlalchemy import (Table, Column, Integer, String,
                         DateTime, MetaData, Enum, PickleType)
 from sqlalchemy.sql import not_, and_, select, func, or_, update
+
+import time
 
 from hivemind.decorators import configurable
 
@@ -61,7 +64,7 @@ def search(display_name=None, email=None):
     if display_name:
         where.append(users.c.displayname.like('%%%s%%' % display_name))
     if email:
-        where.append(users.c.displayname.like('%%%s%%' % email))
+        where.append(users.c.email.like('%%%s%%' % email))
     if len(where) > 1:
         sql = sql.where(and_(*where))
     elif where:
@@ -176,3 +179,68 @@ def link_account(existing_email, new_email):
     print 'Deleting orphaned Keystone user %s (%s).' % (user.name, user.id)
     client.users.delete(user.id)
     print 'All done.'
+
+
+@task
+def link_duplicate(email, dry_run=True):
+    """ Link multiple accounts. Useful for IdP persistant token change.
+    """
+    def get_users(db, email):
+        db = connect()
+        sql = select([users])
+        sql = sql.where(users.c.email == email)
+        result = db.execute(sql)
+        return list(result)
+
+    def print_users(user_list):
+        table = PrettyTable(['ID', 'Name', 'Email', 'User ID', 'State', 'IdP'])
+        for user in results:
+            table.add_row([user[users.c.id], user[users.c.displayname],
+                           user[users.c.email], user[users.c.user_id],
+                           user[users.c.state],
+                           idp_domain(user[users.c.persistent_id])])
+        print(str(table))
+
+    if dry_run:
+        print('Running in dry-run mode (--no-dry-run for realsies)')
+
+    db = connect()
+    results = get_users(db, email)
+
+    user_id = None
+    update_ids = []
+    for r in results:
+        if r[users.c.state] == 'created':
+            user_id = r[users.c.user_id]
+        else:
+            if r[users.c.state] == 'registered':
+                update_ids.append(r[users.c.id])
+
+    if not user_id:
+        error('Keystone user ID not found for %s' % email)
+        return
+
+    if not update_ids:
+        error('No duplicate rcshibboleth accounts found')
+        return
+
+    sql = (update(users)
+           .where(users.c.id.in_(update_ids))
+           .values(user_id=user_id, state='created'))
+
+    if dry_run:
+        print('Would link accounts for %s to user ID %s' % (email, user_id))
+    else:
+        print('Linking accounts for %s to user ID: %s' % (email, user_id))
+
+    print_users(results)
+
+    if not dry_run:
+        result = db.execute(sql)
+        if result.rowcount > 0:
+            print('Updated %d entries' % result.rowcount)
+        else:
+            error('No entries updated. Something went wrong.')
+
+        results = get_users(db, email)
+        print_users(results)
