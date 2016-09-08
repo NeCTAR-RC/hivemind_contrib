@@ -1,6 +1,6 @@
 from urlparse import urlparse
 
-from fabric.api import task, puts
+from fabric.api import task
 from fabric.utils import error
 from prettytable import PrettyTable
 from sqlalchemy import create_engine
@@ -41,15 +41,17 @@ def idp_domain(persistent_id):
 
 
 def print_users(user_list):
-    table = PrettyTable(["ID", "Name", "Email", "User ID", 'IDP'])
+    table = PrettyTable(["ID", "Name", "Email", "User ID", 'State', 'IdP'])
+    table.align = 'l'
     total = 0
     for user in user_list:
         total = total + 1
         table.add_row([user[users.c.id], user[users.c.displayname],
                        user[users.c.email], user[users.c.user_id],
+                       user[users.c.state],
                        idp_domain(user[users.c.persistent_id])])
-    puts("\n" + str(table) + "\n")
-    puts("Total: %s" % total)
+    print(table)
+    print("Total: %s" % total)
 
 
 @task
