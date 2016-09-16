@@ -23,15 +23,7 @@ def get_glance_client(kc, api_version=1, endpoint=None):
                                 token=kc.auth_token)
 
 
-@decorators.configurable('archivetenant')
-@decorators.verbose
-def get_archive_tenant(tenant=None):
-    """fetch tenant id from config file"""
-    msg = " ".join(("No archive tenant set.", "Please set tenant in",
-                    "[cfg:hivemind_contrib.glance.archivetenant]"))
-    if tenant is None:
-        error(msg)
-
+def get_tenant(tenant):
     real_tenant = None
     try:
         ks_client = keystone.client()
@@ -45,6 +37,25 @@ def get_archive_tenant(tenant=None):
         raise error(e)
 
     return real_tenant
+
+
+@decorators.configurable('archivetenant')
+@decorators.verbose
+def get_config_archive_tenant(tenant=None):
+    """fetch tenant id from config file"""
+    msg = " ".join(("No archive tenant set.", "Please set tenant in",
+                    "[cfg:hivemind_contrib.glance.archivetenant]"))
+    if tenant is None:
+        error(msg)
+
+    return get_tenant(tenant)
+
+
+def get_archive_tenant(tenant=None):
+    if tenant:
+        return get_tenant(tenant)
+    else:
+        return get_config_archive_tenant()
 
 
 @decorators.verbose
@@ -79,14 +90,14 @@ def match(name, build, image):
 
 @task
 @decorators.verbose
-def promote(image_id, dry_run=True):
+def promote(image_id, dry_run=True, tenant=None):
     """If the supplied image has nectar_name and nectar_build metadata, set
     to public. If there is an image with matching nectar_name and lower
     nectar_build, move that image to the <NECTAR_ARCHIVES> tenant."""
     if dry_run:
         print("Running in dry run mode")
 
-    archive_tenant = get_archive_tenant()
+    archive_tenant = get_archive_tenant(tenant)
     images = get_glance_client(keystone.client()).images
     try:
         image = images.get(image_id)
@@ -134,12 +145,12 @@ def promote(image_id, dry_run=True):
 
 @task
 @decorators.verbose
-def archive(image_id, dry_run=True):
+def archive(image_id, dry_run=True, tenant=None):
     """Archive an EOL image by moving it to the <NECTAR_ARCHIVES> tenant."""
     if dry_run:
         print("Running in dry run mode")
 
-    archive_tenant = get_archive_tenant()
+    archive_tenant = get_archive_tenant(tenant)
     gc = get_glance_client(keystone.client())
     try:
         image = gc.images.get(image_id)
