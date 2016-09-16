@@ -79,14 +79,14 @@ def match(name, build, image):
 
 @task
 @decorators.verbose
-def promote(image_id, dry_run=True):
+def promote(image_id, dry_run=True, tenant=None):
     """If the supplied image has nectar_name and nectar_build metadata, set
     to public. If there is an image with matching nectar_name and lower
     nectar_build, move that image to the <NECTAR_ARCHIVES> tenant."""
     if dry_run:
         print("Running in dry run mode")
 
-    archive_tenant = get_archive_tenant()
+    archive_tenant = get_archive_tenant(tenant)
     images = get_glance_client(keystone.client()).images
     try:
         image = images.get(image_id)
@@ -134,12 +134,12 @@ def promote(image_id, dry_run=True):
 
 @task
 @decorators.verbose
-def archive(image_id, dry_run=True):
+def archive(image_id, dry_run=True, tenant=None):
     """Archive an EOL image by moving it to the <NECTAR_ARCHIVES> tenant."""
     if dry_run:
         print("Running in dry run mode")
 
-    archive_tenant = get_archive_tenant()
+    archive_tenant = get_archive_tenant(tenant)
     gc = get_glance_client(keystone.client())
     try:
         image = gc.images.get(image_id)
