@@ -32,9 +32,9 @@ def ls():
 
 @task
 @verbose
-def create(name):
+def create(name, parent='All-Projects'):
     """Create a new project in gerrit."""
-    gerrit('create-project %s' % name)
+    gerrit('create-project %s -p %s' % (name, parent))
 
 
 @task
