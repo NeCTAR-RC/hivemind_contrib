@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_6caaee71",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-09-27T09:21:09Z",
+      "side": 1,
+      "message": "let\u0027s not encode opaque project IDs into names!",
+      "range": {
+        "startLine": 129,
+        "startChar": 18,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_2ca0e68f",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-09-27T09:21:09Z",
+      "side": 1,
+      "message": "i\u0027m not sure if update time is the right metadata to use as that may change if other metadata on the image is updated (e.g. if we decide another field is needed or some other operational reason)... might be best to have a specific \"published_at\" field which we use for this purpose.",
+      "range": {
+        "startLine": 132,
+        "startChar": 35,
+        "endLine": 132,
+        "endChar": 45
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_4cad3288",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-09-27T09:21:09Z",
+      "side": 1,
+      "message": "this looks like it should be configurable",
+      "range": {
+        "startLine": 133,
+        "startChar": 49,
+        "endLine": 133,
+        "endChar": 60
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_8cb65adb",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-09-27T09:21:09Z",
+      "side": 1,
+      "message": "maybe \"make_community\" or \"promote_to_community\" would be clearer",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 13
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_acbb16c3",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-09-27T09:21:09Z",
+      "side": 1,
+      "message": "cApitalisation?",
+      "range": {
+        "startLine": 234,
+        "startChar": 24,
+        "endLine": 234,
+        "endChar": 44
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_ccb062e0",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-09-27T09:21:09Z",
+      "side": 1,
+      "message": "I think we want another higher level command that examines everything in the community images tenant and goes through an expiry workflow - something we can set and forget, e.g. run daily and taking care of emailing the support contact for an image if it is approaching expiry and then eventually archiving them (of course if a replacement was provided before that then the archiving would happen as the replacement was published).",
+      "range": {
+        "startLine": 319,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 21
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
