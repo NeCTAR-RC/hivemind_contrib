@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7adec928_6c1d8ebd",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "these methods are the same",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_8c79fafe",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "this is the same too",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 22
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adec928_6caaee71",
         "filename": "hivemind_contrib/glance.py",
         "patchSetId": 5
@@ -71,6 +117,98 @@
     },
     {
       "key": {
+        "uuid": "7adec928_ac7eb6e2",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "use datetime module here to parse the time",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 61
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_0c6dea32",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "is this needed since it\u0027s not a task",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 19
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_cc8302cb",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "don\u0027t use camel case for variables or method names",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 19
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_ec88bee9",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "use python3 style print statements like below. eg print(XXX)",
+      "range": {
+        "startLine": 148,
+        "startChar": 11,
+        "endLine": 148,
+        "endChar": 17
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adec928_8cb65adb",
         "filename": "hivemind_contrib/glance.py",
         "patchSetId": 5
@@ -87,6 +225,29 @@
         "startChar": 4,
         "endLine": 233,
         "endChar": 13
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_ec5fde70",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "this is basically the same as promote, can we just change that method to be able to handle both cases?",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 38
       },
       "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
@@ -117,6 +278,52 @@
     },
     {
       "key": {
+        "uuid": "7adec928_4c77f202",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "not sure why this is here?",
+      "range": {
+        "startLine": 239,
+        "startChar": 3,
+        "endLine": 239,
+        "endChar": 56
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_6c74aefd",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "Image not found",
+      "range": {
+        "startLine": 243,
+        "startChar": 15,
+        "endLine": 243,
+        "endChar": 33
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adec928_ccb062e0",
         "filename": "hivemind_contrib/glance.py",
         "patchSetId": 5
@@ -133,6 +340,52 @@
         "startChar": 4,
         "endLine": 319,
         "endChar": 21
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_0c540a53",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "again, most of this is in the archive command, can we just change that to make it work for this case too?",
+      "range": {
+        "startLine": 319,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 21
+      },
+      "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_2c6aa61a",
+        "filename": "hivemind_contrib/ssh_vm.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-09-28T00:25:13Z",
+      "side": 1,
+      "message": "can we use tempest for this?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 15
       },
       "revId": "601a149d160bd35a0750efc9c8977eb71baefcf8",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
