@@ -51,6 +51,7 @@ setup(
       iptables = hivemind_contrib.iptables
       keystone = hivemind_contrib.keystone
       libvirt = hivemind_contrib.libvirt
+      murano = hivemind_contrib.murano
       nova = hivemind_contrib.nova
       ospurge = hivemind_contrib.ospurge
       packages = hivemind_contrib.packages
