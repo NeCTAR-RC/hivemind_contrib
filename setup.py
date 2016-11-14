@@ -49,6 +49,7 @@ setup(
 
       [hivemind.modules]
       designate = hivemind_contrib.designate
+      code = hivemind_contrib.code
       gerrit = hivemind_contrib.gerrit
       glance = hivemind_contrib.glance
       iptables = hivemind_contrib.iptables
