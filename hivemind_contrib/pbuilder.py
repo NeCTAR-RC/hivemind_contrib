@@ -76,6 +76,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " trusty-liberty-testing main",
         "deb " + NECTAR_REPO + " trusty-testing main",
         "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
+    'trusty-mitaka': [
+        "deb " + CLOUD_ARCHIVE + " trusty-updates/mitaka main",
+        "deb " + NECTAR_REPO + " trusty main",
+        "deb " + NECTAR_REPO + " trusty-mitaka main",
+        "deb " + NECTAR_REPO + " trusty-mitaka-testing main",
+        "deb " + NECTAR_REPO + " trusty-testing main",
+        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
     'mitaka': [
         "deb " + NECTAR_REPO + " xenial main",
         "deb " + NECTAR_REPO + " xenial-mitaka main",
