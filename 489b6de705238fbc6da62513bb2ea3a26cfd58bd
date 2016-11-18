@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_22f8df7b",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2016-11-18T06:15:23Z",
+      "side": 1,
+      "message": "I noticed that the endpoint is in the catalogue now, do we still need this?",
+      "range": {
+        "startLine": 21,
+        "startChar": 29,
+        "endLine": 21,
+        "endChar": 77
+      },
+      "revId": "489b6de705238fbc6da62513bb2ea3a26cfd58bd",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
