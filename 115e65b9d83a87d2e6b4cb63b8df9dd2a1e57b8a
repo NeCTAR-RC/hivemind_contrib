@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_38d1f2fb",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2016-11-22T23:54:25Z",
+      "side": 1,
+      "message": "might be good to have instructions on how to set it up",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 52
+      },
+      "revId": "115e65b9d83a87d2e6b4cb63b8df9dd2a1e57b8a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
