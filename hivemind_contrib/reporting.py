@@ -314,6 +314,8 @@ def get_general_allocations_information(filename=None, sslwarnings=False):
         ("FOR 2 weighting (%)", lambda x: x['for_percentage_2']),
         ("FOR 3", lambda x: x['field_of_research_3']),
         ("FOR 3 weighting (%)", lambda x: x['for_percentage_3']),
+        ("Start date", lambda x: x['start_date']),
+        ("End date", lambda x: x['end_date']),
         ]
 
     csv_output(map(lambda x: x[0], fields_to_report),
