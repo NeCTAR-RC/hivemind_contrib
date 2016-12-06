@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_c4f2e099",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-12-06T23:52:10Z",
+      "side": 1,
+      "message": "remove this method completely then and use the keystone.get_tenant method",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "c908f8295a2388e6c68dbd87e97f83f5c1ee9226",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
