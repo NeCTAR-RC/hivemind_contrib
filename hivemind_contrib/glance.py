@@ -23,28 +23,42 @@ def get_glance_client(kc, api_version=1, endpoint=None):
                                 token=kc.auth_token)
 
 
-@decorators.configurable('archivetenant')
-@decorators.verbose
-def get_archive_tenant(tenant=None):
+def get_images_tenant(tenant_id_or_name, tenant_type):
     """fetch tenant id from config file"""
-    msg = " ".join(("No archive tenant set.", "Please set tenant in",
-                    "[cfg:hivemind_contrib.glance.archivetenant]"))
     if tenant is None:
+        msg = " ".join(("No tenant set.", "Please set tenant in",
+                        "[cfg:hivemind_contrib.glance.%s]" % tenant_type))
         error(msg)
-
-    real_tenant = None
     try:
         ks_client = keystone.client()
-        real_tenant = keystone.get_tenant(ks_client, tenant)
+        tenant = keystone.get_tenant(ks_client, tenant_id_or_name)
     except ks_exc.NotFound:
         raise error("Tenant {} not found. Check your settings."
-                    .format(tenant))
+                    .format(tenant_id_or_name))
     except ks_exc.Forbidden:
         raise error("Permission denied. Check you're using admin credentials.")
     except Exception as e:
         raise error(e)
 
-    return real_tenant
+    return tenant
+
+
+@decorators.configurable('communityarchivetenant')
+@decorators.verbose
+def get_community_archive_tenant(tenant=None):
+    return get_images_tenant(tenant, 'communityarchivetenant')
+
+
+@decorators.configurable('communitytenant')
+@decorators.verbose
+def get_community_tenant(tenant=None):
+    return get_images_tenant(tenant, 'communitytenant')
+
+
+@decorators.configurable('archivetenant')
+@decorators.verbose
+def get_archive_tenant(tenant=None):
+    return get_images_tenant(tenant, 'archivetenant')
 
 
 @decorators.verbose
@@ -79,40 +93,50 @@ def match(name, build, image):
 
 @task
 @decorators.verbose
-def promote(image_id, dry_run=True, tenant=None):
-    """If the supplied image has nectar_name and nectar_build metadata, set
+def promote(image_id, dry_run=True, tenant=None, community=False):
+    """
+    If the supplied image has nectar_name and nectar_build metadata, set
     to public. If there is an image with matching nectar_name and lower
-    nectar_build, move that image to the <NECTAR_ARCHIVES> tenant."""
+    nectar_build, move that image to the <NECTAR_ARCHIVES> tenant.
+    If the community flag is set please specify the community tenant id.
+    """
     if dry_run:
         print("Running in dry run mode")
 
-    archive_tenant = get_archive_tenant(tenant)
+    if community:
+        archive_tenant = get_community_tenant(tenant)
+    else:
+        archive_tenant = get_archive_tenant(tenant)
+
     images = get_glance_client(keystone.client()).images
     try:
         image = images.get(image_id)
     except exc.HTTPNotFound:
         error("Image ID not found.")
-    try:
-        name = image.properties['nectar_name']
-        build = (int(image.properties['nectar_build']))
-    except KeyError:
-        error("nectar_name or nectar_build not found for image.")
+    if not community:
+        try:
+            name = image.properties['nectar_name']
+            build = (int(image.properties['nectar_build']))
+        except KeyError:
+            error("nectar_name or nectar_build not found for image.")
 
-    m_check = partial(match, name, build)
-    matchingimages = filter(m_check, images.findall(owner=image.owner))
+        m_check = partial(match, name, build)
+        matchingimages = filter(m_check, images.findall(owner=image.owner))
+    else:
+        matchingimages = [image]
 
     for i in matchingimages:
         if dry_run:
-            print("Would archive image {} ({}) build {} to tenant {} ({})"
-                  .format(i.name, i.id, i.properties['nectar_build'],
+            print("Would change ownership of image {} ({}) to tenant {} ({})"
+                  .format(i.name, i.id,
                           archive_tenant.name, archive_tenant.id))
             if 'murano_image_info' in i.properties:
                 print('Would remove murano image properties from {}'
                       .format(i.id))
         else:
             change_tenant(i, archive_tenant)
-            print("Archiving image {} ({}) build {} to tenant {} ({})"
-                  .format(i.name, i.id, i.properties['nectar_build'],
+            print("Changing ownership of image {} ({}) to tenant {} ({})"
+                  .format(i.name, i.id,
                           archive_tenant.name, archive_tenant.id))
             if 'murano_image_info' in i.properties:
                 print('Removing murano image properties from {}'
@@ -134,12 +158,20 @@ def promote(image_id, dry_run=True, tenant=None):
 
 @task
 @decorators.verbose
-def archive(image_id, dry_run=True, tenant=None):
-    """Archive an EOL image by moving it to the <NECTAR_ARCHIVES> tenant."""
+def archive(image_id, dry_run=True, tenant=None, community=False):
+    """
+    Archive image by moving it to the <NECTAR_ARCHIVES> tenant.
+    If the community flag is set
+    please specify the community archive tenant id.
+    """
     if dry_run:
         print("Running in dry run mode")
 
-    archive_tenant = get_archive_tenant(tenant)
+    if community:
+        archive_tenant = get_community_archive_tenant(tenant)
+    else:
+        archive_tenant = get_archive_tenant(tenant)
+
     gc = get_glance_client(keystone.client())
     try:
         image = gc.images.get(image_id)
