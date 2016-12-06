@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_04bbe8e5",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-12-06T22:23:44Z",
+      "side": 1,
+      "message": "can we just call this get_tenant? What does real mean?",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "71f93d239eeaaf356ffe760404d779e348ad7361",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_24c0e44f",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-12-06T22:23:44Z",
+      "side": 1,
+      "message": "this should be in the else or you will overwrite the above",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 28
+      },
+      "revId": "71f93d239eeaaf356ffe760404d779e348ad7361",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
