@@ -46,6 +46,29 @@
       "revId": "c908f8295a2388e6c68dbd87e97f83f5c1ee9226",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_e41d1cbf",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2016-12-07T00:59:33Z",
+      "side": 1,
+      "message": "refactor the whole lot so that there is a single parameterised method for getting the tenant in each case and handling the error conditions. currently there is a lot of duplicated code.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "c908f8295a2388e6c68dbd87e97f83f5c1ee9226",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
