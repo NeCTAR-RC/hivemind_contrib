@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7adec928_644aec81",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2016-12-07T04:55:28Z",
+      "side": 1,
+      "message": "keystone does not catch those exceptions, so only in 1 place.",
+      "parentUuid": "7adec928_049688f0",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "c908f8295a2388e6c68dbd87e97f83f5c1ee9226",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adec928_e41d1cbf",
         "filename": "hivemind_contrib/glance.py",
         "patchSetId": 4
