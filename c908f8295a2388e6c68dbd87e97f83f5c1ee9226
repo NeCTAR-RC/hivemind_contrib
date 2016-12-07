@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7adec928_049688f0",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2016-12-07T03:37:13Z",
+      "side": 1,
+      "message": "No it\u0027s not really, if there is something missing then add it to the keystone one. No point in having 2 methods doing the same thing",
+      "parentUuid": "7adec928_843ff824",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "c908f8295a2388e6c68dbd87e97f83f5c1ee9226",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adec928_e41d1cbf",
         "filename": "hivemind_contrib/glance.py",
         "patchSetId": 4
