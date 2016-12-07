@@ -22,6 +22,30 @@
       "revId": "c908f8295a2388e6c68dbd87e97f83f5c1ee9226",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_843ff824",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2016-12-07T00:18:08Z",
+      "side": 1,
+      "message": "Do you really wanna do that Sam, it is checking few important things I suppose.",
+      "parentUuid": "7adec928_c4f2e099",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "c908f8295a2388e6c68dbd87e97f83f5c1ee9226",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
