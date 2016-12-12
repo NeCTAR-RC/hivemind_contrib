@@ -6,7 +6,9 @@ import os
 from os.path import expanduser
 import tempfile
 
-from fabric.api import task, local, shell_env
+from fabric.api import local
+from fabric.api import shell_env
+from fabric.api import task
 import requests
 
 from hivemind.decorators import verbose

@@ -1,7 +1,7 @@
 from fabric.api import task
 from hivemind.decorators import configurable
 
-from .puppetdb import Puppetdb
+from hivemind_contrib.puppetdb.puppetdb import Puppetdb
 
 
 @configurable('puppetdb.host')
@@ -40,4 +40,4 @@ def affected_hosts(env, classes, subdomain=None):
         certname = r'.*\\.%s\\.rc\\.nectar\\.org\\.au' % subdomain
     hosts = get_affected_hosts(classes, env, certname)
     for host in hosts:
-        print host
+        print(host)

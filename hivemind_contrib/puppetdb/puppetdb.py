@@ -23,7 +23,7 @@
 # SOFTWARE.
 
 
-class Puppetdb:
+class Puppetdb(object):
     def __init__(self, hostname, port, api_version,
                  query=None, environment=None,
                  ssl_key=None, ssl_cert=None,

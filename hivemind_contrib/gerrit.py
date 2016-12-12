@@ -1,8 +1,11 @@
 import os
-from fabric.api import task, local
+
+from fabric.api import local
+from fabric.api import task
 
 from hivemind.decorators import verbose
-from hivemind import util, git
+from hivemind import git
+from hivemind import util
 
 
 def gitreview_username():

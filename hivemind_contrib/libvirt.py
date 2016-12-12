@@ -1,5 +1,9 @@
+from fabric.api import puts
+from fabric.api import quiet
+from fabric.api import run as f_run
+from fabric.api import task
 from prettytable import PrettyTable
-from fabric.api import task, puts, run as f_run, quiet
+
 from hivemind.operations import run
 
 

@@ -12,15 +12,17 @@ import os
 import re
 
 from debian import deb822
-from fabric.api import task, local, hosts, run, execute, settings
+from fabric.api import execute
+from fabric.api import hosts
+from fabric.api import local
+from fabric.api import run
+from fabric.api import settings
+from fabric.api import task
 
-from hivemind import git
 from hivemind.decorators import verbose
+from hivemind import git
 
 from hivemind_contrib import pbuilder
-from hivemind_contrib.pbuilder import (OPENSTACK_RELEASES,
-                                       STABLE_RELEASE, ARCH,
-                                       dist_from_release)
 from hivemind_contrib import repo
 
 
@@ -42,9 +44,9 @@ def split_branch(branch):
 
 def parse_openstack_release(branch):
     release = split_branch(branch)
-    if release in OPENSTACK_RELEASES:
+    if release in pbuilder.OPENSTACK_RELEASES:
         return release
-    return STABLE_RELEASE
+    return pbuilder.STABLE_RELEASE
 
 
 GIT_DESCRIBE_VERSION_REGEX = re.compile(
@@ -104,7 +106,7 @@ def package_filepath(source_package, extension):
         source_package["Distribution"],
         source_package["Source"],
         version_without_epoc(source_package["Version"]),
-        ARCH,
+        pbuilder.ARCH,
         extension)
 
 
@@ -153,7 +155,7 @@ def get_debian_commit_number():
                           capture=True)
     command = "git log --oneline --no-merges --since='{0}' | wc -l".format(
         upstream_date)
-    return local(command,  capture=True)
+    return local(command, capture=True)
 
 
 def discover_debian_branch(current_branch, version, os_release):
@@ -184,7 +186,7 @@ def buildpackage(os_release=None, name=None, upload=True):
         source_package = dpkg_parsechangelog()
         current_version = source_package["Version"]
         version['debian'] = get_debian_commit_number()
-        dist = dist_from_release(os_release)
+        dist = pbuilder.dist_from_release(os_release)
         version['distribution'] = dist
         release_version = debian_version(current_version, version)
         local("dch -v {0} -D {1}-{2} --force-distribution 'Released'"
@@ -209,8 +211,8 @@ def buildbackport(os_release=None, name=None, revision=1, upload=True):
     source_package = dpkg_parsechangelog()
     current_version = source_package["Version"]
     if not os_release:
-        os_release = STABLE_RELEASE
-    dist = dist_from_release(os_release)
+        os_release = pbuilder.STABLE_RELEASE
+    dist = pbuilder.dist_from_release(os_release)
     release_version = backport_version(current_version, revision)
     if 'nectar' not in current_version:
         local("dch -v {0} -D {1}-{2} --force-distribution 'Backported'"
@@ -227,8 +229,9 @@ def buildbackport(os_release=None, name=None, revision=1, upload=True):
 @task
 @verbose
 def promote(package_name,
-            release='%s-%s' % (dist_from_release(STABLE_RELEASE),
-                               STABLE_RELEASE)):
+            release='%s-%s' % (
+                pbuilder.dist_from_release(pbuilder.STABLE_RELEASE),
+                pbuilder.STABLE_RELEASE)):
     execute(repo.cp_package, package_name, release + '-testing', release)
 
 
