@@ -1,13 +1,19 @@
 import os
 
-from fabric.api import parallel, puts, env, task
-from fabric.colors import red, blue
+from fabric.api import env
+from fabric.api import parallel
+from fabric.api import puts
+from fabric.api import task
+from fabric.colors import blue
+from fabric.colors import red
 from fabric.operations import reboot
 import swiftclient.client as swift_client
 
-from hivemind import util, puppet, apt
+from hivemind import apt
 from hivemind.decorators import configurable
 from hivemind.operations import run
+from hivemind import puppet
+from hivemind import util
 
 
 @configurable('nectar.openstack.client')
@@ -78,7 +84,7 @@ def print_results(services):
             puts("[%s]\n %s\n %s" % (k, blue("=> running"), "None"))
         else:
             puts("[%s]\n %s\n %s" % (k, blue("=> running"), p(set(v[0]))))
-        puts("[%s]\n %s\n %s" % (k,  red("=> disabled"), p(set(v[1]))))
+        puts("[%s]\n %s\n %s" % (k, red("=> disabled"), p(set(v[1]))))
 
 
 @task
@@ -158,7 +164,7 @@ def size_to_bytes(num):
         raise ValueError("No units found in number '%s'" % num)
     try:
         power = units.index(unit)
-    except:
+    except Exception:
         raise ValueError("Unit %s is not one of %s" % (unit, units))
     return int(num) * pow(1042, power)
 

@@ -1,20 +1,20 @@
 import collections
 import os
-import string
 import random
+import string
 
 from fabric.api import task
-from prettytable import PrettyTable
-from keystoneclient.v2_0 import client as keystone_client
-from keystoneclient.v3 import client as keystone_client_v3
-from keystoneclient import session as keystone_session
 from keystoneclient.auth import identity as keystone_identity
 from keystoneclient.exceptions import NotFound
+from keystoneclient import session as keystone_session
+from keystoneclient.v2_0 import client as keystone_client
+from keystoneclient.v3 import client as keystone_client_v3
+from prettytable import PrettyTable
 
-from hivemind.decorators import verbose, configurable
+from hivemind import decorators
 
 
-@configurable('nectar.openstack.client')
+@decorators.configurable('nectar.openstack.client')
 def client(url=None, username=None, password=None, tenant=None, version=2):
     url = os.environ.get('OS_AUTH_URL', url)
     username = os.environ.get('OS_USERNAME', username)
@@ -76,38 +76,35 @@ def get_user(keystone, name_or_id):
 
 
 @task
-@verbose
+@decorators.verbose
 def set_vicnode_id(tenant, vicnode_id):
     """Used in RDSI reporting to determine if the allocation should appear
     in the report.
-
     """
     set_project_metadata(tenant, 'vicnode_id', vicnode_id)
 
 
 @task
-@verbose
+@decorators.verbose
 def add_allocation_home(project, institute_domain):
     """Add a university/institution to the metadata list
-allocation_home for the project.
-
+    allocation_home for the project.
     """
     update_allocation_home(project, institute_domain)
 
 
 @task
-@verbose
+@decorators.verbose
 def set_allocation_home(project, institute_domain):
     """Set the project's allocation_home to institute_domain. Clears existing
-allocation_home list in the process.
-
+    allocation_home list in the process.
     """
     clear_project_metadata(project, 'allocation_home')
     update_allocation_home(project, institute_domain)
 
 
 @task
-@verbose
+@decorators.verbose
 def clear_allocation_home(project):
     """Clears the project's allocation_home metadata
     """
@@ -131,7 +128,7 @@ def update_allocation_home(project, institute_domain):
 
 
 @task
-@verbose
+@decorators.verbose
 def set_project_metadata(project, key, value):
     """Set a key value pair on a keystone project
     """
@@ -143,13 +140,13 @@ def set_project_metadata(project, key, value):
 
 def clear_project_metadata(project, key):
     """Set a key on a keystone project to None.
-API doesn't appear to be able to delete the key
+    API doesn't appear to be able to delete the key
     """
     set_project_metadata(project.id, key, None)
 
 
 @task
-@verbose
+@decorators.verbose
 def set_user_metadata(user, key, value):
     """Set a key value pair on a keystone user
     """
@@ -160,10 +157,10 @@ def set_user_metadata(user, key, value):
 
 
 @task
-@verbose
+@decorators.verbose
 def clear_user_metadata(user, key):
     """Set a key on a keystone user to None.
-API doesn't appear to be able to delete the key
+    API doesn't appear to be able to delete the key
     """
     set_user_metadata(user, key, None)
 
@@ -173,24 +170,23 @@ def print_members(tenant):
     for user in tenant.list_users():
         roles = ', '.join([r.name for r in user.list_roles(tenant)])
         users.add_row([user.id, user.email, roles])
-    print "Members of %s:" % tenant.name
-    print str(users)
+    print("Members of %s:" % tenant.name)
+    print(str(users))
 
 
 @task
-@verbose
+@decorators.verbose
 def list_members(tenant):
-    """
-    """
+    """List members of a tenant"""
     keystone = client()
     tenant = get_tenant(keystone, tenant)
     print_members(tenant)
 
 
 @task
-@verbose
+@decorators.verbose
 def add_tenant_member(tenant, user):
-    """
+    """Add Member role to user for tenant
     """
     keystone = client()
     tenant = get_tenant(keystone, tenant)
@@ -201,9 +197,9 @@ def add_tenant_member(tenant, user):
 
 
 @task
-@verbose
+@decorators.verbose
 def remove_tenant_member(tenant, user):
-    """
+    """Remove Member role to user for tenant
     """
     keystone = client()
     tenant = get_tenant(keystone, tenant)
@@ -214,9 +210,9 @@ def remove_tenant_member(tenant, user):
 
 
 @task
-@verbose
+@decorators.verbose
 def add_tenant_manager(tenant, user):
-    """
+    """Add TenantManager role to user for tenant
     """
     keystone = client()
     tenant = get_tenant(keystone, tenant)
@@ -227,9 +223,9 @@ def add_tenant_manager(tenant, user):
 
 
 @task
-@verbose
+@decorators.verbose
 def remove_tenant_manager(tenant, user):
-    """
+    """Remove TenantManager role to user for tenant
     """
     keystone = client()
     tenant = get_tenant(keystone, tenant)
@@ -240,7 +236,7 @@ def remove_tenant_manager(tenant, user):
 
 
 @task
-@verbose
+@decorators.verbose
 def user_projects(user):
     keystone = client(version=3)
     projects = keystone.projects.list()
@@ -274,8 +270,8 @@ def user_projects(user):
         roles = ', '.join(sorted([role.name for role in roles]))
         project = projects[project_id]
         table.add_row([project.id, project.name, roles])
-    print "Projects and roles for user %s:" % user.name
-    print str(table)
+    print("Projects and roles for user %s:" % user.name)
+    print(str(table))
 
 
 def generate_random_password(length=24):
@@ -284,9 +280,9 @@ def generate_random_password(length=24):
 
 
 @task
-@verbose
+@decorators.verbose
 def add_bot_account(tenant, user, suffix='bot'):
-    """ Create a bot account for a given tenant and user.
+    """Create a bot account for a given tenant and user.
 
     Name of the bot will be created as <tenant_name>_bot, unless suffix
     is specified.

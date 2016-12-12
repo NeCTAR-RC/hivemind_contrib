@@ -8,11 +8,14 @@ from email.mime.text import MIMEText
 from fabric.api import task
 from novaclient import client as nova_client
 from prettytable import PrettyTable
+from sqlalchemy import Column
 from sqlalchemy import create_engine
-from sqlalchemy import (Table, Column, String,
-                        DateTime, MetaData)
+from sqlalchemy import DateTime
+from sqlalchemy import MetaData
+from sqlalchemy import String
+from sqlalchemy import Table
 
-from hivemind.decorators import verbose, only_for, configurable
+from hivemind import decorators
 from hivemind.operations import run
 from hivemind.util import current_host
 
@@ -33,13 +36,13 @@ instances_table = Table('instances', metadata,
                         Column('image_ref', String(255)))
 
 
-@configurable('connection')
+@decorators.configurable('connection')
 def db_connect(uri):
     engine = create_engine(uri)
     return engine.connect()
 
 
-@configurable('nectar.openstack.client')
+@decorators.configurable('nectar.openstack.client')
 def client(url=None, username=None, password=None, tenant=None):
     url = os.environ.get('OS_AUTH_URL', url)
     username = os.environ.get('OS_USERNAME', username)
@@ -70,7 +73,7 @@ def host_services(host=None):
             if service["host"] == host]
 
 
-@only_for("nova-node", "nova-controller")
+@decorators.only_for("nova-node", "nova-controller")
 def disable_host_services(host=None):
     if not host:
         host = current_host()
@@ -79,7 +82,7 @@ def disable_host_services(host=None):
             (service["host"], service["binary"]))
 
 
-@only_for("nova-node", "nova-controller")
+@decorators.only_for("nova-node", "nova-controller")
 def enable_host_services(host=None):
     if not host:
         host = current_host()
@@ -178,7 +181,7 @@ def file_contents(filenames):
 
 
 @task
-@verbose
+@decorators.verbose
 def boot(name, key_name=None, image_id=None, flavor='m1.small',
          security_groups=DEFAULT_SECURITY_GROUPS,
          networks=[], userdata=[], availability_zone=DEFAULT_AZ):
@@ -226,12 +229,12 @@ def boot(name, key_name=None, image_id=None, flavor='m1.small',
     server_id = resp.id
     ip_address = wait_for(lambda: server_address(nova, resp.id),
                           "Server never got an IP address.")
-    print server_id
-    print ip_address
+    print(server_id)
+    print(ip_address)
 
 
 @task
-@verbose
+@decorators.verbose
 def list_host_aggregates(availability_zone, hostname=[]):
     """Prints a pretty table of hosts in for each aggregate in AZ
 
@@ -276,4 +279,4 @@ def list_host_aggregates(availability_zone, hostname=[]):
                 row.append("")
         table.add_row(row)
 
-    print table
+    print(table)
