@@ -10,10 +10,20 @@ Filter out packages:
 
 
 """
+from fabric.api import env
+from fabric.api import execute
+from fabric.api import parallel
+from fabric.api import prompt
+from fabric.api import puts
+from fabric.api import runs_once
+from fabric.api import settings
+from fabric.api import show
+from fabric.api import task
 from itertools import chain
-from fabric.api import (env, parallel, runs_once, execute,
-                        prompt, settings, show, puts, task)
-from hivemind import apt, operations, puppet
+
+from hivemind import apt
+from hivemind import operations
+from hivemind import puppet
 
 from hivemind_contrib import swift
 
@@ -37,7 +47,7 @@ def upgrade(exclude="", verbose=False, upgrade_method=apt.upgrade,
         count_packages = len(list(set(chain(*[p.keys()
                              for p in packages.values()]))))
         if count_packages is 0:
-            print "No packages to upgrade"
+            print("No packages to upgrade")
             return
         if verbose:
             apt.print_changes_perhost(packages)
@@ -77,10 +87,10 @@ def print_hosts(for_role=None):
     for role, roledef in env.roledefs.items():
         if for_role is not None and for_role != role:
             continue
-        print role
+        print(role)
         for host in roledef:
-            print '  -', host
-        print
+            print('  -', host)
+        print()
 
 
 @parallel(pool_size=5)

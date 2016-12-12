@@ -3,14 +3,27 @@ from urlparse import urlparse
 from fabric.api import task
 from fabric.utils import error
 from prettytable import PrettyTable
+from sqlalchemy import Column
 from sqlalchemy import create_engine
-from sqlalchemy import (Table, Column, Integer, String,
-                        DateTime, MetaData, Enum, PickleType)
-from sqlalchemy.sql import not_, and_, select, func, or_, update
+from sqlalchemy import DateTime
+from sqlalchemy import Enum
+from sqlalchemy import Integer
+from sqlalchemy import MetaData
+from sqlalchemy import PickleType
+from sqlalchemy import String
+from sqlalchemy import Table
+
+from sqlalchemy.sql import and_
+from sqlalchemy.sql import func
+from sqlalchemy.sql import not_
+from sqlalchemy.sql import or_
+from sqlalchemy.sql import select
+from sqlalchemy.sql import update
 
 from hivemind.decorators import configurable
 
-from hivemind_contrib import keystone, nova
+from hivemind_contrib import keystone
+from hivemind_contrib import nova
 
 
 metadata = MetaData()
@@ -128,17 +141,17 @@ def link_account(existing_email, new_email):
     new_email_ids = keystone_ids_from_email(db, new_email)
 
     if len(ids) != 1:
-        print 'User has multiple accounts with email %s' % existing_email
+        print('User has multiple accounts with email %s' % existing_email)
         return
 
     user_id = ids[0]
     orphan_user_id = new_email_ids[0]
 
-    print '%s: %s' % (existing_email, user_id)
-    print '%s: %s' % (new_email, orphan_user_id)
+    print('%s: %s' % (existing_email, user_id))
+    print('%s: %s' % (new_email, orphan_user_id))
 
     if user_id == orphan_user_id:
-        print 'Those accounts are already linked'
+        print('Those accounts are already linked')
         return
 
     client = keystone.client()
@@ -148,42 +161,42 @@ def link_account(existing_email, new_email):
         'all_tenants': True, 'project_id': project.id})
 
     if len(servers):
-        print 'Soon to be orphaned project has active instances.'
-        print 'Advise user to terminate them.'
+        print('Soon to be orphaned project has active instances.')
+        print('Advise user to terminate them.')
         return
 
-    print
-    print 'Confirm that you want to:'
-    print ' - Link %s to account %s' % (new_email, existing_email)
-    print ' - Delete orphan Keystone project %s' % (project.name)
-    print ' - Delete orphan Keystone user %s' % (user.name)
-    print
+    print()
+    print('Confirm that you want to:')
+    print(' - Link %s to account %s' % (new_email, existing_email))
+    print(' - Delete orphan Keystone project %s' % (project.name))
+    print(' - Delete orphan Keystone user %s' % (user.name))
+    print()
 
     response = raw_input('(yes/no): ')
     if response != 'yes':
         return
 
-    print 'Linking account.'
+    print('Linking account.')
     sql = (update(users)
            .where(users.c.email == new_email)
            .values(user_id=user_id))
     result = db.execute(sql)
 
     if result.rowcount == 0:
-        print 'Something went wrong.'
+        print('Something went wrong.')
         return
 
-    print 'Deleting orphaned Keystone project %s (%s).' % (
-        project.name, project.id)
+    print('Deleting orphaned Keystone project %s (%s).' % (
+        project.name, project.id))
     client.tenants.delete(project.id)
-    print 'Deleting orphaned Keystone user %s (%s).' % (user.name, user.id)
+    print('Deleting orphaned Keystone user %s (%s).' % (user.name, user.id))
     client.users.delete(user.id)
-    print 'All done.'
+    print('All done.')
 
 
 @task
 def link_duplicate(email, dry_run=True):
-    """ Link multiple accounts. Useful for IdP persistant token change.
+    """Link multiple accounts. Useful for IdP persistant token change.
     """
     def get_users(db, email):
         db = connect()

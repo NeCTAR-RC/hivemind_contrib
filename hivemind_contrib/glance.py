@@ -94,8 +94,7 @@ def match(name, build, image):
 @task
 @decorators.verbose
 def promote(image_id, dry_run=True, tenant=None, community=False):
-    """
-    If the supplied image has nectar_name and nectar_build metadata, set
+    """If the supplied image has nectar_name and nectar_build metadata, set
     to public. If there is an image with matching nectar_name and lower
     nectar_build, move that image to the <NECTAR_ARCHIVES> tenant.
     If the community flag is set please specify the community tenant id.
@@ -159,8 +158,7 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
 @task
 @decorators.verbose
 def archive(image_id, dry_run=True, tenant=None, community=False):
-    """
-    Archive image by moving it to the <NECTAR_ARCHIVES> tenant.
+    """Archive image by moving it to the <NECTAR_ARCHIVES> tenant.
     If the community flag is set
     please specify the community archive tenant id.
     """
@@ -198,7 +196,6 @@ def archive(image_id, dry_run=True, tenant=None, community=False):
 @task
 def public_audit():
     """Print usage information about all public images
-
     """
     gc = get_glance_client(keystone.client(), api_version=2)
     nc = nova.client()

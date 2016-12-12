@@ -1,5 +1,7 @@
-from fabric.api import hide, run
 import email
+
+from fabric.api import hide
+from fabric.api import run
 
 
 def get_package(package):

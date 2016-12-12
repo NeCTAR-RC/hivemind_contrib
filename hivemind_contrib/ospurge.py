@@ -4,7 +4,9 @@ import subprocess
 from distutils import spawn
 from fabric.api import task
 from fabric.utils import error
+
 from hivemind.decorators import configurable
+
 from hivemind_contrib import keystone
 
 
@@ -30,7 +32,7 @@ def is_in_project(tenant, user):
 
 @task
 def purge_project(tenant_name, dry_run=True):
-    """ Purge resources and disable a given project """
+    """Purge resources and disable a given project """
     if not spawn.find_executable('ospurge'):
         error('ospurge not found in path. Please ensure it is installed.')
     username, password = get_creds()

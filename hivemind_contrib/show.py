@@ -1,5 +1,5 @@
-import six
 import json
+import six
 
 from fabric.api import task
 from fabric.utils import error
@@ -9,10 +9,10 @@ from novaclient import exceptions as n_exc
 from prettytable import PrettyTable
 
 from hivemind import decorators
-from hivemind_contrib import keystone
-from hivemind_contrib import nova
 from hivemind_contrib import glance
+from hivemind_contrib import keystone
 from hivemind_contrib import neutron
+from hivemind_contrib import nova
 
 
 def _get_sg_remote(rule):
@@ -194,7 +194,7 @@ def generate_instance_info(instance_id, style=None):
         try:
             tenant = keystone.get_tenant(kc, tenant_id)
             info['tenant_id'] = '%s (%s)' % (tenant.name, tenant.id)
-        except:
+        except Exception:
             pass
 
     # User
@@ -203,7 +203,7 @@ def generate_instance_info(instance_id, style=None):
         try:
             user = keystone.get_user(kc, user_id)
             info['user_id'] = '%s (%s)' % (user.name, user.id)
-        except:
+        except Exception:
             pass
 
     # Remove stuff

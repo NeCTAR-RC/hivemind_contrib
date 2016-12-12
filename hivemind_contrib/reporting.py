@@ -1,12 +1,13 @@
-import os
-import sys
+import collections
 import csv
 import datetime
-import requests
-import traceback
 import logging
+import os
+import requests
+import sys
+import traceback
+
 from fabric.api import task
-import collections
 from prettytable import PrettyTable
 
 import hivemind_contrib.keystone as hm_keystone
@@ -37,7 +38,7 @@ def pretty_output(headings, rows, filename=None):
     pp = PrettyTable(headings)
     for r in rows:
         pp.add_row(r)
-    print >> fp, str(pp)
+    fp.write(str(pp) + '\n')
 
 
 def ssl_warnings(enabled=False):
@@ -192,9 +193,9 @@ def get_instance_usage_csv(start_date, end_date, tenant=None,
                 else:
                     try:
                         instance = nova.servers.get(instance_id).to_dict()
-                    except:
-                        print 'Cannot find instance {0} in {1}' \
-                            .format(instance_id, u.tenant_id)
+                    except Exception:
+                        print('Cannot find instance {0} in {1}'
+                              .format(instance_id, u.tenant_id))
                 if instance is None:
                     instance = {'OS-EXT-AZ:availability_zone': 'unknown'}
 
@@ -202,7 +203,7 @@ def get_instance_usage_csv(start_date, end_date, tenant=None,
                               iu['state'], iu['flavor'], iu['hours'],
                               iu['vcpus'], iu['memory_mb'], iu['local_gb'],
                               instance['OS-EXT-AZ:availability_zone']])
-        except:
+        except Exception:
             traceback.print_exc(file=sys.stdout)
 
     headings = ["Tenant ID", "Tenant Name", "Instance id", "Instance name",
@@ -227,11 +228,11 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
                              'tenant_id': tenant_id,
                              'name': name})
             if len(instances) == 0:
-                print "No deleted '{0}' instances in {1}".format(name,
-                                                                 tenant_id)
-        except:
-            print "Can't get deleted '{0}' instances in {1}".format(name,
-                                                                    tenant_id)
+                print("No deleted '{0}' instances in {1}".format(name,
+                                                                 tenant_id))
+        except Exception:
+            print("Can't get deleted '{0}' instances in {1}".format(name,
+                                                                    tenant_id))
             traceback.print_exc(file=sys.stdout)
             instances = []
         cache[name] = instances
@@ -245,9 +246,9 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
                              'all_tenants': True,
                              'tenant_id': tenant_id})
             if len(instances) == 0:
-                print "No deleted instances in {0}".format(tenant_id)
-        except:
-            print "Can't get deleted instances in {0}".format(tenant_id)
+                print("No deleted instances in {0}".format(tenant_id))
+        except Exception:
+            print("Can't get deleted instances in {0}".format(tenant_id))
             traceback.print_exc(file=sys.stdout)
             instances = []
         cache['*-*-ALL-*-*'] = instances
@@ -256,9 +257,9 @@ def _get_deleted_instance(cache, nova, tenant_id, name, instance_id):
         return filter(
             lambda i: i.id == instance_id,
             instances)[0].to_dict()
-    except:
-        print 'Cannot find deleted instance {0} in {1}'.format(instance_id,
-                                                               tenant_id)
+    except Exception:
+        print('Cannot find deleted instance {0} in {1}'.format(instance_id,
+                                                               tenant_id))
         return None
 
 
@@ -301,8 +302,8 @@ def get_general_allocations_information(filename=None, sslwarnings=False):
         ("Tenant Name", lambda x: x['tenant_name']),
         ("Project Name", lambda x: x['project_name']),
         ("Allocation Home",
-            lambda x: x['allocation_home'] if 'allocation_home' in x
-            and x['allocation_home'] is not None else ""),
+         lambda x: x['allocation_home'] if 'allocation_home' in x and
+         x['allocation_home'] is not None else ""),
         ("Status", lambda x: x['status']),
         ("Modified time", lambda x: x['modified_time']),
         ("Instances", lambda x: x['instance_quota']),

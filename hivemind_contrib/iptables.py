@@ -1,14 +1,21 @@
-import re
-from itertools import chain
 from collections import defaultdict
+from itertools import chain
+import re
 
 from prettytable import PrettyTable
-from fabric.api import task, puts, execute, env, hosts, show
+
+from fabric.api import execute
+
+from fabric.api import env
+from fabric.api import hosts
+from fabric.api import puts
+from fabric.api import show
+from fabric.api import task
 from fabric.utils import error
 from hivemind.operations import run
 
-from hivemind_contrib.nova import client
 from hivemind_contrib.libvirt import list_instances
+from hivemind_contrib.nova import client
 
 comput_rule_re = re.compile("^Chain nova-compute-inst-(\d+) ")
 
