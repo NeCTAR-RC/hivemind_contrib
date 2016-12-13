@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_85961293",
+        "filename": "hivemind_contrib/iptables.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2016-12-13T03:14:16Z",
+      "side": 1,
+      "message": "noticed that you\u0027ve reordered some includes, do you want to do order these too?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "9cf1ffe11500b95a1596bc3690a711d968534ff0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
