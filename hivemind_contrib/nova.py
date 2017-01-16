@@ -1,12 +1,12 @@
-import os
 import sys
 import time
 import urlparse
 
+import os_client_config
+
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from fabric.api import task
-from novaclient import client as nova_client
 from prettytable import PrettyTable
 from sqlalchemy import Column
 from sqlalchemy import create_engine
@@ -44,14 +44,9 @@ def db_connect(uri):
 
 @decorators.configurable('nectar.openstack.client')
 def client(url=None, username=None, password=None, tenant=None):
-    url = os.environ.get('OS_AUTH_URL', url)
-    username = os.environ.get('OS_USERNAME', username)
-    password = os.environ.get('OS_PASSWORD', password)
-    tenant = os.environ.get('OS_TENANT_NAME', tenant)
-    assert url and username and password and tenant
-    return nova_client.Client('2',
-                              username=username, api_key=password,
-                              project_id=tenant, auth_url=url)
+    return os_client_config.make_client('compute', auth_url=url,
+                                        username=username, password=password,
+                                        project_name=tenant)
 
 
 def list_services():
