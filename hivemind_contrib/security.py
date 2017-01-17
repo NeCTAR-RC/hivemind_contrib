@@ -153,12 +153,16 @@ def lock_instance(instance_id, dry_run=True):
             fd.comments.create_note(ticket_id, body)
 
     if dry_run:
-        print('Would pause and lock instance {}'.format(instance_id))
+        if not instance.status == 'ACTIVE':
+            print('Instance state {}, will not pause'.format(instance.status))
+        else:
+            print('Would pause and lock instance {}'.format(instance_id))
+
         print('Would update ticket with action')
     else:
         # Pause and lock
-        if instance.status == 'PAUSED':
-            print('Instance already paused, skipping')
+        if not instance.status == 'ACTIVE':
+            print('Instance not in ACTIVE state ({}), skipping'.format(instance.status))
         else:
             print('Pausing instance {}'.format(instance_id))
             instance.pause()
