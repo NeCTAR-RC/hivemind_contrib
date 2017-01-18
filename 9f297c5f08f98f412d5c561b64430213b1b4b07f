@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5adbc538_86e2d001",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-01-18T05:24:11Z",
+      "side": 1,
+      "message": "I\u0027d actually write this as if instance.status !\u003d \u0027ACTIVE\u0027. It\u0027s a bit clearer, but LGTM otherwise",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 156,
+        "endChar": 42
+      },
+      "revId": "9f297c5f08f98f412d5c561b64430213b1b4b07f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_a6e6ec14",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-01-18T05:24:11Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 164,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 43
+      },
+      "revId": "9f297c5f08f98f412d5c561b64430213b1b4b07f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
