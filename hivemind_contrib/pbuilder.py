@@ -117,7 +117,7 @@ def pbuilder_env(os_release, name=None):
 
 
 def get_os_release_from_current_branch():
-    from hivemind_contrib.packaging import parse_openstack_release
+    from hivemind_contrib.debpackaging import parse_openstack_release
     current_branch = git.current_branch()
     return parse_openstack_release(current_branch)
 

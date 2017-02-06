@@ -53,7 +53,7 @@ setup(
       nova = hivemind_contrib.nova
       ospurge = hivemind_contrib.ospurge
       packages = hivemind_contrib.packages
-      packaging = hivemind_contrib.packaging
+      packaging = hivemind_contrib.debpackaging
       pbuilder = hivemind_contrib.pbuilder
       puppetdb = hivemind_contrib.puppetdb.tasks
       rcshibboleth = hivemind_contrib.rcshibboleth
