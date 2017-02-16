@@ -166,10 +166,10 @@ def clear_user_metadata(user, key):
 
 
 def print_members(tenant):
-    users = PrettyTable(["ID", "Email", "Roles"])
+    users = PrettyTable(["ID", "Email", "Name", "Roles"])
     for user in tenant.list_users():
         roles = ', '.join([r.name for r in user.list_roles(tenant)])
-        users.add_row([user.id, user.email, roles])
+        users.add_row([user.id, user.email, user.name, roles])
     print("Members of %s:" % tenant.name)
     print(str(users))
 
