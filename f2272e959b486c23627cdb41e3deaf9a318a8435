@@ -22,6 +22,30 @@
       "revId": "f2272e959b486c23627cdb41e3deaf9a318a8435",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_8b63abb0",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-02-16T23:55:14Z",
+      "side": 1,
+      "message": "username should come before email to I think",
+      "parentUuid": "5adbc538_4b5283de",
+      "range": {
+        "startLine": 169,
+        "startChar": 41,
+        "endLine": 169,
+        "endChar": 45
+      },
+      "revId": "f2272e959b486c23627cdb41e3deaf9a318a8435",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
