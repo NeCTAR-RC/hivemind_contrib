@@ -156,7 +156,8 @@ def link_account(existing_email, new_email):
 
     client = keystone.client()
     user = client.users.get(orphan_user_id)
-    project = client.tenants.get(user.tenantId)
+
+    project = client.projects.get(user.default_project_id)
     servers = nova.client().servers.list(search_opts={
         'all_tenants': True, 'project_id': project.id})
 
@@ -168,8 +169,8 @@ def link_account(existing_email, new_email):
     print()
     print('Confirm that you want to:')
     print(' - Link %s to account %s' % (new_email, existing_email))
-    print(' - Delete orphan Keystone project %s' % (project.name))
-    print(' - Delete orphan Keystone user %s' % (user.name))
+    print(' - Disable orphan Keystone project %s' % (project.name))
+    print(' - Disable orphan Keystone user %s' % (user.name))
     print()
 
     response = raw_input('(yes/no): ')
@@ -186,11 +187,11 @@ def link_account(existing_email, new_email):
         print('Something went wrong.')
         return
 
-    print('Deleting orphaned Keystone project %s (%s).' % (
+    print('Disabling orphaned Keystone project %s (%s).' % (
         project.name, project.id))
-    client.tenants.delete(project.id)
-    print('Deleting orphaned Keystone user %s (%s).' % (user.name, user.id))
-    client.users.delete(user.id)
+    client.projects.update(project.id, enabled=False)
+    print('Disabling orphaned Keystone user %s (%s).' % (user.name, user.id))
+    client.users.update(user.id, enabled=False)
     print('All done.')
 
 

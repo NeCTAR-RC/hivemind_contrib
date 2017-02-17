@@ -55,7 +55,7 @@ commands), the value reported is the email domains for all
 tenant managers belonging to this project.
     """
     ssl_warnings(enabled=sslwarnings)
-    keystone = hm_keystone.client_session(version=3)
+    keystone = hm_keystone.client()
     all_users = map(lambda x: x.to_dict(), keystone.users.list())
     email_dict = {x['id']: x['email'].split("@")[-1] for x in all_users
                   if 'email' in x and x['email'] is not None}
@@ -90,7 +90,7 @@ def allocation_managers(csv=False, filename=None, sslwarnings=False):
     """Get the allocation manager emails for all projects.
     """
     ssl_warnings(enabled=sslwarnings)
-    keystone = hm_keystone.client_session(version=3)
+    keystone = hm_keystone.client()
     all_users = map(lambda x: x.to_dict(), keystone.users.list())
     email_dict = {x['id']: x['email'] for x in all_users
                   if 'email' in x and x['email'] is not None}
@@ -127,7 +127,7 @@ def get_project_usage_csv(start_date, end_date,
     ssl_warnings(enabled=sslwarnings)
     start = datetime.datetime.strptime(start_date, "%Y-%m-%dT%H:%M")
     end = datetime.datetime.strptime(end_date, "%Y-%m-%dT%H:%M")
-    keystone = hm_keystone.client_session(version=3)
+    keystone = hm_keystone.client()
     nova = hm_nova.client()
 
     tenants = {x.id: x for x in keystone.projects.list()}
@@ -157,7 +157,7 @@ def get_instance_usage_csv(start_date, end_date, tenant=None,
     ssl_warnings(enabled=sslwarnings)
     start = datetime.datetime.strptime(start_date, "%Y-%m-%dT%H:%M")
     end = datetime.datetime.strptime(end_date, "%Y-%m-%dT%H:%M")
-    keystone = hm_keystone.client_session(version=3)
+    keystone = hm_keystone.client()
     nova = hm_nova.client()
 
     if tenant:
