@@ -2,9 +2,9 @@
 from fabric.api import task
 from fabric.utils import error
 from functools import partial
-from glanceclient import client as glance_client
 from glanceclient import exc
 from keystoneclient import exceptions as ks_exc
+import os_client_config
 from prettytable import PrettyTable
 from sqlalchemy import desc
 from sqlalchemy.sql import select
@@ -14,13 +14,11 @@ from hivemind_contrib import keystone
 from hivemind_contrib import nova
 
 
-def get_glance_client(kc, api_version=1, endpoint=None):
-    if endpoint:
-        image_endpoint = endpoint
-    else:
-        image_endpoint = kc.service_catalog.url_for(service_type='image')
-    return glance_client.Client(api_version, image_endpoint,
-                                token=kc.auth_token)
+@decorators.configurable('nectar.openstack.client')
+def client(url=None, username=None, password=None, tenant=None):
+    return os_client_config.make_client('image', auth_url=url,
+                                        username=username, password=password,
+                                        project_name=tenant)
 
 
 def get_images_tenant(tenant_id_or_name, tenant_type):
@@ -31,7 +29,7 @@ def get_images_tenant(tenant_id_or_name, tenant_type):
         error(msg)
     try:
         ks_client = keystone.client()
-        tenant = keystone.get_tenant(ks_client, tenant_id_or_name)
+        tenant = keystone.get_project(ks_client, tenant_id_or_name)
     except ks_exc.NotFound:
         raise error("Tenant {} not found. Check your settings."
                     .format(tenant_id_or_name))
@@ -107,7 +105,7 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
     else:
         archive_tenant = get_archive_tenant(tenant)
 
-    images = get_glance_client(keystone.client()).images
+    images = client().images
     try:
         image = images.get(image_id)
     except exc.HTTPNotFound:
@@ -170,7 +168,7 @@ def archive(image_id, dry_run=True, tenant=None, community=False):
     else:
         archive_tenant = get_archive_tenant(tenant)
 
-    gc = get_glance_client(keystone.client())
+    gc = client()
     try:
         image = gc.images.get(image_id)
     except exc.HTTPNotFound:
@@ -197,7 +195,7 @@ def archive(image_id, dry_run=True, tenant=None, community=False):
 def public_audit():
     """Print usage information about all public images
     """
-    gc = get_glance_client(keystone.client(), api_version=2)
+    gc = client()
     nc = nova.client()
     db = nova.db_connect()
 
