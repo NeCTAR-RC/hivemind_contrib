@@ -154,7 +154,7 @@ def _format_instance(d, style=None):
 def generate_instance_info(instance_id, style=None):
     nc = nova.client()
     kc = keystone.client()
-    gc = glance.get_glance_client(kc)
+    gc = glance.client()
 
     try:
         instance = nc.servers.get(instance_id)
@@ -180,20 +180,21 @@ def generate_instance_info(instance_id, style=None):
         image_id = image.get('id', '')
         try:
             img = gc.images.get(image_id)
-            nectar_build = img.properties.get('nectar_build', 'N/A')
+            nectar_build = img.get('nectar_build', 'N/A')
             info['image'] = ('%s (%s, NeCTAR Build %s)'
                              % (img.name, img.id, nectar_build))
         except Exception:
             info['image'] = 'Image not found (%s)' % image_id
+
     else:  # Booted from volume
         info['image'] = "Attempt to boot from volume - no image supplied"
 
     # Tenant
-    tenant_id = info.get('tenant_id')
-    if tenant_id:
+    project_id = info.get('tenant_id')
+    if project_id:
         try:
-            tenant = keystone.get_tenant(kc, tenant_id)
-            info['tenant_id'] = '%s (%s)' % (tenant.name, tenant.id)
+            project = keystone.get_project(kc, project_id)
+            info['project_id'] = '%s (%s)' % (project.name, project.id)
         except Exception:
             pass
 
