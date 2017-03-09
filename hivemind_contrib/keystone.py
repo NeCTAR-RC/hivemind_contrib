@@ -185,6 +185,13 @@ def list_members(project):
     print_members(keystone, project)
 
 
+def has_role_in_project(project, user, role):
+    keystone = client()
+    if keystone.role_assignments.list(project=project, user=user, role=role):
+        return True
+    return False
+
+
 def add_project_role(project, user, role):
     keystone = client()
     project = get_project(keystone, project)
