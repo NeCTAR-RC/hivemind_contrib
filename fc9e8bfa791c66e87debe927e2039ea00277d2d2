@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ae8d1ca_65585cfb",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-03-09T22:21:48Z",
+      "side": 1,
+      "message": "this is v2 specific. Stuff in the hivemind class handles this for you",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 47
+      },
+      "revId": "fc9e8bfa791c66e87debe927e2039ea00277d2d2",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
