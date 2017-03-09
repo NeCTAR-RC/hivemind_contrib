@@ -1,53 +1,74 @@
 from fabric.api import task
 
-import os_client_config
-
+from hivemind.decorators import configurable
 from hivemind_contrib import keystone
 
-
-def murano_client(url=None, username=None, password=None, tenant=None):
-    return os_client_config.make_client('application-catalog', auth_url=url,
-                                        username=username, password=password,
-                                        project_name=tenant)
+import muranoclient.client as murano
 
 
-def is_in_project(tenant, user):
-    return any([u == user for u in tenant.list_users()])
+@configurable('nectar.openstack.client')
+def get_murano_client(version='1', project_name=None):
+    sess = keystone.get_session(tenant_name=project_name)
+    return murano.Client(version, session=sess,
+                         service_type='application-catalog')
+
+
+def is_in_project(kc, project, user, role):
+    if kc.role_assignments.list(project=project, user=user, role=role):
+        return True
+    return False
+
+
+def _package_set(package_id, set_public, dry_run):
+    """Set package state"""
+
+    if set_public:
+        state = 'public'
+    else:
+        state = 'private'
+
+    mc = get_murano_client()
+    package = mc.packages.get(package_id)
+    project_id = package.owner_id
+
+    ks_client = keystone.client()
+    project = ks_client.projects.get(project_id)
+    project_admin_role = ks_client.roles.find(name='Admin')
+    admin_user = ks_client.users.get(ks_client.session.get_user_id())
+
+    if not is_in_project(ks_client, project, admin_user, project_admin_role):
+        print("Adding admin user to project %s (%s)" % (project.name,
+                                                        project.id))
+        ks_client.roles.grant(user=admin_user, project=project,
+                              role=project_admin_role)
+
+    if package.is_public != set_public:
+        mc = get_murano_client(project_name=project.name)
+
+        if dry_run:
+            print("Would set %s flag for package %s (%s)" %
+                (state, package.name, package_id))
+        else:
+            print("Setting %s flag for package %s for %s" %
+                (state, package_id, project_id))
+            mc.packages.toggle_public(package_id)
+    else:
+        print("Package is already %s" % state)
+
+    if is_in_project(ks_client, project, admin_user, project_admin_role):
+        print("Removing admin user from project %s (%s)" % (project.name,
+                                                      project.id))
+        ks_client.roles.revoke(user=admin_user, project=project,
+                               role=project_admin_role)
 
 
 @task
-def private_package(package_id, dry_run=True):
-    """Make a Murano package private """
+def private(package_id, dry_run=True):
+    """Set a package to private"""
+    _package_set(package_id, False, dry_run)
 
-    if dry_run:
-        print("Running in dry-run mode")
 
-    m = os_client_config.make_client('application-catalog')
-
-    package = m.packages.get(package_id)
-    tenant_id = package.owner_id
-
-    ks_client = keystone.client('3')
-    tenant = keystone.get_tenant(ks_client, tenant_id)
-    tenant_admin_role = ks_client.roles.find(name='Admin')
-    admin_user = keystone.get_user(ks_client, ks_client.user_id)
-
-    if not is_in_project(tenant, admin_user):
-        print("Adding user to project %s (%s)" % (tenant.name, tenant.id))
-        tenant.add_user(admin_user, tenant_admin_role)
-
-    if package.is_public:
-        if dry_run:
-            print("Would remove public flag for package %s" % package_id)
-        else:
-            print("Removing public flag for package %s for %s" %
-                  (package_id, tenant_id))
-            m = os_client_config.make_client('application-catalog',
-                                             tenant_name=tenant.name)
-            m.packages.toggle_public(package_id)
-    else:
-        print("Package is not public")
-
-    if is_in_project(tenant, admin_user):
-        print("Removing user from project %s (%s)" % (tenant.name, tenant.id))
-        tenant.remove_user(admin_user, tenant_admin_role)
+@task
+def public(package_id, dry_run=True):
+    """Set a package to public"""
+    _package_set(package_id, True, dry_run)
