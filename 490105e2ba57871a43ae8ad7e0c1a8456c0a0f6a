@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ae8d1ca_0573184e",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000129
+      },
+      "writtenOn": "2017-03-10T01:51:22Z",
+      "side": 1,
+      "message": "Tyop? Fir -\u003e For.",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 7
+      },
+      "revId": "490105e2ba57871a43ae8ad7e0c1a8456c0a0f6a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ae8d1ca_258f3425",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000129
+      },
+      "writtenOn": "2017-03-10T01:51:22Z",
+      "side": 1,
+      "message": "Whitespace",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 4
+      },
+      "revId": "490105e2ba57871a43ae8ad7e0c1a8456c0a0f6a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
