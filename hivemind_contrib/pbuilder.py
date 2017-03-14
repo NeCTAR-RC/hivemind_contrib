@@ -100,7 +100,6 @@ mirrors = {
         "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
     'ocata': [
         "deb " + CLOUD_ARCHIVE + " xenial-updates/ocata main",
-        "deb " + CLOUD_ARCHIVE + " xenial-proposed/ocata main",
         "deb " + NECTAR_REPO + " xenial main",
         "deb " + NECTAR_REPO + " xenial-ocata main",
         "deb " + NECTAR_REPO + " xenial-ocata-testing main",
