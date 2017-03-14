@@ -17,16 +17,16 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "juno"
-OPENSTACK_RELEASES = ['mitaka', 'liberty', 'kilo', 'juno']
+OPENSTACK_RELEASES = ['ocata', 'newton', 'mitaka', 'liberty', 'kilo', 'juno']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
 
 
 def dist_from_release(release):
-    if release == 'mitaka':
-        return 'xenial'
-    return 'trusty'
+    if release in ['liberty', 'kilo', 'juno']:
+        return 'trusty'
+    return 'xenial'
 
 
 def apt_key_recv_key(key_id, keyring):
@@ -89,6 +89,21 @@ mirrors = {
         "deb " + NECTAR_REPO + " xenial main",
         "deb " + NECTAR_REPO + " xenial-mitaka main",
         "deb " + NECTAR_REPO + " xenial-mitaka-testing main",
+        "deb " + NECTAR_REPO + " xenial-testing main",
+        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
+    'newton': [
+        "deb " + CLOUD_ARCHIVE + " xenial-updates/newton main",
+        "deb " + NECTAR_REPO + " xenial main",
+        "deb " + NECTAR_REPO + " xenial-newton main",
+        "deb " + NECTAR_REPO + " xenial-newton-testing main",
+        "deb " + NECTAR_REPO + " xenial-testing main",
+        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
+    'ocata': [
+        "deb " + CLOUD_ARCHIVE + " xenial-updates/ocata main",
+        "deb " + CLOUD_ARCHIVE + " xenial-proposed/ocata main",
+        "deb " + NECTAR_REPO + " xenial main",
+        "deb " + NECTAR_REPO + " xenial-ocata main",
+        "deb " + NECTAR_REPO + " xenial-ocata-testing main",
         "deb " + NECTAR_REPO + " xenial-testing main",
         "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
 }
