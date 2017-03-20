@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ae8d1ca_b12462c7",
+        "filename": "hivemind_contrib/show.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2017-03-20T00:19:03Z",
+      "side": 1,
+      "message": "can confirm instance_",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 21
+      },
+      "revId": "35c44bf93e116a29a5ddc1ed240d766111329f29",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
