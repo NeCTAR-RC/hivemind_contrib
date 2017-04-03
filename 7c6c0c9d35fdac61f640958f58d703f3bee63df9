@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ae8d1ca_125511c6",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-04-03T06:35:30Z",
+      "side": 1,
+      "message": "use keystone",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 47
+      },
+      "revId": "7c6c0c9d35fdac61f640958f58d703f3bee63df9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
