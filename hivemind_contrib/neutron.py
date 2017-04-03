@@ -1,5 +1,6 @@
 import os
 
+from hivemind_contrib import keystone
 from hivemind.decorators import configurable
 from neutronclient.neutron import client
 
@@ -14,6 +15,7 @@ def get_neutron_client(version='2.0', url=None, username=None,
     region = os.environ.get('OS_REGION_NAME', region)
     assert url and username and password and tenant
 
-    return client.Client(version, auth_url=url, username=username,
-                         password=password, tenant_name=tenant,
-                         region_name=region, no_cache=True)
+    sess = keystone.get_session(url=url, username=username, password=password,
+                                tenant=tenant)
+
+    return client.Client(version, session=sess, region_name=region)

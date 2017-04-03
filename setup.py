@@ -5,6 +5,7 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
+    'keystoneauth1',
     'os-client-config',
     'python-glanceclient',
     'python-keystoneclient',

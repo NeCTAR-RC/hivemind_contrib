@@ -4,18 +4,17 @@ import random
 import string
 
 from fabric.api import task
-from keystoneclient.auth import identity as keystone_identity
+from keystoneauth1 import identity as keystone_identity
+from keystoneauth1 import session as keystone_session
 from keystoneclient import client as keystone_client
 from keystoneclient.exceptions import NotFound
-from keystoneclient import session as keystone_session
 from prettytable import PrettyTable
 
 from hivemind import decorators
 
 
-@decorators.configurable('nectar.openstack.client')
-def client(url=None, username=None, password=None, tenant=None, version=3):
-
+def get_session(url=None, username=None, password=None,
+                tenant=None, version=3):
     url = os.environ.get('OS_AUTH_URL', url)
     username = os.environ.get('OS_USERNAME', username)
     password = os.environ.get('OS_PASSWORD', password)
@@ -25,8 +24,14 @@ def client(url=None, username=None, password=None, tenant=None, version=3):
                                       password=password,
                                       tenant_name=tenant,
                                       auth_url=url)
-    session = keystone_session.Session(auth=auth)
-    return keystone_client.Client(version, session=session)
+    return keystone_session.Session(auth=auth)
+
+
+@decorators.configurable('nectar.openstack.client')
+def client(url=None, username=None, password=None, tenant=None, version=3):
+    sess = get_session(url=None, username=None, password=None,
+                       tenant=None, version=3)
+    return keystone_client.Client(version, session=sess)
 
 
 def get_projects_module(keystone):
