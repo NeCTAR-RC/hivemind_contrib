@@ -56,11 +56,12 @@ def get_ticket_recipients(instance):
         email_addresses.append(user.email)
 
     # Add tenant members to ticket recipient list
-    tenant = keystone.get_tenant(kc, instance.tenant_id)
-    for user in tenant.list_users():
-        roles = [r.name for r in user.list_roles(tenant)]
-        if 'TenantManager' in roles:
-            email_addresses.append(user.email)
+    project = keystone.get_project(kc, instance.tenant_id)
+    ras = kc.role_assignments.list(project=project, include_names=True)
+    for ra in ras:
+        if ra.role['name'] == 'TenantManager':
+            u = keystone.get_user(kc, ra.user['id'])
+            email_addresses.append(u.email)
     return email_addresses
 
 
@@ -93,7 +94,7 @@ def lock_instance(instance_id, dry_run=True):
             print('Setting ticket #{} status to open/urgent'.format(ticket_id))
             fd.tickets.update_ticket(ticket_id, status=6, priority=4)
     else:
-        tenant = keystone.get_tenant(kc, instance.tenant_id)
+        project = keystone.get_project(kc, instance.tenant_id)
         user = keystone.get_user(kc, instance.user_id)
         email_addresses = get_ticket_recipients(instance)
 
@@ -105,7 +106,7 @@ def lock_instance(instance_id, dry_run=True):
             '',
             'We have reason to believe that cloud instance: '
             '<b>{} ({})</b>'.format(instance.name, instance.id),
-            'in the project <b>{}</b>'.format(tenant.name),
+            'in the project <b>{}</b>'.format(project.name),
             'created by <b>{}</b>'.format(user.email),
             'has been involved in a security incident.',
             '',
@@ -138,8 +139,15 @@ def lock_instance(instance_id, dry_run=True):
                 status=6,
                 tags=['security'])
             ticket_id = ticket.id
+
+            # Use friendly domain name if using prod
+            if fd.domain == 'dhdnectar.freshdesk.com':
+                domain = 'support.ehelp.edu.au'
+            else:
+                domain = fd.domain
+
             ticket_url = 'https://{}/helpdesk/tickets/{}'\
-                         .format(fd.domain, ticket_id)
+                         .format(domain, ticket_id)
             nc.servers.set_meta(instance_id, {'security_ticket': ticket_url})
             print('Ticket #{} has been created: {}'
                   .format(ticket_id, ticket_url))
