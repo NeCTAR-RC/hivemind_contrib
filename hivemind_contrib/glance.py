@@ -57,21 +57,6 @@ def get_archive_tenant(tenant=None):
     return get_images_tenant(tenant, 'archivetenant')
 
 
-@decorators.verbose
-def change_tenant(image, tenant):
-    """move image to new_tenant"""
-    image.update(owner=tenant.id)
-
-
-def remove_property(image, prop):
-    """remove a given property, only applicable to Glance v1"""
-    properties = image.properties
-    if prop in properties:
-        properties.pop(prop)
-        image.update(purge_props=True)
-        image.update(properties=properties)
-
-
 def match(name, build, image):
     """return true if image's name == name, and nectar_build < build"""
     try:
@@ -130,14 +115,14 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
                 print('Would remove murano image properties from {}'
                       .format(i.id))
         else:
-            change_tenant(i, archive_tenant)
             print("Changing ownership of image {} ({}) to tenant {} ({})"
                   .format(i.name, i.id,
                           archive_tenant.name, archive_tenant.id))
+            gc.images.update(i.id, owner=archive_tenant.id)
             if 'murano_image_info' in i:
                 print('Removing murano image properties from {}'
                       .format(i.id))
-                remove_property(i, 'murano_image_info')
+                gc.images.update(i.id, remove_props=['murano_image_info'])
 
     if image.visibility == 'public':
         print("Image {} ({}) already set public"
@@ -184,10 +169,11 @@ def archive(image_id, dry_run=True, tenant=None, community=False):
         print("Archiving image {} ({}) to tenant {} ({})"
               .format(image.name, image.id,
                       archive_tenant.name, archive_tenant.id))
-        change_tenant(image, archive_tenant)
+        gc.images.update(image.id, owner=archive_tenant.id)
+
         if 'murano_image_info' in image:
             print('Removing murano image properties from {}'.format(image.id))
-            remove_property(image, 'murano_image_info')
+            gc.images.update(i.id, remove_props=['murano_image_info'])
 
 
 @task
