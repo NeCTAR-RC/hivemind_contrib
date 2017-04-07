@@ -6,6 +6,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
     'os-client-config',
+    'keystoneauth1',
     'python-glanceclient',
     'python-keystoneclient',
     'python-novaclient',
