@@ -75,12 +75,12 @@ def remove_property(image, prop):
 def match(name, build, image):
     """return true if image's name == name, and nectar_build < build"""
     try:
-        if not image.properties['nectar_name'] == name:
+        if not image.get('nectar_name') == name:
             return False
     except KeyError:
         return False
     try:
-        if not int(image.properties[u'nectar_build']) < int(build):
+        if not int(image.get('nectar_build')) < int(build):
             return False
     except KeyError:
         return False
@@ -103,20 +103,21 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
     else:
         archive_tenant = get_archive_tenant(tenant)
 
-    images = client().images
+    gc = client()
     try:
-        image = images.get(image_id)
+        image = gc.images.get(image_id)
     except exc.HTTPNotFound:
         error("Image ID not found.")
     if not community:
         try:
-            name = image.properties['nectar_name']
-            build = (int(image.properties['nectar_build']))
+            name = image.nectar_name
+            build = (int(image.nectar_build))
         except KeyError:
             error("nectar_name or nectar_build not found for image.")
 
         m_check = partial(match, name, build)
-        matchingimages = filter(m_check, images.findall(owner=image.owner))
+        matchingimages = filter(m_check,
+            gc.images.list(filters={'owner': image.owner}))
     else:
         matchingimages = [image]
 
@@ -125,7 +126,7 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
             print("Would change ownership of image {} ({}) to tenant {} ({})"
                   .format(i.name, i.id,
                           archive_tenant.name, archive_tenant.id))
-            if 'murano_image_info' in i.properties:
+            if 'murano_image_info' in i:
                 print('Would remove murano image properties from {}'
                       .format(i.id))
         else:
@@ -133,12 +134,12 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
             print("Changing ownership of image {} ({}) to tenant {} ({})"
                   .format(i.name, i.id,
                           archive_tenant.name, archive_tenant.id))
-            if 'murano_image_info' in i.properties:
+            if 'murano_image_info' in i:
                 print('Removing murano image properties from {}'
                       .format(i.id))
                 remove_property(i, 'murano_image_info')
 
-    if image.is_public:
+    if image.visibility == 'public':
         print("Image {} ({}) already set public"
               .format(image.name, image.id))
     else:
@@ -148,7 +149,7 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
         else:
             print("Setting image {} ({}) to public"
                   .format(image.name, image.id))
-            image.update(is_public=True)
+            gc.images.update(image.id, visibility='public')
 
 
 @task
@@ -176,7 +177,7 @@ def archive(image_id, dry_run=True, tenant=None, community=False):
         print("Would archive image {} ({}) to tenant {} ({})"
               .format(image.name, image.id,
                       archive_tenant.name, archive_tenant.id))
-        if 'murano_image_info' in image.properties:
+        if 'murano_image_info' in image:
             print('Would remove murano image properties from {}'
                   .format(image.id))
     else:
@@ -184,7 +185,7 @@ def archive(image_id, dry_run=True, tenant=None, community=False):
               .format(image.name, image.id,
                       archive_tenant.name, archive_tenant.id))
         change_tenant(image, archive_tenant)
-        if 'murano_image_info' in image.properties:
+        if 'murano_image_info' in image:
             print('Removing murano image properties from {}'.format(image.id))
             remove_property(image, 'murano_image_info')
 
@@ -201,12 +202,16 @@ def public_audit():
     images = gc.images.list(visibility='public')
     public = [i for i in images if i['visibility'] == 'public']
 
-    table = PrettyTable(["ID", "Name", "Num running instances",
-                         "Boot count", "Last Boot"])
+    table = PrettyTable(["ID", "Name", "Official", "Build", "Running",
+                         "Boots", "Last Boot"])
+
+    table.align = 'l'
+    table.align['Running'] = 'r'
+    table.align['Boots'] = 'r'
 
     for i in public:
         sql = select([nova.instances_table])
-        where = [nova.instances_table.c.image_ref.like(i['id'])]
+        where = [nova.instances_table.c.image_ref.like(i.id)]
         sql = sql.where(*where).order_by(desc('created_at'))
         image_instances = db.execute(sql).fetchall()
         boot_count = len(image_instances)
@@ -216,7 +221,18 @@ def public_audit():
             last_boot = 'Never'
         instances = nova.all_servers(nc, image=i['id'])
 
-        table.add_row([i['id'], i['name'],
+        # NeCTAR-Images, NeCTAR-Images-Archive
+        official_projects = ['28eadf5ad64b42a4929b2fb7df99275c',
+                             'c9217cb583f24c7f96567a4d6530e405']
+        if i.owner in official_projects:
+            official = 'Y'
+        else:
+            official = 'N'
+
+        name = i.name[:70]
+        build = i.get('nectar_build', 'n/a')
+
+        table.add_row([i.id, name, official, build,
                        len(instances), boot_count, last_boot])
 
-    print(table.get_string(sortby="Num running instances", reversesort=True))
+    print(table.get_string(sortby="Running", reversesort=True))
