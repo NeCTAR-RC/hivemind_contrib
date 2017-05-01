@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ae5cdf2_5b826301",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-05-01T23:21:42Z",
+      "side": 1,
+      "message": "I used neutron as the example - bad choice :)",
+      "parentUuid": "1ae5cdf2_dbc75363",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ae5cdf2_7bb9dfe8",
         "filename": "hivemind_contrib/murano.py",
         "patchSetId": 5
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "1ae5cdf2_3b8d9732",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-05-01T23:21:42Z",
+      "side": 1,
+      "message": "I thought that initially, but decided against it. I really wanted it to be boolean for the \n\nif package.is_public !\u003d set_public:\n\nstatement later.",
+      "parentUuid": "1ae5cdf2_bbca876c",
+      "range": {
+        "startLine": 22,
+        "startChar": 41,
+        "endLine": 22,
+        "endChar": 48
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ae5cdf2_fbc40f61",
         "filename": "hivemind_contrib/murano.py",
         "patchSetId": 5
@@ -105,6 +153,30 @@
       "writtenOn": "2017-05-01T08:00:33Z",
       "side": 1,
       "message": "maybe call this set_private (and set_public)\n\nFrom the cli hivemind murano.public isn\u0027t clear what is does",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_7b871f10",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-05-01T23:21:42Z",
+      "side": 1,
+      "message": "I thought the doc string description would make it clear. Will rename anyway",
+      "parentUuid": "1ae5cdf2_fbc40f61",
       "range": {
         "startLine": 66,
         "startChar": 4,
