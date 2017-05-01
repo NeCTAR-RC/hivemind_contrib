@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_dbc75363",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-01T08:00:33Z",
+      "side": 1,
+      "message": "should we call this client like we do in other modules?",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_7bb9dfe8",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-01T08:00:33Z",
+      "side": 1,
+      "message": "could go in keystone class?\n\nAlso does it need to take a role argument? Do we care what role they have? If so maybe name it has_role_in_project",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_bbca876c",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-01T08:00:33Z",
+      "side": 1,
+      "message": "could have a default of true",
+      "range": {
+        "startLine": 22,
+        "startChar": 41,
+        "endLine": 22,
+        "endChar": 48
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_9bcdcb89",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-01T08:00:33Z",
+      "side": 1,
+      "message": "maybe have a variable called \u0027state\u0027, could have a default too",
+      "range": {
+        "startLine": 22,
+        "startChar": 29,
+        "endLine": 22,
+        "endChar": 39
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_fbc40f61",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-01T08:00:33Z",
+      "side": 1,
+      "message": "maybe call this set_private (and set_public)\n\nFrom the cli hivemind murano.public isn\u0027t clear what is does",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "c23330b144cda8fec27f4b91abd5a06b504f030a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
