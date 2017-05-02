@@ -39,16 +39,16 @@ def get_images_tenant(tenant_id_or_name, tenant_type):
     return tenant
 
 
-@decorators.configurable('communityarchivetenant')
+@decorators.configurable('contributedarchivetenant')
 @decorators.verbose
-def get_community_archive_tenant(tenant=None):
-    return get_images_tenant(tenant, 'communityarchivetenant')
+def get_contributed_archive_tenant(tenant=None):
+    return get_images_tenant(tenant, 'contributedarchivetenant')
 
 
-@decorators.configurable('communitytenant')
+@decorators.configurable('contributedtenant')
 @decorators.verbose
-def get_community_tenant(tenant=None):
-    return get_images_tenant(tenant, 'communitytenant')
+def get_contributed_tenant(tenant=None):
+    return get_images_tenant(tenant, 'contributedtenant')
 
 
 @decorators.configurable('archivetenant')
@@ -74,17 +74,17 @@ def match(name, build, image):
 
 @task
 @decorators.verbose
-def promote(image_id, dry_run=True, tenant=None, community=False):
+def promote(image_id, dry_run=True, tenant=None, contributed=False):
     """If the supplied image has nectar_name and nectar_build metadata, set
     to public. If there is an image with matching nectar_name and lower
     nectar_build, move that image to the <NECTAR_ARCHIVES> tenant.
-    If the community flag is set please specify the community tenant id.
+    If the contributed flag is set please specify the contributed tenant id.
     """
     if dry_run:
         print("Running in dry run mode")
 
-    if community:
-        archive_tenant = get_community_tenant(tenant)
+    if contributed:
+        archive_tenant = get_contributed_tenant(tenant)
     else:
         archive_tenant = get_archive_tenant(tenant)
 
@@ -93,7 +93,7 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
         image = gc.images.get(image_id)
     except exc.HTTPNotFound:
         error("Image ID not found.")
-    if not community:
+    if not contributed:
         try:
             name = image.nectar_name
             build = (int(image.nectar_build))
@@ -145,16 +145,16 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
 
 @task
 @decorators.verbose
-def archive(image_id, dry_run=True, tenant=None, community=False):
+def archive(image_id, dry_run=True, tenant=None, contributed=False):
     """Archive image by moving it to the <NECTAR_ARCHIVES> tenant.
-    If the community flag is set
-    please specify the community archive tenant id.
+    If the contributed flag is set
+    please specify the contributed archive tenant id.
     """
     if dry_run:
         print("Running in dry run mode")
 
-    if community:
-        archive_tenant = get_community_archive_tenant(tenant)
+    if contributed:
+        archive_tenant = get_contributed_archive_tenant(tenant)
     else:
         archive_tenant = get_archive_tenant(tenant)
 
