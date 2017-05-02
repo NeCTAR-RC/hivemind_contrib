@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_3b6837f5",
+        "filename": "hivemind_contrib/murano.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-02T08:07:43Z",
+      "side": 1,
+      "message": "still no point in the set_public arg, make it state and so it\u0027s flexible if there is ever a different state in the future. It just means this method isn\u0027t as flexible as it can be",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 25
+      },
+      "revId": "3b1aba45f56d7cba4391d817c7985832eb1f6065",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
