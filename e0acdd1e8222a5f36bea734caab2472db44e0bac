@@ -22,6 +22,30 @@
       "revId": "e0acdd1e8222a5f36bea734caab2472db44e0bac",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_1e5e09ea",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2017-05-03T07:13:28Z",
+      "side": 1,
+      "message": "Jenkins pep8 is killing me, that is why I did this:\npep8 hivemind_contrib/glance.py\nhivemind_contrib/glance.py:124:29: E128 continuation line under-indented for visual indent\nhivemind_contrib/glance.py:125:29: E128 continuation line under-indented for visual indent\nhivemind_contrib/glance.py:127:29: E124 closing bracket does not match visual indentation",
+      "parentUuid": "1ae5cdf2_de54a1cc",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 30
+      },
+      "revId": "e0acdd1e8222a5f36bea734caab2472db44e0bac",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
