@@ -1,17 +1,17 @@
 # hivemind_contrib/glance.py
+import datetime
 from fabric.api import task
 from fabric.utils import error
 from functools import partial
 import glanceclient
 from glanceclient import exc
+from hivemind import decorators
+from hivemind_contrib import keystone
+from hivemind_contrib import nova
 from keystoneclient import exceptions as ks_exc
 from prettytable import PrettyTable
 from sqlalchemy import desc
 from sqlalchemy.sql import select
-
-from hivemind import decorators
-from hivemind_contrib import keystone
-from hivemind_contrib import nova
 
 
 def client():
@@ -102,7 +102,7 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
 
         m_check = partial(match, name, build)
         matchingimages = filter(m_check,
-            gc.images.list(filters={'owner': image.owner}))
+                                gc.images.list(filters={'owner': image.owner}))
     else:
         matchingimages = [image]
 
@@ -118,7 +118,13 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
             print("Changing ownership of image {} ({}) to tenant {} ({})"
                   .format(i.name, i.id,
                           archive_tenant.name, archive_tenant.id))
-            gc.images.update(i.id, owner=archive_tenant.id)
+            now = datetime.datetime.now()
+            publish_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+            expire = now + datetime.timedelta(days=180)
+            expiry_date = expire.strftime("%Y-%m-%dT%H:%M:%SZ")
+            gc.images.update(i.id, owner=archive_tenant.id,
+                             published_at=publish_date,
+                             expires_at=expiry_date)
             if 'murano_image_info' in i:
                 print('Removing murano image properties from {}'
                       .format(i.id))
