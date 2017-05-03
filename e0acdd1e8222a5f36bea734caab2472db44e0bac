@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_de54a1cc",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-05-03T07:11:56Z",
+      "side": 1,
+      "message": "nitpicking here, but could you not start this on the previous line?",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 30
+      },
+      "revId": "e0acdd1e8222a5f36bea734caab2472db44e0bac",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
