@@ -46,6 +46,30 @@
       "revId": "e0acdd1e8222a5f36bea734caab2472db44e0bac",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_de02e1b3",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2017-05-03T07:33:22Z",
+      "side": 1,
+      "message": "haha\n\nset your dates as variable before hand, and it\u0027ll make it easier",
+      "parentUuid": "1ae5cdf2_1e5e09ea",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 30
+      },
+      "revId": "e0acdd1e8222a5f36bea734caab2472db44e0bac",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
