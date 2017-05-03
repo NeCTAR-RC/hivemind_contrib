@@ -8,7 +8,7 @@ from keystoneclient import exceptions as ks_exc
 from prettytable import PrettyTable
 from sqlalchemy import desc
 from sqlalchemy.sql import select
-
+import datetime
 from hivemind import decorators
 from hivemind_contrib import keystone
 from hivemind_contrib import nova
@@ -102,7 +102,7 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
 
         m_check = partial(match, name, build)
         matchingimages = filter(m_check,
-            gc.images.list(filters={'owner': image.owner}))
+                                gc.images.list(filters={'owner': image.owner}))
     else:
         matchingimages = [image]
 
@@ -118,7 +118,14 @@ def promote(image_id, dry_run=True, tenant=None, community=False):
             print("Changing ownership of image {} ({}) to tenant {} ({})"
                   .format(i.name, i.id,
                           archive_tenant.name, archive_tenant.id))
-            gc.images.update(i.id, owner=archive_tenant.id)
+            now = datetime.datetime.now()
+            expiry_date = now + datetime.timedelta(days=180)
+            gc.images.update(
+                            i.id, owner=archive_tenant.id,
+                            published_at=now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                            expires_at=expiry_date.strftime(
+                                                    "%Y-%m-%dT%H:%M:%SZ")
+                            )
             if 'murano_image_info' in i:
                 print('Removing murano image properties from {}'
                       .format(i.id))
