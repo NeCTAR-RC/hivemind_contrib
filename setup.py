@@ -62,6 +62,7 @@ setup(
       rcshibboleth = hivemind_contrib.rcshibboleth
       repo = hivemind_contrib.repo
       reporting = hivemind_contrib.reporting
+      reports = hivemind_contrib.reports
       security = hivemind_contrib.security
       show = hivemind_contrib.show
       swift = hivemind_contrib.swift
