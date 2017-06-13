@@ -4,8 +4,7 @@ import random
 import string
 
 from fabric.api import task
-from keystoneauth1 import loading
-from keystoneauth1 import session
+
 from keystoneclient import client as keystone_client
 from keystoneclient.exceptions import NotFound
 from prettytable import PrettyTable
@@ -21,13 +20,26 @@ def get_session(username=None, password=None, tenant_name=None, auth_url=None):
     password = os.environ.get('OS_PASSWORD', password)
     tenant_name = os.environ.get('OS_TENANT_NAME', tenant_name)
 
-    loader = loading.get_plugin_loader('password')
-    auth = loader.load_from_options(auth_url=auth_url,
-                                    username=username,
+    try:
+        from keystoneauth1 import loading
+        from keystoneauth1 import session
+
+        loader = loading.get_plugin_loader('password')
+        auth = loader.load_from_options(auth_url=auth_url,
+                                        username=username,
+                                        password=password,
+                                        project_name=tenant_name,
+                                        user_domain_id='default',
+                                        project_domain_id='default')
+    except ImportError:
+        from keystoneclient.auth import identity
+        from keystoneclient import session
+
+        auth = identity.v3.Password(username=username,
                                     password=password,
                                     project_name=tenant_name,
-                                    user_domain_id='default',
-                                    project_domain_id='default')
+                                    auth_url=auth_url)
+
     return session.Session(auth=auth)
 
 
