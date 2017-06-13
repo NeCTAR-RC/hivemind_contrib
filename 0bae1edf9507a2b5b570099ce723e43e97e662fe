@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_706e56cb",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-06-13T06:19:21Z",
+      "side": 1,
+      "message": "usually you would do this at the top with the other imports and if import error then set loading \u003d None\n\nThen when you need to use it check if loading is None or not\n\nThat was its easier to see what\u0027s imported in the module etc.\n\nThe older way can prob just be imported no matter what if it\u0027s still valid in newer versions too",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 41
+      },
+      "revId": "0bae1edf9507a2b5b570099ce723e43e97e662fe",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
