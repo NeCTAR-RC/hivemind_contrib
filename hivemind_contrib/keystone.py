@@ -1,16 +1,26 @@
 import collections
 import os
 import random
+import re
 import string
 
 from fabric.api import task
-from keystoneauth1 import loading
-from keystoneauth1 import session
+
 from keystoneclient import client as keystone_client
 from keystoneclient.exceptions import NotFound
 from prettytable import PrettyTable
 
 from hivemind import decorators
+
+import six.moves.urllib.parse as urlparse
+
+try:
+    from keystoneauth1 import loading
+    from keystoneauth1 import session
+except ImportError:
+    from keystoneclient.auth import identity
+    from keystoneclient import session
+    loading = None
 
 
 @decorators.configurable('nectar.openstack.client')
@@ -21,13 +31,26 @@ def get_session(username=None, password=None, tenant_name=None, auth_url=None):
     password = os.environ.get('OS_PASSWORD', password)
     tenant_name = os.environ.get('OS_TENANT_NAME', tenant_name)
 
-    loader = loading.get_plugin_loader('password')
-    auth = loader.load_from_options(auth_url=auth_url,
-                                    username=username,
-                                    password=password,
-                                    project_name=tenant_name,
-                                    user_domain_id='default',
-                                    project_domain_id='default')
+    auth_args = {
+        'auth_url': auth_url,
+        'username': username,
+        'password': password,
+        'project_name': tenant_name,
+        'user_domain_name': 'default',
+        'project_domain_name': 'default',
+    }
+
+    if loading:
+        loader = loading.get_plugin_loader('password')
+        auth = loader.load_from_options(**auth_args)
+    else:
+        path = urlparse.urlparse(auth_url).path.lower()
+        # Add /v3 if the URL isn't suffixed with the version
+        # or keystoneclient fails with a 404
+        if not re.match(r'/v\d(\.\d)?/?$', path):
+            auth_args['auth_url'] = auth_url + '/v3'
+        auth = identity.v3.Password(**auth_args)
+
     return session.Session(auth=auth)
 
 
