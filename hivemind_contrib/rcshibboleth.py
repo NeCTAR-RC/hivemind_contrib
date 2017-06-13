@@ -34,7 +34,9 @@ users = Table('user', metadata,
               Column('displayname', String(250)),
               Column('email', String(250)),
               Column('state', Enum("new", "registered", "created")),
-              Column('terms', DateTime()),
+              Column('terms_accepted_at', DateTime()),
+              Column('registered_at', DateTime()),
+              Column('terms_version', String(64)),
               Column('shibboleth_attributes', PickleType))
 
 
