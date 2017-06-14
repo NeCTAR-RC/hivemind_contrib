@@ -205,7 +205,7 @@ def remove_project_role(project, user, role):
     keystone = client()
     project = get_project(keystone, project)
     user = get_user(keystone, user)
-    role = keystone.roles.find(name='Member')
+    role = keystone.roles.find(name=role)
     keystone.roles.revoke(user=user.id, project=project.id, role=role.id)
     print_members(keystone, project)
 
