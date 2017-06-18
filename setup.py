@@ -11,6 +11,7 @@ requirements = [
     'python-novaclient',
     'python-swiftclient',
     'python-neutronclient',
+    'python-muranoclient',
     'prettytable',
     'hivemind',
     'sqlalchemy',
