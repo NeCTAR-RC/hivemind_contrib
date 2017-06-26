@@ -195,7 +195,7 @@ def print_members(keystone, project):
             users[ra.user['id']]['roles'] = [ra.role['name']]
     for user_id, attrs in users.items():
         table.add_row([user_id, attrs['name'], ", ".join(attrs['roles'])])
-    print("Members of %s:" % project.name)
+    print("Members of %s (%s):" % (project.name, project.id))
     print(str(table))
 
 
