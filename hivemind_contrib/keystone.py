@@ -334,7 +334,6 @@ def add_bot_account(project, user, suffix='bot'):
     keystone = client()
     project = get_project(keystone, project)
     real_user = get_user(keystone, user)
-    bot_role = keystone.roles.find(name='bot_user')
     bot_name = "{name}_{suffix}".format(name=project.name, suffix=suffix)
     password = generate_random_password()
     new_user = keystone.users.create(bot_name, password=password, email=None,
@@ -348,6 +347,5 @@ def add_bot_account(project, user, suffix='bot'):
     table.add_row([new_user.id, new_user.name, password,
                    real_user.name, real_user.id])
     print(str(table))
-
-    project.add_user(new_user, bot_role)
+    add_project_role(project, new_user, 'bot_user')
     user_projects(new_user)
