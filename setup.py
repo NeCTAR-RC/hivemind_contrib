@@ -47,6 +47,7 @@ setup(
       # -*- Entry points: -*-
 
       [hivemind.modules]
+      allocations = hivemind_contrib.allocations
       gerrit = hivemind_contrib.gerrit
       glance = hivemind_contrib.glance
       iptables = hivemind_contrib.iptables
