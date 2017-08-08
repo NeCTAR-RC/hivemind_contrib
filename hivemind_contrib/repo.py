@@ -42,6 +42,11 @@ def cp_package(package, source, dest):
         packages = fapi.run("reprepro listfilter %s '$Source (==%s)' | "
                             "awk '{print $2}' | sort | uniq" % (source,
                                                                 package))
+        if packages == '':
+            print "Unable to find packages with source name '%s'" % package
+            print "Find source name from debian/control file in source"
+            return
+
         fapi.run("reprepro copy %s %s %s" %
             (dest, source, " ".join(packages.splitlines())))
 
