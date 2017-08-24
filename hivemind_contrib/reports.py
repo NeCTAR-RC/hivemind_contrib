@@ -12,7 +12,7 @@ def grant_access(user):
     """
     ksclient = keystone.client()
     user = keystone.get_user(ksclient, user)
-    keystone.add_project_role(user.default_project_id, user.id, ROLE)
+    keystone.add_project_roles(user.default_project_id, user.id, [ROLE])
     keystone.print_members(ksclient, user.default_project_id)
 
 
@@ -23,5 +23,5 @@ def revoke_access(user):
     """
     ksclient = keystone.client()
     user = keystone.get_user(ksclient, user)
-    keystone.remove_project_role(user.default_project_id, user.id, ROLE)
+    keystone.remove_project_roles(user.default_project_id, user.id, [ROLE])
     keystone.print_members(ksclient, user.default_project_id)

@@ -215,21 +215,27 @@ def has_role_in_project(project, user, role):
     return False
 
 
-def add_project_role(project, user, role):
+def add_project_roles(project, user, roles):
+    """Add role or roles to user for project
+    """
     keystone = client()
     project = get_project(keystone, project)
     user = get_user(keystone, user)
-    role = keystone.roles.find(name=role)
-    keystone.roles.grant(user=user.id, project=project.id, role=role.id)
+    for role in roles:
+        role = keystone.roles.find(name=role)
+        keystone.roles.grant(user=user.id, project=project.id, role=role.id)
     print_members(keystone, project)
 
 
-def remove_project_role(project, user, role):
+def remove_project_roles(project, user, roles):
+    """delete role or roles from user for project
+    """
     keystone = client()
     project = get_project(keystone, project)
     user = get_user(keystone, user)
-    role = keystone.roles.find(name=role)
-    keystone.roles.revoke(user=user.id, project=project.id, role=role.id)
+    for role in roles:
+        role = keystone.roles.find(name=role)
+        keystone.roles.revoke(user=user.id, project=project.id, role=role.id)
     print_members(keystone, project)
 
 
@@ -238,7 +244,7 @@ def remove_project_role(project, user, role):
 def add_project_member(project, user):
     """Add Member role to user for project
     """
-    add_project_role(project, user, 'Member')
+    add_project_roles(project, user, ['Member'])
 
 
 @task
@@ -253,7 +259,7 @@ def add_tenant_member(project, user):
 def remove_project_member(project, user):
     """Remove Member role to user for project
     """
-    remove_project_role(project, user, 'Member')
+    remove_project_roles(project, user, ['Member'])
 
 
 @task
@@ -268,7 +274,7 @@ def remove_tenant_member(project, user):
 def add_tenant_manager(project, user):
     """Add TenantManager role to user for tenant
     """
-    add_project_role(project, user, 'TenantManager')
+    add_project_roles(project, user, ['TenantManager'])
 
 
 @task
@@ -276,7 +282,7 @@ def add_tenant_manager(project, user):
 def remove_tenant_manager(project, user):
     """Remove TenantManager role to user for tenant
     """
-    remove_project_role(project, user, 'TenantManager')
+    remove_project_roles(project, user, ['TenantManager'])
 
 
 @task
@@ -347,5 +353,5 @@ def add_bot_account(project, user, suffix='bot'):
     table.add_row([new_user.id, new_user.name, password,
                    real_user.name, real_user.id])
     print(str(table))
-    add_project_role(project, new_user, 'bot_user')
+    add_project_roles(project, new_user, ['bot_user'])
     user_projects(new_user)
