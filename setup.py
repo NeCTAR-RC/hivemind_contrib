@@ -53,6 +53,7 @@ setup(
       iptables = hivemind_contrib.iptables
       keystone = hivemind_contrib.keystone
       libvirt = hivemind_contrib.libvirt
+      melbourne = hivemind_contrib.melbourne
       murano = hivemind_contrib.murano
       nova = hivemind_contrib.nova
       ospurge = hivemind_contrib.ospurge

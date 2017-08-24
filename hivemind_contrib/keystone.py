@@ -215,21 +215,27 @@ def has_role_in_project(project, user, role):
     return False
 
 
-def add_project_role(project, user, role):
+def add_project_role(project, user, roles):
+    """Add role or roles to user for project
+    """
     keystone = client()
     project = get_project(keystone, project)
     user = get_user(keystone, user)
-    role = keystone.roles.find(name=role)
-    keystone.roles.grant(user=user.id, project=project.id, role=role.id)
+    for role in roles:
+        role = keystone.roles.find(name=role)
+        keystone.roles.grant(user=user.id, project=project.id, role=role.id)
     print_members(keystone, project)
 
 
-def remove_project_role(project, user, role):
+def remove_project_role(project, user, roles):
+    """delete role or roles to user for project
+    """
     keystone = client()
     project = get_project(keystone, project)
     user = get_user(keystone, user)
-    role = keystone.roles.find(name=role)
-    keystone.roles.revoke(user=user.id, project=project.id, role=role.id)
+    for role in roles:
+        role = keystone.roles.find(name=role)
+        keystone.roles.revoke(user=user.id, project=project.id, role=role.id)
     print_members(keystone, project)
 
 
