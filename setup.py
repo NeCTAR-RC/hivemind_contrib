@@ -6,6 +6,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
     'os-client-config',
+    'python-designateclient',
     'python-glanceclient',
     'python-keystoneclient',
     'python-novaclient',
@@ -48,6 +49,7 @@ setup(
 
       [hivemind.modules]
       allocations = hivemind_contrib.allocations
+      designate = hivemind_contrib.designate
       gerrit = hivemind_contrib.gerrit
       glance = hivemind_contrib.glance
       iptables = hivemind_contrib.iptables
