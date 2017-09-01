@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_c87e82e4",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-09-01T03:48:37Z",
+      "side": 1,
+      "message": "you can also filter by role here",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 71
+      },
+      "revId": "d450e192d33a01630dd48dc6c958ca3832118d07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_e8833eca",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-09-01T03:48:37Z",
+      "side": 1,
+      "message": "Nectar",
+      "range": {
+        "startLine": 126,
+        "startChar": 18,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "d450e192d33a01630dd48dc6c958ca3832118d07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_08894aeb",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-09-01T03:48:37Z",
+      "side": 1,
+      "message": "Nectar",
+      "range": {
+        "startLine": 142,
+        "startChar": 13,
+        "endLine": 142,
+        "endChar": 19
+      },
+      "revId": "d450e192d33a01630dd48dc6c958ca3832118d07",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
