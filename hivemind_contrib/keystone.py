@@ -179,9 +179,11 @@ def clear_user_metadata(user, key):
     set_user_metadata(user, key, None)
 
 
-def print_members(keystone, project):
-    table = PrettyTable(["ID", "Username", "Roles"])
+def get_members(keystone, project):
+    """get members of a project
 
+    :return: {userid: { username, [projectname, ...] } for each user
+    """
     role_assignments = keystone.role_assignments.list(project=project.id,
                                                       include_names=True)
     users = {}
@@ -193,6 +195,14 @@ def print_members(keystone, project):
             users[ra.user['id']] = {}
             users[ra.user['id']]['name'] = ra.user['name']
             users[ra.user['id']]['roles'] = [ra.role['name']]
+    return(users)
+
+
+def print_members(keystone, project):
+    table = PrettyTable(["ID", "Username", "Roles"])
+
+    users = get_members(keystone, project)
+
     for user_id, attrs in users.items():
         table.add_row([user_id, attrs['name'], ", ".join(attrs['roles'])])
     print("Members of %s (%s):" % (project.name, project.id))
@@ -215,7 +225,7 @@ def has_role_in_project(project, user, role):
     return False
 
 
-def add_project_roles(project, user, roles):
+def add_project_roles(project, user, roles, **kwargs):
     """Add role or roles to user for project
     """
     keystone = client()
@@ -224,10 +234,11 @@ def add_project_roles(project, user, roles):
     for role in roles:
         role = keystone.roles.find(name=role)
         keystone.roles.grant(user=user.id, project=project.id, role=role.id)
-    print_members(keystone, project)
+    if 'quiet' not in kwargs:
+        print_members(keystone, project)
 
 
-def remove_project_roles(project, user, roles):
+def remove_project_roles(project, user, roles, **kwargs):
     """delete role or roles from user for project
     """
     keystone = client()
@@ -235,7 +246,35 @@ def remove_project_roles(project, user, roles):
     user = get_user(keystone, user)
     for role in roles:
         role = keystone.roles.find(name=role)
-        keystone.roles.revoke(user=user.id, project=project.id, role=role.id)
+        try:
+            keystone.roles.revoke(user=user.id, project=project.id, role=role.id)
+        except NotFound:
+            pass
+    if 'quiet' not in kwargs:
+        print_members(keystone, project)
+
+
+def add_project_all_users_roles(project, roles):
+    """Add role or roles to all users for project
+    """
+    keystone = client()
+    project = get_project(keystone, project)
+    users = get_members(keystone, project)
+    for user in users:
+        u = keystone.users.get(user)
+        add_project_roles(project, u, roles, quiet=1)
+    print_members(keystone, project)
+
+
+def remove_project_all_users_roles(project, roles):
+    """delete role or roles from all users for project
+    """
+    keystone = client()
+    project = get_project(keystone, project)
+    users = get_members(keystone, project)
+    for user in users:
+        u = keystone.users.get(user)
+        remove_project_roles(project, u, roles, quiet=1)
     print_members(keystone, project)
 
 
