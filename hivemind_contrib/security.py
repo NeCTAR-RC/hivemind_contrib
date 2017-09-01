@@ -18,6 +18,8 @@ except ImportError:
 @decorators.configurable('freshdesk')
 @decorators.verbose
 def get_freshdesk_config(api_key=None,
+                         email_config_id='6000071619',
+                         group_id='6000144734',
                          domain='dhdnectar.freshdesk.com'):
     """fetch freshdesk API details from config file"""
     msg = '\n'.join([
@@ -36,26 +38,24 @@ def get_freshdesk_config(api_key=None,
 
     if api_key is None:
         error(msg)
-    return (domain, api_key)
+
+    config = {'api_key': api_key,
+              'email_config_id': email_config_id,
+              'group_id': group_id,
+              'domain': domain}
+
+    return config
 
 
-def get_freshdesk_client():
-    domain, api_key = get_freshdesk_config()
+def get_freshdesk_client(domain, api_key):
     if not API:
         error("You will need to install python-freshdesk to use this function")
     return API(domain, api_key)
 
 
-def get_ticket_recipients(instance):
+def get_tenant_managers_emails(kc, instance):
     """Build a list of email addresses"""
     email_addresses = []
-
-    kc = keystone.client()
-    user = keystone.get_user(kc, instance.user_id)
-    if user.email:
-        email_addresses.append(user.email)
-
-    # Add tenant members to ticket recipient list
     project = keystone.get_project(kc, instance.tenant_id)
     ras = kc.role_assignments.list(project=project, include_names=True)
     for ra in ras:
@@ -72,7 +72,8 @@ def lock_instance(instance_id, dry_run=True):
     if dry_run:
         print('Running in dry-run mode (use --no-dry-run for realsies)')
 
-    fd = get_freshdesk_client()
+    fd_config = get_freshdesk_config()
+    fd = get_freshdesk_client(fd_config['domain'], fd_config['api_key'])
     nc = nova.client()
     kc = keystone.client()
     try:
@@ -80,6 +81,24 @@ def lock_instance(instance_id, dry_run=True):
     except n_exc.NotFound:
         error('Instance {} not found'.format(instance_id))
 
+    # Pause and lock instance
+    if dry_run:
+        if instance.status != 'ACTIVE':
+            print('Instance state {}, will not pause'.format(instance.status))
+        else:
+            print('Would pause and lock instance {}'.format(instance_id))
+    else:
+        if instance.status != 'ACTIVE':
+            print('Instance not in ACTIVE state ({}), skipping'
+                  .format(instance.status))
+        else:
+            print('Pausing instance {}'.format(instance_id))
+            instance.pause()
+
+        print('Locking instance {}'.format(instance_id))
+        instance.lock()
+
+    # Process ticket
     ticket_id = None
     ticket_url = instance.metadata.get('security_ticket')
     if ticket_url:
@@ -96,19 +115,22 @@ def lock_instance(instance_id, dry_run=True):
     else:
         project = keystone.get_project(kc, instance.tenant_id)
         user = keystone.get_user(kc, instance.user_id)
-        email_addresses = get_ticket_recipients(instance)
+        email = user.email or 'no-reply@nectar.org.au'
+        name = getattr(user, 'full_name', email)
+        cc_emails = get_tenant_managers_emails(kc, instance)
 
         # Create ticket if none exist, and add instance info
-        subject = 'Security incident for instance {}'.format(instance_id)
+        subject = 'Security incident for instance {} ({})'.format(
+            instance.name, instance_id)
         body = '<br />\n'.join([
             'Dear NeCTAR Research Cloud User, ',
             '',
             '',
             'We have reason to believe that cloud instance: '
-            '<b>{} ({})</b>'.format(instance.name, instance.id),
+            '<b>{} ({})</b>'.format(instance.name, instance_id),
             'in the project <b>{}</b>'.format(project.name),
-            'created by <b>{}</b>'.format(user.email),
-            'has been involved in a security incident.',
+            'created by <b>{}</b>'.format(email),
+            'has been involved in a security incident, and has been locked.',
             '',
             'We have opened this helpdesk ticket to track the details and ',
             'the progress of the resolution of this issue.',
@@ -122,7 +144,8 @@ def lock_instance(instance_id, dry_run=True):
 
         if dry_run:
             print('Would create ticket with details:')
-            print('  To:      {}'.format(email_addresses))
+            print('  To:      {} <{}>'.format(name, email))
+            print('  CC:      {}'.format(', '.join(cc_emails)))
             print('  Subject: {}'.format(subject))
 
             print('Would add instance details to ticket:')
@@ -130,13 +153,16 @@ def lock_instance(instance_id, dry_run=True):
             print(generate_instance_sg_rules_info(instance_id))
         else:
             print('Creating new Freshdesk ticket')
-            ticket = fd.tickets.create_ticket(
+            ticket = fd.tickets.create_outbound_email(
+                name=name,
                 description=body,
                 subject=subject,
-                email='no-reply@rc.nectar.org.au',
-                cc_emails=email_addresses,
+                email=email,
+                cc_emails=cc_emails,
+                email_config_id=int(fd_config['email_config_id']),
+                group_id=int(fd_config['group_id']),
                 priority=4,
-                status=6,
+                status=2,
                 tags=['security'])
             ticket_id = ticket.id
 
@@ -160,33 +186,6 @@ def lock_instance(instance_id, dry_run=True):
             body = '<br/><br/>'.join([instance_info, sg_info])
             fd.comments.create_note(ticket_id, body)
 
-    if dry_run:
-        if instance.status != 'ACTIVE':
-            print('Instance state {}, will not pause'.format(instance.status))
-        else:
-            print('Would pause and lock instance {}'.format(instance_id))
-
-        print('Would update ticket with action')
-    else:
-        # Pause and lock
-        if instance.status != 'ACTIVE':
-            print('Instance not in ACTIVE state ({}), skipping'
-                  .format(instance.status))
-        else:
-            print('Pausing instance {}'.format(instance_id))
-            instance.pause()
-
-        print('Locking instance {}'.format(instance_id))
-        instance.lock()
-
-        # Add reply to user
-        email_addresses = get_ticket_recipients(instance)
-        print('Replying to ticket with action details')
-        action = 'Instance <b>{} ({})</b> has been <b>paused and locked</b> '\
-                 'pending further investigation'\
-                 .format(instance.name, instance_id)
-        fd.comments.create_reply(ticket_id, action, cc_emails=email_addresses)
-
 
 @task
 @decorators.verbose
@@ -195,7 +194,8 @@ def unlock_instance(instance_id, dry_run=True):
     if dry_run:
         print('Running in dry-run mode (use --no-dry-run for realsies)')
 
-    fd = get_freshdesk_client()
+    fd_config = get_freshdesk_config()
+    fd = get_freshdesk_client(fd_config['domain'], fd_config['api_key'])
     nc = nova.client()
     try:
         instance = nc.servers.get(instance_id)
@@ -226,11 +226,10 @@ def unlock_instance(instance_id, dry_run=True):
         instance.unlock()
 
         # Add reply to user
-        email_addresses = get_ticket_recipients(instance)
         print('Replying to ticket with action details')
         action = 'Instance <b>{} ({})</b> has been <b>unpaused and '\
                  'unlocked</b>'.format(instance.name, instance_id)
-        fd.comments.create_reply(ticket_id, action, cc_emails=email_addresses)
+        fd.comments.create_reply(ticket_id, action)
 
         # Set ticket status=resolved
         print('Setting ticket #{} status to resolved'.format(ticket_id))
@@ -244,7 +243,8 @@ def delete_instance(instance_id, dry_run=True):
     if dry_run:
         print('Running in dry-run mode (use --no-dry-run for realsies)')
 
-    fd = get_freshdesk_client()
+    fd_config = get_freshdesk_config()
+    fd = get_freshdesk_client(fd_config['domain'], fd_config['api_key'])
     nc = nova.client()
     try:
         instance = nc.servers.get(instance_id)
