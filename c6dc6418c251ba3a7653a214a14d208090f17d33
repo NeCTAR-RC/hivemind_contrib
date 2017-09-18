@@ -22,6 +22,30 @@
       "revId": "c6dc6418c251ba3a7653a214a14d208090f17d33",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_f29fa501",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2017-09-18T04:48:41Z",
+      "side": 1,
+      "message": "I did initially but from talking to others thought that the less change the better (and that more generic function didn\u0027t necessarily mean a better funcion) - and if I did wouldn\u0027t the next question be why not an array of [project,[users]] ?\n... although now you\u0027ve asked I\u0027m reconsidering my whole approach ;-)",
+      "parentUuid": "1ae5cdf2_72771503",
+      "range": {
+        "startLine": 228,
+        "startChar": 31,
+        "endLine": 228,
+        "endChar": 35
+      },
+      "revId": "c6dc6418c251ba3a7653a214a14d208090f17d33",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
