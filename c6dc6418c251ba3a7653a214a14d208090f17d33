@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_72771503",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2017-09-18T01:39:25Z",
+      "side": 1,
+      "message": "have you thought about changing this method to accept users instead?",
+      "range": {
+        "startLine": 228,
+        "startChar": 31,
+        "endLine": 228,
+        "endChar": 35
+      },
+      "revId": "c6dc6418c251ba3a7653a214a14d208090f17d33",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
