@@ -39,6 +39,7 @@ def upgrade(exclude="", verbose=False, upgrade_method=apt.upgrade,
     # one hour command timeout, one minute connect)
     with settings(command_timeout=3600, timeout=60):
         exclude = exclude.split(";")
+        execute(apt.autoremove)
         execute(apt.update)
         packages = execute(apt.verify)
         apt.filter_packages(packages, exclude)
