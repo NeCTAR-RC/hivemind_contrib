@@ -17,7 +17,7 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "juno"
-OPENSTACK_RELEASES = ['ocata', 'newton', 'mitaka', 'liberty', 'kilo', 'juno']
+OPENSTACK_RELEASES = ['pike', 'ocata', 'newton', 'mitaka', 'liberty', 'kilo']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -57,13 +57,6 @@ def build_trusted():
 
 
 mirrors = {
-    'juno': [
-        "deb " + CLOUD_ARCHIVE + " trusty-updates/juno main",
-        "deb " + NECTAR_REPO + " trusty main",
-        "deb " + NECTAR_REPO + " trusty-juno main",
-        "deb " + NECTAR_REPO + " trusty-juno-testing main",
-        "deb " + NECTAR_REPO + " trusty-testing main",
-        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
     'kilo': [
         "deb " + CLOUD_ARCHIVE + " trusty-updates/kilo main",
         "deb " + NECTAR_REPO + " trusty main",
@@ -103,6 +96,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " xenial main",
         "deb " + NECTAR_REPO + " xenial-ocata main",
         "deb " + NECTAR_REPO + " xenial-ocata-testing main",
+        "deb " + NECTAR_REPO + " xenial-testing main",
+        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
+    'pike': [
+        "deb " + CLOUD_ARCHIVE + " xenial-updates/pike main",
+        "deb " + NECTAR_REPO + " xenial main",
+        "deb " + NECTAR_REPO + " xenial-pike main",
+        "deb " + NECTAR_REPO + " xenial-pike-testing main",
         "deb " + NECTAR_REPO + " xenial-testing main",
         "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
 }
