@@ -41,7 +41,7 @@ allocations = Table('rcallocation_allocationrequest', metadata,
               Column('status', String(1)),
               Column('created_by', String(100)),
               Column('submit_date', Date()),
-              Column('project_name', String(200)),
+              Column('project_description', String(200)),
               Column('contact_email', String(75)),
               Column('start_date', Date()),
               Column('end_date', Date()),
@@ -58,14 +58,12 @@ allocations = Table('rcallocation_allocationrequest', metadata,
               Column('for_percentage_2', INTEGER(11), nullable=True),
               Column('field_of_research_3', String(6), nullable=True),
               Column('for_percentage_3', INTEGER(11), nullable=True),
-              Column('tenant_uuid', String(36), nullable=True),
+              Column('project_id', String(36), nullable=True),
               Column('instance_quota', INTEGER(11), nullable=True),
               Column('ram_quota', INTEGER(11), nullable=True),
               Column('core_quota', INTEGER(11), nullable=True),
-              Column('tenant_name', String(64), nullable=True),
+              Column('project_name', String(64), nullable=True),
               Column('status_explanation', LONGTEXT, nullable=True),
-              Column('volume_zone', String(64), nullable=True),
-              Column('object_storage_zone', String(64), nullable=True),
               Column('approver_email', String(75), nullable=True),
               Column('modified_time', DateTime, nullable=True),
               Column('parent_request_id', INTEGER(11), nullable=True),
@@ -96,7 +94,7 @@ def get_status_label(status):
 def print_allocations(allocation_list):
     """Print an allocations list table"""
     table = PrettyTable(['ID', 'Submitted', 'Expiry', 'Modified', 'Status',
-                         'Tenant Name', 'Contact', 'Tenant ID', 'Parent'])
+                         'Project Name', 'Contact', 'Tenant ID', 'Parent'])
     table.align = 'l'
     for allocation in allocation_list:
         table.add_row([
@@ -105,9 +103,9 @@ def print_allocations(allocation_list):
             allocation[allocations.c.end_date],
             allocation[allocations.c.modified_time],
             get_status_label(allocation[allocations.c.status]),
-            allocation[allocations.c.tenant_name],
+            allocation[allocations.c.project_name],
             allocation[allocations.c.contact_email],
-            allocation[allocations.c.tenant_uuid],
+            allocation[allocations.c.project_id],
             allocation[allocations.c.parent_request_id]])
     print(table)
 
