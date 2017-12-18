@@ -94,7 +94,7 @@ def get_status_label(status):
 def print_allocations(allocation_list):
     """Print an allocations list table"""
     table = PrettyTable(['ID', 'Submitted', 'Expiry', 'Modified', 'Status',
-                         'Project Name', 'Contact', 'Tenant ID', 'Parent'])
+                         'Project Name', 'Project ID', 'Contact', 'Parent'])
     table.align = 'l'
     for allocation in allocation_list:
         table.add_row([
@@ -104,8 +104,8 @@ def print_allocations(allocation_list):
             allocation[allocations.c.modified_time],
             get_status_label(allocation[allocations.c.status]),
             allocation[allocations.c.project_name],
-            allocation[allocations.c.contact_email],
             allocation[allocations.c.project_id],
+            allocation[allocations.c.contact_email],
             allocation[allocations.c.parent_request_id]])
     print(table)
 
@@ -132,7 +132,7 @@ def search(id=None, name=None, email=None):
         where.append(allocations.c.id == id)
     if name:
         where.append(or_(allocations.c.project_name.like('%%%s%%' % name),
-                     (allocations.c.tenant_name.like('%%%s%%' % name))))
+                     (allocations.c.project_description.like('%%%s%%' % name))))
     if email:
         where.append(allocations.c.contact_email.like('%%%s%%' % email))
 
