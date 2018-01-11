@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de459ec4_da865035",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-11T00:34:36Z",
+      "side": 1,
+      "message": "this has finally been merged upstream so no need for our local copy",
+      "range": {
+        "startLine": 54,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 73
+      },
+      "revId": "88718f279fa8445e52138c187c36930dbecc9f9c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7985980b_e63f8c41",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-11T00:34:36Z",
+      "side": 1,
+      "message": "Can getting the config just live in the get_freshdesk_client method, would make things simpler and don\u0027t see them being used separately",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 72
+      },
+      "revId": "88718f279fa8445e52138c187c36930dbecc9f9c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
