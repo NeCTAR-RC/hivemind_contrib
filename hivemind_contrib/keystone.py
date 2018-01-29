@@ -179,43 +179,65 @@ def clear_user_metadata(user, key):
     set_user_metadata(user, key, None)
 
 
-def get_members(keystone, project):
+def get_members(keystone, project, roles=None):
     """get members of a project
 
     :return: {userid: { username, [projectname, ...] } for each user
     """
-    role_assignments = keystone.role_assignments.list(project=project.id,
-                                                      include_names=True)
+    if not roles:
+        role_assignments = keystone.role_assignments.list(project=project.id,
+                                                          include_names=True)
+    else:
+        role_assignments = []
+        for role in roles:
+            role_assignments.extend(keystone.role_assignments.list(
+                project=project.id, include_names=True, role=role))
+
     users = {}
     for ra in role_assignments:
-
         if ra.user['id'] in users:
             users[ra.user['id']]['roles'].append(ra.role['name'])
         else:
             users[ra.user['id']] = {}
             users[ra.user['id']]['name'] = ra.user['name']
             users[ra.user['id']]['roles'] = [ra.role['name']]
+            users[ra.user['id']]['project_name']\
+                    = ra.scope['project']['name']
     return(users)
 
 
-def print_members(keystone, project):
-    table = PrettyTable(["ID", "Username", "Roles"])
+def print_members(keystone, project, roles=None):
+    table = PrettyTable(["ID", "Username", "Roles", "Project_Name"])
 
-    users = get_members(keystone, project)
+    users = get_members(keystone, project, roles)
 
     for user_id, attrs in users.items():
-        table.add_row([user_id, attrs['name'], ", ".join(attrs['roles'])])
+        table.add_row([user_id, attrs['name'], ", ".join(attrs['roles']),
+                      attrs['project_name']])
     print("Members of %s (%s):" % (project.name, project.id))
     print(str(table))
+    return users
 
 
 @task
 @decorators.verbose
-def list_members(project):
-    """List members of a tenant"""
+def list_members(project, select_roles=None):
+    """List members of a project
+    Optionally pass a comma separated list of roles to only list members that
+    have one or more of the specified roles
+    """
     keystone = client()
     project = get_project(keystone, project)
-    print_members(keystone, project)
+    try:
+        if select_roles:
+            select_roles = select_roles.split(",")
+            role_ids = map(lambda r: keystone.roles.find(name=r).id,
+                           select_roles)
+        else:
+            role_ids = None
+        return print_members(keystone, project, role_ids)
+    except NotFound:
+        print("Specified role is not found")
 
 
 def has_role_in_project(project, user, role):
