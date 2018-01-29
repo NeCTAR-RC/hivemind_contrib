@@ -1,0 +1,32 @@
+Dear NeCTAR Research Cloud User,
+
+Service has been resumed on the 8 hypervisors in {{ zone }} availability zone that was under maintenance from {{ start_ts }} {{ tz }}. Instances that were running before the outage have been restarted.
+
+We would like to apologise for the extended outage of your instances. The reason is due to unexpected slow transfer rate while moving data from our legacy storage to the new storage backend.
+
+AFFECTED INSTANCES:
+
+UUID                                  IP Address      Host            Project
+{% for instance in instances -%}
+{{ instance.id }}  {{ instance.accessIPv4 }}  {{ instance.name }}      {{ instance.project_name }}
+{% endfor -%}
+
+
+This outage is part of the overall research cloud's hypervisor upgrade (more information at https://support.ehelp.edu.au/support/discussions/topics/6000049195). If you have any queries regarding this outage, please contact us by email:
+
+  support@nectar.org.au
+
+We apologise sincerely for any inconvenience caused by this disruption
+
+Regards,
+
+The NeCTAR Research Cloud Support Team
+
+--
+This email has been sent to users of the NeCTAR Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your NeCTAR Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
+

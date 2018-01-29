@@ -1,0 +1,57 @@
+{% if name -%}
+Dear {{ name }},
+{% else -%}
+Dear NeCTAR Research Cloud User,
+{% endif -%}
+
+Please disregards the previous notice.
+
+Due to a recent upgrade in our network, one or more of your instances must be
+restarted through NeCTAR Dashboard to apply the new settings.
+
+IMPACT:
+
+Instances that are not restarted will be automatically restarted at {{ start_ts }} {{ tz }}.
+
+ACTION REQUIRED:
+
+* If you are no longer using the instance(s) listed below, please delete/terminate them
+  before the outage.
+
+* Backup all important data. PLEASE NOTE you would not be able the snapshot your instance(s)
+due to changes in network interfaces. Your instance(s) will hang and shut down.
+
+* 1. Go to https://dashboard.rc.nectar.org.au/project/instances/
+  2. Click on the dropdown in the Actions column of the affected instances.
+  3. Select Hard Reboot Instance.
+
+AFFECTED AVAILABILITY ZONE:
+
+{{ zone }}
+
+{% if affected -%}
+AFFECTED INSTANCES:
+
+UUID                                  IP Address      Host            Project
+{% for instance in instances -%}
+{{ instance.id }}  {{ instance.accessIPv4 }}  {{ instance.name }}      {{ instance.project_name }}
+{% endfor -%}
+{% endif %}
+
+If you have any queries regarding this outage, please contact us by email:
+
+   support@nectar.org.au
+
+We apologise sincerely for any inconvenience.
+
+Regards,
+
+The NeCTAR Research Cloud Support Team
+
+--
+This email has been sent to users of the NeCTAR Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your NeCTAR Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
