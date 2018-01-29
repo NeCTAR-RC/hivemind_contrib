@@ -132,7 +132,8 @@ def search(id=None, name=None, email=None):
         where.append(allocations.c.id == id)
     if name:
         where.append(or_(allocations.c.project_name.like('%%%s%%' % name),
-                     (allocations.c.project_description.like('%%%s%%' % name))))
+                     (allocations.c.project_description.like('%%%s%%' %
+                                                             name))))
     if email:
         where.append(allocations.c.contact_email.like('%%%s%%' % email))
 
