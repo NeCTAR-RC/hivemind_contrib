@@ -1,0 +1,35 @@
+Dear NeCTAR Research Cloud User,
+
+We would like to apologise for the sudden disruption to your instance in {{ zone }} on {{ start_ts }} {{ tz }}.
+
+During a compute host upgrade, an unexpected live-migration issue caused your instance to be restarted.
+
+Services have resumed as normal. Your affected instances are:
+
+{% if affected -%}
+AFFECTED INSTANCES:
+
+UUID                                  IP Address      Host            Project
+{% for server in instances -%}
+{{ server.id }}  {{ server.accessIPv4 }}  {{ server.name }}      {{ server.project_name }}
+{% endfor -%}
+{% endif %}
+
+If you have any queries regarding this interruption, please contact us by email:
+
+   support@ehelp.edu.au
+
+We apologise sincerely for any inconvenience caused.
+
+Regards,
+
+The NeCTAR Research Cloud Support Team
+
+--
+This email has been sent to users of the NeCTAR Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your NeCTAR Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
+

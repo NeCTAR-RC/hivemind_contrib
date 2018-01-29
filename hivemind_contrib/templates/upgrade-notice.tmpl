@@ -1,0 +1,39 @@
+Dear NeCTAR Research Cloud User,
+
+This email is to inform you of a scheduled outage affecting some instances in the melbourne-qh2 zone of the NeCTAR Research Cloud.
+
+DURATION:   {{ days }} day{% if days > 1 %}s{% endif %} {{ hours }} hours
+START TIME: {{ start_ts }} {{ tz }}
+END TIME:   {{ end_ts }} {{ tz }}
+
+The last 2 compute hosts in the melbourne-qh2 availability zone will be undergoing maintenance as part of the overall research cloud's hypervisor upgrade (more information at https://support.ehelp.edu.au/support/discussions/topics/6000049195).
+
+A limited number of research cloud server instances in the melbourne-qh2 availability zone will be shutdown during the outage window. Instances that were running before the outage will be restarted once maintenance of the underlying systems is complete.
+
+Your affected instances are:
+
+UUID                                  IP Address      Host            Project
+{% for project, servers in instances.iteritems() -%}
+{% for server in servers -%}
+{{ server.id }}  {{ server.accessIPv4 }}  {{ server.name }}      {{ project }}
+{% endfor -%}
+{% endfor -%}
+
+
+Whilst no impact to data stored on research cloud servers is expected, we recommend users ensure all backups are up-to-date. If you have particular concerns regarding how this outage might impact your services running atop the research cloud then please contact research cloud support as soon as possible so that we can plan an alternate strategy for the relevant instances.
+
+   support@ehelp.edu.au
+
+We apologise sincerely for any inconvenience caused.
+
+Regards,
+
+The NeCTAR Research Cloud Support Team
+
+--
+This email has been sent to users of the NeCTAR Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your NeCTAR Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
