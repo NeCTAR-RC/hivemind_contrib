@@ -231,8 +231,9 @@ def public_audit():
         name = i.get('name', 'n/a')
         build = i.get('nectar_build', 'n/a')
 
+        num = len(instances) if instances else 0
         table.add_row([i.id, name, official, build,
-                       len(instances), boot_count, last_boot])
+                       num, boot_count, last_boot])
 
     print(table.get_string(sortby="Running", reversesort=True))
 
