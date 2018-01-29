@@ -179,7 +179,7 @@ def clear_user_metadata(user, key):
     set_user_metadata(user, key, None)
 
 
-def get_members(keystone, project):
+def get_members(keystone, project, role=None):
     """get members of a project
 
     :return: {userid: { username, [projectname, ...] } for each user
@@ -188,34 +188,45 @@ def get_members(keystone, project):
                                                       include_names=True)
     users = {}
     for ra in role_assignments:
-
-        if ra.user['id'] in users:
-            users[ra.user['id']]['roles'].append(ra.role['name'])
-        else:
-            users[ra.user['id']] = {}
-            users[ra.user['id']]['name'] = ra.user['name']
-            users[ra.user['id']]['roles'] = [ra.role['name']]
+        if not role or ra.role['name'] in role:
+            if ra.user['id'] in users:
+                users[ra.user['id']]['roles'].append(ra.role['name'])
+            else:
+                users[ra.user['id']] = {}
+                users[ra.user['id']]['name'] = ra.user['name']
+                users[ra.user['id']]['roles'] = [ra.role['name']]
+                users[ra.user['id']]['project_name']\
+                        = ra.scope['project']['name']
     return(users)
 
 
-def print_members(keystone, project):
-    table = PrettyTable(["ID", "Username", "Roles"])
+def print_members(keystone, project, role=None):
+    table = PrettyTable(["ID", "Username", "Roles", "Project_Name"])
 
-    users = get_members(keystone, project)
+    users = get_members(keystone, project, role)
 
     for user_id, attrs in users.items():
-        table.add_row([user_id, attrs['name'], ", ".join(attrs['roles'])])
+        table.add_row([user_id, attrs['name'], ", ".join(attrs['roles']),
+                      attrs['project_name']])
     print("Members of %s (%s):" % (project.name, project.id))
     print(str(table))
+    return users
 
 
 @task
 @decorators.verbose
-def list_members(project):
-    """List members of a tenant"""
+def list_members(project, select_roles=None):
+    """List members of a tenant with sepecific roles
+    If the select_roles is not sepecified, all roles are allowed
+    """
     keystone = client()
     project = get_project(keystone, project)
-    print_members(keystone, project)
+    roles = map(lambda r: r.name, keystone.roles.list())
+    if select_roles:
+        select_roles = select_roles.split(",")
+    if select_roles and not set(select_roles).issubset(set(roles)):
+        raise ValueError("The selected roles %s are not valid" % select_roles)
+    return print_members(keystone, project, select_roles)
 
 
 def has_role_in_project(project, user, role):
