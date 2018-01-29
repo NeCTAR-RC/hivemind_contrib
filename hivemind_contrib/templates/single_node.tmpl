@@ -1,0 +1,62 @@
+Dear NeCTAR Research Cloud User,
+
+This email is to inform you of a scheduled outage to the NeCTAR Research Cloud.
+
+DURATION:   {{ days }} day{% if days > 1 %}s{% endif %} {{ hours }} hours
+START TIME: {{ start_ts }} {{ tz }}
+END TIME:   {{ end_ts }} {{ tz }}
+
+DESCRIPTION:
+
+We have detected a network issue with a single node ({{ nodes }}) in {{ zone }}.
+The node must be shutdown. The detected fault is preventing live migration.
+To resolve the issue we will need to manually shutdown running instances and
+migrate them to a working host.
+
+A {{ days }} day{% if days > 1 %}s{% endif %} {{ hours }} hours outage is
+required to perform essential maintenance.
+
+IMPACT:
+
+All instances residing on the {{ nodes }} node  will be shut down and migrated
+to a stable host
+
+ACTION REQUIRED:
+
+* As there will be a brief period of service downtime, the user will be
+   required to ensure they have alternative arrangments in place for any
+   critical services.
+
+ * After the outage, NeCTAR Cloud Operators will restart instances that
+   were active prior
+
+ * If you are no longer using the instance(s) listed below, please delete them
+   before the outage.
+
+{% if affected -%}
+AFFECTED INSTANCES:
+
+UUID                                  IP Address      Host            Project
+{% for instance in instances -%}
+{{ instance.id }}  {{ instance.accessIPv4 }}  {{ instance.name }}      {{ instance.project_name }}
+{% endfor -%}
+{% endif %}
+
+If you have any queries regarding this outage, please contact us by email:
+
+   support@nectar.org.au
+
+We apologise sincerely for any inconvenience caused by this outage.
+
+Regards,
+
+The NeCTAR Research Cloud Support Team
+
+--
+This email has been sent to users of the NeCTAR Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your NeCTAR Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
+
