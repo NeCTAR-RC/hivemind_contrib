@@ -1,0 +1,53 @@
+Dear NeCTAR Research Cloud User,
+
+This email is to inform you of a network disruption on the {{ zone }} availability zone.
+
+DURATION:   {{ days }} day{% if days > 1 %}s{% endif %} {{ hours }} hours
+START TIME: {{ start_ts }} {{ tz }}
+END TIME:   {{ end_ts }} {{ tz }}
+
+DESCRIPTION:
+
+The outage is required for the University of Melbourne Network Services to do firmware upgrade on our switches to enable support for new cloud infrastructure equipments and for the future separation of enterprise and research networks. This scheduled event is to finalise the previous upgrade on November 10, 2015, that Network Services did not fully complete due to an unexpected equipment failure.
+
+At the start of the outage window, Melbourne Node will need to shut down all VMs in the melbourne-qh2 availability zone, then the compute nodes hosting them, to prevent data loss. Network Services will take over, flash new firmware on the switches and reboot them. Once testing has been completed, Melbourne Node will turn on the compute nodes, restart previously active VMs and notify users via email.
+
+The other University of Melbourne availability zones melbourne-np and melbourne-qh2-uom are unaffected.
+
+IMPACT:
+
+Loss of network connectivity to compute nodes hosting instances in the {{ zone }} availability zone for up to 1 hour duration.
+
+
+{% if affected -%}
+Your current instances in the {{ zone }} zone are listed below.
+
+{% endif -%}
+
+{% if affected -%}
+AFFECTED INSTANCES:
+
+UUID                                  IP Address      Host            Project
+{% for server in instances -%}
+{{ server.id }}  {{ server.accessIPv4 }}  {{ server.name }}      {{ server.project_name }}
+{% endfor -%}
+{% endif %}
+
+If you have any queries regarding this outage, please contact us by email:
+
+   support@nectar.org.au
+
+We apologise sincerely for any inconvenience caused by this disruption
+
+Regards,
+
+The NeCTAR Research Cloud Support Team
+
+--
+This email has been sent to users of the NeCTAR Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your NeCTAR Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
+
