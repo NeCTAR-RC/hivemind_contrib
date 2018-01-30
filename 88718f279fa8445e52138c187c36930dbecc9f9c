@@ -45,6 +45,30 @@
       "revId": "88718f279fa8445e52138c187c36930dbecc9f9c",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "225494a1_d5f2a6c8",
+        "filename": "hivemind_contrib/security.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-01-30T02:45:30Z",
+      "side": 1,
+      "message": "fd_config is used in another place for email_config_id and group_id",
+      "parentUuid": "7985980b_e63f8c41",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 72
+      },
+      "revId": "88718f279fa8445e52138c187c36930dbecc9f9c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
