@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eaff7ef_473130e3",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-30T00:10:31Z",
+      "side": 1,
+      "message": "listing role assignments can take a role id so could specify it here to avoid having to filter on client side?",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 73
+      },
+      "revId": "37ecceed483c97a09442e056ea1d82b9d78c9649",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
