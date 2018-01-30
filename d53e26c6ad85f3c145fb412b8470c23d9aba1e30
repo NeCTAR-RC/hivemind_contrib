@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5ce4a39_f11ff9b5",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-01-30T05:33:44Z",
+      "side": 1,
+      "message": "I\u0027m not liking the use of \u0027config\u0027 like this.\n\nI\u0027d prefer to see this defined as a named argument instead, considering the only use of this is for smtp_server.\n\nYou should switch this to use the config decorator, and read the smtp variable from hivemind\u0027s config file\n\n@decorators.configurable(\u0027notification\u0027)\ndef get_config(smtp_server\u003dNone):\n  ...",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "d53e26c6ad85f3c145fb412b8470c23d9aba1e30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8367cd2_99b2a753",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-01-30T05:33:44Z",
+      "side": 1,
+      "message": "I think this might now become --start_time",
+      "range": {
+        "startLine": 256,
+        "startChar": 24,
+        "endLine": 256,
+        "endChar": 38
+      },
+      "revId": "d53e26c6ad85f3c145fb412b8470c23d9aba1e30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d6f4b4a_843f772f",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-01-30T05:33:44Z",
+      "side": 1,
+      "message": "--duration DURATION",
+      "range": {
+        "startLine": 260,
+        "startChar": 22,
+        "endLine": 260,
+        "endChar": 33
+      },
+      "revId": "d53e26c6ad85f3c145fb412b8470c23d9aba1e30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c372104_40a9fe5e",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-01-30T05:33:44Z",
+      "side": 1,
+      "message": "Concerning",
+      "range": {
+        "startLine": 285,
+        "startChar": 15,
+        "endLine": 285,
+        "endChar": 26
+      },
+      "revId": "d53e26c6ad85f3c145fb412b8470c23d9aba1e30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7079ef83_daa34ca1",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-01-30T05:33:44Z",
+      "side": 1,
+      "message": "I\u0027d make this optional, and if not given, read from hivemind\u0027s config file",
+      "range": {
+        "startLine": 310,
+        "startChar": 26,
+        "endLine": 310,
+        "endChar": 37
+      },
+      "revId": "d53e26c6ad85f3c145fb412b8470c23d9aba1e30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
