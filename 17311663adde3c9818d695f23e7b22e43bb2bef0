@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b329998_eeb710f6",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-30T01:06:04Z",
+      "side": 1,
+      "message": "put these at the end to maintain the order of arguments in case this method is being called with args as opposed to kwargs",
+      "range": {
+        "startLine": 122,
+        "startChar": 23,
+        "endLine": 122,
+        "endChar": 68
+      },
+      "revId": "17311663adde3c9818d695f23e7b22e43bb2bef0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6e41ac9_dc2ae2f3",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-30T01:06:04Z",
+      "side": 1,
+      "message": "I think these methods are in hivemind_contrib/keystone.py and could be used instead?",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 18
+      },
+      "revId": "17311663adde3c9818d695f23e7b22e43bb2bef0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
