@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "974f8166_5c56fc80",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-31T22:53:27Z",
+      "side": 1,
+      "message": "maybe just call this roles?",
+      "range": {
+        "startLine": 224,
+        "startChar": 26,
+        "endLine": 224,
+        "endChar": 38
+      },
+      "revId": "4f5bdb507f05c95368972c75934d940f1e1874f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d3bcc7d_180be3bd",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-31T22:53:27Z",
+      "side": 1,
+      "message": "List members of a project.\nOptionally pass a comma separated list of roles to only list members that have 1 or more of the specified roles.",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 64
+      },
+      "revId": "4f5bdb507f05c95368972c75934d940f1e1874f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b147aa34_51063abf",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-01-31T22:53:27Z",
+      "side": 1,
+      "message": "should be role_ids",
+      "range": {
+        "startLine": 230,
+        "startChar": 4,
+        "endLine": 230,
+        "endChar": 12
+      },
+      "revId": "4f5bdb507f05c95368972c75934d940f1e1874f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
