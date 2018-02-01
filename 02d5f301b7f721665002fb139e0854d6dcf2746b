@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbc42570_e2466e9d",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-02-01T07:26:04Z",
+      "side": 1,
+      "message": "might be a bit dangerous, doesn\u0027t work for `monash-[01-02]` due to the function doing an int(). E.g.\n\n./test.py monash-[01-02]\nset([\u0027monash-1\u0027, \u0027monash-2\u0027])",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 31
+      },
+      "revId": "02d5f301b7f721665002fb139e0854d6dcf2746b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb7dac1_128dcfda",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-02-01T07:26:04Z",
+      "side": 1,
+      "message": "Efficiency: is this going to do a servers.list 100 times if someone do a qh2-rcc[1-100] ? is client.servers.list() cached? if not it\u0027ll be horribly slow.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 61
+      },
+      "revId": "02d5f301b7f721665002fb139e0854d6dcf2746b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
