@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23bc5702_4fe981c4",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-02-04T23:30:55Z",
+      "side": 1,
+      "message": "do you need to return this?",
+      "range": {
+        "startLine": 169,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 16
+      },
+      "revId": "370062485c5a1118361c1d956a4950cbb0a030b1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
