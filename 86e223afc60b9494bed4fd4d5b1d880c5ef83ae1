@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2a0f304_707800ed",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-02-08T07:08:36Z",
+      "side": 1,
+      "message": "except is good but doesn\u0027t tell user which role is not found. if you want to except, suggest that we catch the exception looking up role id?",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 44
+      },
+      "revId": "86e223afc60b9494bed4fd4d5b1d880c5ef83ae1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
