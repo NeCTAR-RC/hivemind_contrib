@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "b8d03a82_5a8f5c99",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-14T01:12:39Z",
+      "side": 1,
+      "message": "should we use project_name or project_id just to be clear if it is a name or id we are accepting (same with user)\n\nCurrently it looks like user is a name and project is an ID?",
+      "range": {
+        "startLine": 123,
+        "startChar": 28,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "370062485c5a1118361c1d956a4950cbb0a030b1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10880bcb_c3c98fbc",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-14T01:12:39Z",
+      "side": 1,
+      "message": "host_list as opposed to hosts_list",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 14
+      },
+      "revId": "370062485c5a1118361c1d956a4950cbb0a030b1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0364c7ca_47c488c3",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-14T01:12:39Z",
+      "side": 1,
+      "message": "if host_list?",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 12
+      },
+      "revId": "370062485c5a1118361c1d956a4950cbb0a030b1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23bc5702_4fe981c4",
         "filename": "hivemind_contrib/nova.py",
         "patchSetId": 6
@@ -22,6 +91,29 @@
       "revId": "370062485c5a1118361c1d956a4950cbb0a030b1",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2f8c4f6_9e34f07a",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-14T01:12:39Z",
+      "side": 1,
+      "message": "maybe should be a set as accessIPv4 and one of the addresses will always be the same. Making it a set will remove duplicates",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 26
+      },
+      "revId": "370062485c5a1118361c1d956a4950cbb0a030b1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
