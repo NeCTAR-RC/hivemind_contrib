@@ -45,6 +45,29 @@
       "revId": "02d5f301b7f721665002fb139e0854d6dcf2746b",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88c2ad6_a758a2da",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-14T01:12:39Z",
+      "side": 1,
+      "message": "I think we should also check to see if the original project_id is the managed instances project (which trove uses)",
+      "range": {
+        "startLine": 201,
+        "startChar": 9,
+        "endLine": 201,
+        "endChar": 67
+      },
+      "revId": "02d5f301b7f721665002fb139e0854d6dcf2746b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
