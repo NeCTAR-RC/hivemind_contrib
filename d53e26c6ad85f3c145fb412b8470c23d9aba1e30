@@ -114,6 +114,29 @@
       "revId": "d53e26c6ad85f3c145fb412b8470c23d9aba1e30",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85adff4b_34f6041e",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-14T00:59:05Z",
+      "side": 1,
+      "message": "nit",
+      "range": {
+        "startLine": 396,
+        "startChar": 58,
+        "endLine": 396,
+        "endChar": 59
+      },
+      "revId": "d53e26c6ad85f3c145fb412b8470c23d9aba1e30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
