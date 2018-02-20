@@ -215,10 +215,9 @@ def public_audit():
         sql = sql.where(*where).order_by(desc('created_at'))
         image_instances = db.execute(sql).fetchall()
         boot_count = len(image_instances)
+        last_boot = 'Never'
         if boot_count > 0:
             last_boot = image_instances[0].created_at
-        else:
-            last_boot = 'Never'
         instances = nova.all_servers(nc, image=i['id'])
 
         # NeCTAR-Images, NeCTAR-Images-Archive
@@ -229,10 +228,96 @@ def public_audit():
         else:
             official = 'N'
 
-        name = i.name[:70]
+        name = i.get('name', 'n/a')
         build = i.get('nectar_build', 'n/a')
 
         table.add_row([i.id, name, official, build,
                        len(instances), boot_count, last_boot])
 
     print(table.get_string(sortby="Running", reversesort=True))
+
+
+@task
+def official_audit():
+    """Print usage information about official images
+    """
+    data = {}
+    gc = client()
+    nc = nova.client()
+    db = nova.db_connect()
+
+    images = []
+
+    # NeCTAR-Images, NeCTAR-Images-Archive
+    official_projects = ['28eadf5ad64b42a4929b2fb7df99275c',
+                         'c9217cb583f24c7f96567a4d6530e405']
+
+    for project in official_projects:
+        images += list(gc.images.list(filters={'owner': project}))
+
+    table = PrettyTable(["Name", "Running", "Boots"])
+
+    table.align = 'l'
+    table.align['Running'] = 'r'
+    table.align['Boots'] = 'r'
+
+    for i in images:
+        sql = select([nova.instances_table])
+        where = [nova.instances_table.c.image_ref.like(i.id)]
+        sql = sql.where(*where).order_by(desc('created_at'))
+        image_instances = db.execute(sql).fetchall()
+        boot_count = len(image_instances)
+        instances = nova.all_servers(nc, image=i['id'])
+
+        if i.owner in official_projects or not i.owner:
+            if i.name in data:
+                data[i.name]['running'] += len(instances)
+                data[i.name]['boots'] += boot_count
+            else:
+                data[i.name] = {'running': len(instances),
+                                'boots': boot_count}
+
+    for d in data.iteritems():
+        table.add_row([d[0], d[1]['running'], d[1]['boots']])
+
+    print(table.get_string(sortby="Running", reversesort=True))
+
+
+@task
+def official_images():
+    """Print usage information about official images
+    """
+    gc = client()
+    filters = {
+        'visibility': 'public',
+        'owner': '28eadf5ad64b42a4929b2fb7df99275c',
+    }
+    images = gc.images.list(filters=filters)
+
+    table = PrettyTable(["ID", "Name", "Build", "Date"])
+    table.align = 'l'
+
+    for i in images:
+        table.add_row([i.id, i.name, i.nectar_build, i.created_at])
+
+    print(table.get_string(sortby="Name"))
+
+
+@task
+def none_audit():
+    """Print usage information about all public images
+    """
+    gc = client()
+
+    filters = {
+        'visibility': 'public',
+    }
+    images = gc.images.list(filters=filters)
+    public = [i for i in images if not i.owner]
+
+    table = PrettyTable(["ID", "Name"])
+    table.align = 'l'
+    for i in public:
+        table.add_row([i.id, i.name])
+
+    print(table.get_string(sortby="Name"))
