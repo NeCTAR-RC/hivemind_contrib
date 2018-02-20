@@ -229,10 +229,58 @@ def public_audit():
         else:
             official = 'N'
 
-        name = i.name[:70]
+        name = i.get('name', 'n/a')
         build = i.get('nectar_build', 'n/a')
 
         table.add_row([i.id, name, official, build,
                        len(instances), boot_count, last_boot])
+
+    print(table.get_string(sortby="Running", reversesort=True))
+
+
+@task
+def official_audit():
+    """Print usage information about official images
+    """
+    data = {}
+    gc = client()
+    nc = nova.client()
+    db = nova.db_connect()
+
+    # The visibility filter doesn't seem to work... so we filter them out again
+    images = gc.images.list(visibility='public')
+    public = [i for i in images if i['visibility'] == 'public']
+
+    table = PrettyTable(["Name", "Running", "Boots"])
+
+    table.align = 'l'
+    table.align['Running'] = 'r'
+    table.align['Boots'] = 'r'
+
+    for i in public:
+        sql = select([nova.instances_table])
+        where = [nova.instances_table.c.image_ref.like(i.id)]
+        sql = sql.where(*where).order_by(desc('created_at'))
+        image_instances = db.execute(sql).fetchall()
+        boot_count = len(image_instances)
+        if boot_count > 0:
+            last_boot = image_instances[0].created_at
+        else:
+            last_boot = 'Never'
+        instances = nova.all_servers(nc, image=i['id'])
+
+        # NeCTAR-Images, NeCTAR-Images-Archive
+        official_projects = ['28eadf5ad64b42a4929b2fb7df99275c',
+                             'c9217cb583f24c7f96567a4d6530e405']
+        if i.owner in official_projects or i.owner == None:
+            if i.name in data:
+                data[i.name]['running'] += len(instances)
+                data[i.name]['boots'] += boot_count
+            else:
+                data[i.name] = { 'running': len(instances),
+                                 'boots': boot_count, }
+
+    for d in data.iteritems():
+        table.add_row([d[0], d[1]['running'], d[1]['boots']])
 
     print(table.get_string(sortby="Running", reversesort=True))
