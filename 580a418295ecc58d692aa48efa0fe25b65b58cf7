@@ -22,6 +22,30 @@
       "revId": "580a418295ecc58d692aa48efa0fe25b65b58cf7",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faa7309a_ca385b73",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-02-21T02:15:23Z",
+      "side": 1,
+      "message": "I thought about that, but I need to find images in two tenants, and images owned by \u0027None\u0027. Tried using the \u0027in\u0027 operator but it fails too.",
+      "parentUuid": "4449cb9b_2b6bf911",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 63
+      },
+      "revId": "580a418295ecc58d692aa48efa0fe25b65b58cf7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
