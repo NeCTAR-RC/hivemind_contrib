@@ -407,6 +407,20 @@ def list_host_aggregates(availability_zone, hostname=[]):
 @decorators.verbose
 def list_instances(zone=None, nodes=None, project=None, user=None,
                    status="ACTIVE", ip=None, image=None, limit=None):
+    """Prints a pretty table of instances based on specific conditions
+
+       :param str zone: Availability zone or availability zone range
+            that the instances are in, e.g. az[1-4,9]
+       :param str nodes: Compute host name or host neme range that the
+            instances are in, e.g. cc[2-3,5]
+       :param str project: Project name or id that the instances belong to
+       :param str user: User name or id that the instances belong to
+       :param str status: Instances status
+       :param str ip: Ip address or ip address range that instances are in,
+            e.g. 192.168.122.[124-127]
+       :param str image: Image id that the instances are launched based on
+       :param str limit: Number of returned instances
+    """
     novaclient = client()
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
                          ip=ip, image=image, project=project, user=user,

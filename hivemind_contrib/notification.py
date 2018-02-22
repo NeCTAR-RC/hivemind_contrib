@@ -351,7 +351,8 @@ def mailout(work_dir, data, subject, config, cc=None):
           such as Members or TenantManager of specific projects
 
     """
-    print("You should run: hivemind notification.announcement_mailout first\n")
+    print("You should run: hivemind notification.announcement_mailout " +
+          "WITHOUT --no-dry-run first\n")
     print("It's also recommended to verify the email sending by: hivemind" +
           "notification.verify_mailout before proceeding with --no-dry-run")
 
@@ -389,7 +390,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          smtp_server=None, instances_file=None, dry_run=True):
     """Generate mail announcements based on selective conditions
 
-       :param str template: template to use for the mailout (Mandatory)
+       :param str template: Template to use for the mailout (Mandatory)
        :param str zone: Availability zone affected by outage
        :param str ip: Only consider instances with specific ip addresses
        :param str nodes: Only target instances from the following Hosts/Nodes
@@ -397,10 +398,10 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str status: Only consider instances with status
        :param str subject: Custom email subject
        :param str start_time: Outage start time
-       :param float duration: duration of outage in hours
+       :param float duration: Duration of outage in hours
        :param str timezone: Timezone
        :param str test_recipient: Only generate notification to test_recipient
-       :param list cc: comma separated roles(e.g.TenantManager)\
+       :param list cc: Comma separated roles(e.g.TenantManager)\
                which will be cc-ed
        :param str instances_file: Only consider instances listed in file
        :param boolean dry_run: By default generate emails without sending out\
@@ -450,10 +451,9 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
         print("\nOnce you have checked the log file and generated emails")
         print("Use the command below to verify emails sending to test user:")
         print("\n hivemind notification.verify_mailout " + work_dir + " " +
-              "SUBJECT" + " " + "TEST_ADDRESS" + " " + "[SMTP_SEVRVER]")
-        print("\nUse the command below to send emails sending to ALL users:")
-        print("\n hivemind notification.mailout " + work_dir + " " +
-              subject + " " + "[SMTP_SERVER]")
+              "SUBJECT" + " " + "[--mailto TEST_ADDRESS]" + " " +
+              "[--smtp_server SMTP_SEVRVER]")
+        print("\nThen rerun the command with --no-dry-run to mail ALL users")
     else:
         mailout(work_dir, data, subject, config, cc)
 
