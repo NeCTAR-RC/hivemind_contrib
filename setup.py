@@ -55,6 +55,7 @@ setup(
       libvirt = hivemind_contrib.libvirt
       melbourne = hivemind_contrib.melbourne
       murano = hivemind_contrib.murano
+      notification = hivemind_contrib.notification
       nova = hivemind_contrib.nova
       ospurge = hivemind_contrib.ospurge
       packages = hivemind_contrib.packages
