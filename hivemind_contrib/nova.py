@@ -146,9 +146,9 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             instances = client.servers.list(search_opts=opts)
             if not instances:
                 continue
-            instances = filter(lambda x: match_availability_zone(x, az_list),
+            instances = filter(lambda x: _match_availability_zone(x, az_list),
                                instances)
-            instances = filter(lambda x: match_ip_address(x, ip_list),
+            instances = filter(lambda x: _match_ip_address(x, ip_list),
                                instances)
             inst.extend(instances)
             if limit and len(inst) >= int(limit):
@@ -162,9 +162,9 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             if not instances:
                 return inst
             marker = instances[-1].id
-            instances = filter(lambda x: match_availability_zone(x, az_list),
+            instances = filter(lambda x: _match_availability_zone(x, az_list),
                                instances)
-            instances = filter(lambda x: match_ip_address(x, ip_list),
+            instances = filter(lambda x: _match_ip_address(x, ip_list),
                                instances)
             if not instances:
                 continue
@@ -173,14 +173,14 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
                 return inst
 
 
-def match_availability_zone(server, az=None):
+def _match_availability_zone(server, az=None):
     if az:
         if getattr(server, "OS-EXT-AZ:availability_zone") not in az:
             return False
     return True
 
 
-def match_ip_address(server, ips):
+def _match_ip_address(server, ips):
     if not ips:
         return True
     for ip in ips:
@@ -192,7 +192,7 @@ def match_ip_address(server, ips):
     return False
 
 
-def extract_server_info(server):
+def extract_server_info(server, project_cache, user_cache):
     server_info = collections.defaultdict(dict)
     try:
         server_info['id'] = server.id
@@ -212,12 +212,11 @@ def extract_server_info(server):
             server_info['user'] = server.user_id
             server_info['project'] = server.tenant_id
 
-        server_info['project_name'] =\
-                keystone.get_project(keystone.client(),
-                                     server_info['project']).name
+        server_info['accessIPv4'] = _extract_ip(server)
 
-        server_info['accessIPv4'] = extract_ip(server)
-        user = keystone.get_user(keystone.client(), server_info['user'])
+        server_info['project_name'] = _extract_project_info(server_info,
+                                                            project_cache).name
+        user = _extract_user_info(server_info, user_cache)
 
         # handle instaces created by jenkins/tempest etc.
         if user.email:
@@ -232,7 +231,21 @@ def extract_server_info(server):
     return server_info
 
 
-def extract_ip(server):
+def _extract_project_info(server, project_cache):
+    if server['project'] not in project_cache.keys():
+        project_cache[server['project']] = keystone.get_project(
+            keystone.client(), server['project'])
+    return project_cache[server['project']]
+
+
+def _extract_user_info(server, user_cache):
+    if server['user'] not in user_cache.keys():
+        user_cache[server['user']] = keystone.get_user(keystone.client(),
+                                                       server['user'])
+    return user_cache[server['user']]
+
+
+def _extract_ip(server):
     addresses = set()
     if server.accessIPv4:
         addresses.add(server.accessIPv4)
@@ -432,7 +445,10 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
     if not result:
         print("No instances found!")
         sys.exit(0)
-    result = map(extract_server_info, result)
+    project_cache = {}
+    user_cache = {}
+    result = [extract_server_info(server, project_cache,
+                                  user_cache) for server in result]
     header = None
     for inst in result:
         if not header:
