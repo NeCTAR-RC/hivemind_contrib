@@ -188,7 +188,7 @@ def match_ip_address(server, ips):
     return False
 
 
-def extract_server_info(server):
+def extract_server_info(server, project, user):
     server_info = collections.defaultdict(dict)
     try:
         server_info['id'] = server.id
@@ -208,12 +208,11 @@ def extract_server_info(server):
             server_info['user'] = server.user_id
             server_info['project'] = server.tenant_id
 
-        server_info['project_name'] =\
-                keystone.get_project(keystone.client(),
-                                     server_info['project']).name
-
         server_info['accessIPv4'] = extract_ip(server)
-        user = keystone.get_user(keystone.client(), server_info['user'])
+
+        server_info['project_name'] = extract_project_info(server_info,
+                                                           project).name
+        user = extract_user_info(server_info, user)
 
         # handle instaces created by jenkins/tempest etc.
         if user.email:
@@ -226,6 +225,20 @@ def extract_server_info(server):
         raise type(e)(e.message + ' missing in context: %s' % server.to_dict())
 
     return server_info
+
+
+def extract_project_info(server, project):
+    if server['project'] not in project.keys():
+        project[server['project']] = keystone.get_project(keystone.client(),
+                                                          server['project'])
+    return project[server['project']]
+
+
+def extract_user_info(server, user):
+    if server['user'] not in user.keys():
+        user[server['user']] = keystone.get_user(keystone.client(),
+                                                 server['user'])
+    return user[server['user']]
 
 
 def extract_ip(server):
@@ -428,7 +441,10 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
     if not result:
         print("No instances found!")
         sys.exit(0)
-    result = map(extract_server_info, result)
+    project_cache = {}
+    user_cache = {}
+    result = [extract_server_info(server, project_cache,
+                                  user_cache) for server in result]
     header = None
     for inst in result:
         if not header:
