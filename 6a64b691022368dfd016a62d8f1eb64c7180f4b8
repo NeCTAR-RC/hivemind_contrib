@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43fde856_523d30c7",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-27T23:55:38Z",
+      "side": 1,
+      "message": "These variable names are a little misleading. Maybe they should be called project_cache and user_cache?",
+      "range": {
+        "startLine": 444,
+        "startChar": 0,
+        "endLine": 445,
+        "endChar": 13
+      },
+      "revId": "6a64b691022368dfd016a62d8f1eb64c7180f4b8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
