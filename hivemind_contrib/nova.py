@@ -151,6 +151,8 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             instances = filter(lambda x: match_ip_address(x, ip_list),
                                instances)
             inst.extend(instances)
+            if limit and len(inst) >= int(limit):
+                break
         return inst
     else:
         while True:
@@ -167,6 +169,8 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             if not instances:
                 continue
             inst.extend(instances)
+            if limit and len(inst) >= int(limit):
+                return inst
 
 
 def match_availability_zone(server, az=None):
