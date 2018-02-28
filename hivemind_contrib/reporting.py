@@ -298,9 +298,9 @@ def get_general_allocations_information(filename=None, sslwarnings=False):
     api_endpoint = NectarApiSession()
     allocations = api_endpoint.get_allocations()
     fields_to_report = [
-        ("Tenant ID", lambda x: x['tenant_uuid']),
-        ("Tenant Name", lambda x: x['tenant_name']),
-        ("Project Name", lambda x: x['project_name']),
+        ("Tenant ID", lambda x: x['project_id']),
+        ("Tenant Name", lambda x: x['project_name']),
+        ("Project Name", lambda x: x['project_description']),
         ("Allocation Home",
          lambda x: x['allocation_home'] if 'allocation_home' in x and
          x['allocation_home'] is not None else ""),
@@ -343,7 +343,8 @@ def get_local_allocations_information(filename=None, availability_zone=None,
             continue
         if q['allocation'] not in quotas:
             quotas[q['allocation']] = collections.defaultdict(int)
-        qf = "%(zone)s-%(resource)s (%(units)s)" % q
+        #qf = "%(zone)s-%(resource)s (%(units)s)" % q
+        qf = "%(zone)s-%(resource)s" % q
         quotas[q['allocation']][qf] = "%(quota)s" % q
         if qf not in quota_fields:
             quota_fields.append(qf)
@@ -354,9 +355,9 @@ def get_local_allocations_information(filename=None, availability_zone=None,
     data_to_report = []
     for a_id in quotas:
         alloc = allocations[a_id]
-        row = [alloc['tenant_uuid'],
-               alloc['project_name'] if alloc['tenant_name'] is None
-               else alloc['tenant_name']]
+        row = [alloc['project_id'],
+               alloc['project_description'] if alloc['project_name'] is None
+               else alloc['project_name']]
         row.extend(map(lambda x: quotas[a_id][x], quota_fields))
         data_to_report.append(row)
     csv_output(fields_to_report, data_to_report, filename=filename)
