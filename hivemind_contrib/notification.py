@@ -97,11 +97,13 @@ class Mail_Sender(object):
 
 
 class Generator(object):
-    def __init__(self, name, subject):
-        self.template_name = name
+    def __init__(self, template, subject):
+        self.template_path, self.template_name = os.path.split(template)
+        self.template_name = self.template_name.split('.')[0]
         self.subject_template = Template(subject)
-        self.env = Environment(loader=FileSystemLoader('templates'))
-        self.text_template = self.env.get_template('%s.tmpl' % name)
+        self.env = Environment(loader=FileSystemLoader(self.template_path),
+                               trim_blocks=True)
+        self.text_template = self.env.get_template('%s.tmpl' % self.template_name)
         try:
             self.html_template = self.env.get_template('%s.html.tmpl' %
                                                        self.template_name)
@@ -513,16 +515,15 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                for realsies
     """
     fd_config = security.get_freshdesk_config()
-    fd = security.get_freshdesk_client(fd_config['domain'],
-                                       fd_config['api_key'])
+    fd = security.get_freshdesk_client()
 
     _validate_paramters(start_time, duration, instances_file, template)
 
-    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')
+    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
+                 if start_time else None
     end_time = start_time + datetime.timedelta(hours=int(duration))\
-               if start_time else None
+               if (start_time and duration) else None
 
-    template = os.path.split(template)[1].split('.')[0]
     # find the impacted instances and construct data
     if not instances_file:
         instances = nova.list_instances(zone=zone, nodes=nodes, ip=ip,
@@ -552,13 +553,14 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                             default='no'):
             sys.exit(1)
 
-        subject = "Concerning the " + subject if subject else template
+        subject = subject if subject else \
+                  "Important annoucements concerning of your instance(s)"
         generator = Generator(template, subject)
         emails = render_notification(generator, data, subject, start_time,
                                      end_time, timezone, zone, affected,
                                      nodes, cc)
         for email in emails:
-            subject = "[Nectar Notice] " + subject.upper() + "@" + email[1]
+            subject = "[Nectar Notice] " + subject
             print('\nCreating new Freshdesk ticket')
             ticket = fd.tickets.create_outbound_email(
                 name=" ".join(email[0].split("@")[0].split(".")).upper(),
@@ -566,8 +568,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                 subject=subject,
                 email=email[0],
                 cc_emails=email[2],
-                email_config_id=int(fd_config['email_config_id']),
-                group_id=int(fd_config['group_id']),
+                email_config_id=fd_config['email_config_id'],
+                group_id=fd_config['group_id'],
                 priority=2,
                 status=5,  # set ticket initial status is closed
                 tags=['notification'])
