@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "e2d5bf34_e7423504",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T00:24:30Z",
+      "side": 1,
+      "message": "Should be project ID",
+      "range": {
+        "startLine": 301,
+        "startChar": 10,
+        "endLine": 301,
+        "endChar": 16
+      },
+      "revId": "e700f21054066f678a090963ea33defa3be0adc1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7420ef82_f968388d",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T00:24:30Z",
+      "side": 1,
+      "message": "Project name",
+      "range": {
+        "startLine": 302,
+        "startChar": 10,
+        "endLine": 302,
+        "endChar": 16
+      },
+      "revId": "e700f21054066f678a090963ea33defa3be0adc1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "719cd04e_f42e765b",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T00:24:30Z",
+      "side": 1,
+      "message": "project description",
+      "range": {
+        "startLine": 303,
+        "startChar": 10,
+        "endLine": 303,
+        "endChar": 22
+      },
+      "revId": "e700f21054066f678a090963ea33defa3be0adc1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f8970bb_3ae2ece4",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T00:24:30Z",
+      "side": 1,
+      "message": "quota dict is now sent inline with an allocation so don\u0027t need a separate call here",
+      "range": {
+        "startLine": 341,
+        "startChar": 4,
+        "endLine": 341,
+        "endChar": 39
+      },
+      "revId": "e700f21054066f678a090963ea33defa3be0adc1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3458b1d_7a2e7e49",
         "filename": "hivemind_contrib/reporting.py",
         "patchSetId": 1
@@ -13,6 +105,52 @@
       "writtenOn": "2018-02-28T00:21:27Z",
       "side": 1,
       "message": "units doesn\u0027t seem to exist not sure what to do with it",
+      "revId": "e700f21054066f678a090963ea33defa3be0adc1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f5282f_d2e45caa",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T00:24:30Z",
+      "side": 1,
+      "message": "change to project id and name",
+      "range": {
+        "startLine": 352,
+        "startChar": 25,
+        "endLine": 352,
+        "endChar": 49
+      },
+      "revId": "e700f21054066f678a090963ea33defa3be0adc1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "233c58cf_f4795cf4",
+        "filename": "hivemind_contrib/reporting.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T00:24:30Z",
+      "side": 1,
+      "message": "project name will never be None",
+      "range": {
+        "startLine": 359,
+        "startChar": 54,
+        "endLine": 359,
+        "endChar": 76
+      },
       "revId": "e700f21054066f678a090963ea33defa3be0adc1",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
