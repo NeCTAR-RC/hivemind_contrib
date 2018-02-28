@@ -18,7 +18,10 @@ except ImportError:
 @decorators.configurable('freshdesk')
 @decorators.verbose
 def get_freshdesk_config(api_key=None,
-                         domain='dhdnectar.freshdesk.com'):
+                         domain='dhdnectar.freshdesk.com',
+                         email_config_id=None,
+                         group_id=None,
+                         responder_id=None):
     """fetch freshdesk API details from config file"""
     msg = '\n'.join([
         'No Freshdesk API key found in your Hivemind config file.',
@@ -36,14 +39,23 @@ def get_freshdesk_config(api_key=None,
 
     if api_key is None:
         error(msg)
-    return (domain, api_key)
+    # Format the configuration
+    config = { 'api_key' : api_key,
+                'domain' : domain }
+    # Response email id when creating new ticket (eg. support@ehelp.com.au)
+    config['email_config_id'] = int(email_config_id) if email_config_id else None
+    # Group id when creating new tickets (eg. Melbourne NRC Node)
+    config['group_id'] = int(group_id) if group_id else None
+    # Assigned agent when creating new ticket (eg. Nhat Ngo)
+    config['responder_id'] = int(responder_id) if responder_id else None
+    return config
 
 
 def get_freshdesk_client():
-    domain, api_key = get_freshdesk_config()
+    fd_config = get_freshdesk_config()
     if not API:
         error("You will need to install python-freshdesk to use this function")
-    return API(domain, api_key)
+    return API(fd_config['domain'], fd_config['api_key'])
 
 
 def get_ticket_recipients(instance):
