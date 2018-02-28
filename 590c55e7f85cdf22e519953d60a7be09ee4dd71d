@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ef4ad03_16dde825",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T05:37:34Z",
+      "side": 1,
+      "message": "all these variable names need to be changed too, currently it looks like you pass a project and a user into this method but I think it should be a cache of projects and users?",
+      "range": {
+        "startLine": 191,
+        "startChar": 32,
+        "endLine": 191,
+        "endChar": 45
+      },
+      "revId": "590c55e7f85cdf22e519953d60a7be09ee4dd71d",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92880705_9b3ffe65",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T05:37:34Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 230,
+        "startChar": 33,
+        "endLine": 230,
+        "endChar": 40
+      },
+      "revId": "590c55e7f85cdf22e519953d60a7be09ee4dd71d",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83aea32d_ec21bafc",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T05:37:34Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 237,
+        "startChar": 30,
+        "endLine": 237,
+        "endChar": 34
+      },
+      "revId": "590c55e7f85cdf22e519953d60a7be09ee4dd71d",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ddcbe0b_c2d2374b",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-02-28T05:37:34Z",
+      "side": 1,
+      "message": "these possibly should be private methods inside the extract_server_info method? prefixed with a _",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 31
+      },
+      "revId": "590c55e7f85cdf22e519953d60a7be09ee4dd71d",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
