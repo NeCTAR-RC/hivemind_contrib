@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e4d93e0_a2b7989e",
+        "filename": "hivemind_contrib/templates/schedule-for-deletion.tmpl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-03-01T04:09:17Z",
+      "side": 1,
+      "message": "new branding should now be \u0027Nectar\u0027 not \u0027NeCTAR\u0027 - lots of references is this doc",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "de6bf3a6eb6ad12276798f22de97b449c22b7e48",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f9fb812_a481f46b",
+        "filename": "hivemind_contrib/templates/schedule-for-deletion.tmpl",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-03-01T04:09:17Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 15,
+        "startChar": 145,
+        "endLine": 15,
+        "endChar": 152
+      },
+      "revId": "de6bf3a6eb6ad12276798f22de97b449c22b7e48",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413ed244_41882e9b",
+        "filename": "hivemind_contrib/templates/schedule-for-deletion.tmpl",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-03-01T04:09:17Z",
+      "side": 1,
+      "message": "I think there should be a template tag for working out whether this should be pluralised or not. E.g. test length of the instances variable",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "de6bf3a6eb6ad12276798f22de97b449c22b7e48",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
