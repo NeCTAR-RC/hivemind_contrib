@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b319789_71505827",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2018-03-01T01:36:03Z",
+      "side": 0,
+      "message": "@rocky: if you split the template here for the file name, it will lose the path. Running `hivemind notification.\u003cXXX\u003e_mailout` will only works if you are in hivemind_contrib/hivemind_contrib folder.",
+      "range": {
+        "startLine": 420,
+        "startChar": 3,
+        "endLine": 420,
+        "endChar": 55
+      },
+      "revId": "587ac9022dde639f07b5baa4bedde382a256dba9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
