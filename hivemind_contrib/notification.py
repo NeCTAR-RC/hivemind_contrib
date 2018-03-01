@@ -97,11 +97,14 @@ class Mail_Sender(object):
 
 
 class Generator(object):
-    def __init__(self, name, subject):
-        self.template_name = name
+    def __init__(self, template, subject):
+        self.template_path, self.template_name = os.path.split(template)
+        self.template_name = self.template_name.split('.')[0]
         self.subject_template = Template(subject)
-        self.env = Environment(loader=FileSystemLoader('templates'))
-        self.text_template = self.env.get_template('%s.tmpl' % name)
+        self.env = Environment(loader=FileSystemLoader(self.template_path),
+                               trim_blocks=True)
+        self.text_template = self.env.get_template('%s.tmpl' %
+                                                   self.template_name)
         try:
             self.html_template = self.env.get_template('%s.html.tmpl' %
                                                        self.template_name)
@@ -416,7 +419,6 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
     end_time = start_time + datetime.timedelta(hours=int(duration))\
                if start_time else None
 
-    template = os.path.split(template)[1].split('.')[0]
     # find the impacted instances and construct data
     if not instances_file:
         instances = nova.list_instances(zone=zone, nodes=nodes, ip=ip,
@@ -523,7 +525,6 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
     end_time = start_time + datetime.timedelta(hours=int(duration))\
                if (start_time and duration) else None
 
-    template = os.path.split(template)[1].split('.')[0]
     # find the impacted instances and construct data
     if not instances_file:
         instances = nova.list_instances(zone=zone, nodes=nodes, ip=ip,
