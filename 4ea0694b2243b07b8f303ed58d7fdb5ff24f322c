@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46cb85e0_72f8c15c",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-01T03:41:32Z",
+      "side": 1,
+      "message": "should this just be the default for this method?",
+      "range": {
+        "startLine": 442,
+        "startChar": 0,
+        "endLine": 443,
+        "endChar": 66
+      },
+      "revId": "4ea0694b2243b07b8f303ed58d7fdb5ff24f322c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc3305f_07a77498",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-01T03:41:32Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 559,
+        "startChar": 0,
+        "endLine": 560,
+        "endChar": 70
+      },
+      "revId": "4ea0694b2243b07b8f303ed58d7fdb5ff24f322c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
