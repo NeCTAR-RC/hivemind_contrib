@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de3f2247_9e455bb1",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-03-01T03:54:29Z",
+      "side": 1,
+      "message": "this will not give the desired result is the template has more than one dot.\n\nhow about using os.path.splitext(filename)",
+      "range": {
+        "startLine": 102,
+        "startChar": 29,
+        "endLine": 102,
+        "endChar": 61
+      },
+      "revId": "7121f455e7f09aa101b4540ad1f11e32542af54f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
