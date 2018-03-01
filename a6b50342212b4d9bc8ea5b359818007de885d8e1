@@ -22,6 +22,30 @@
       "revId": "a6b50342212b4d9bc8ea5b359818007de885d8e1",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a53df189_67be816e",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-03-01T04:12:24Z",
+      "side": 1,
+      "message": "yeah that makes more sense",
+      "parentUuid": "ef80a30e_3efe83de",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 61
+      },
+      "revId": "a6b50342212b4d9bc8ea5b359818007de885d8e1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
