@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9393172_dc8a091b",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-03-01T04:06:01Z",
+      "side": 1,
+      "message": "maybe not plural?",
+      "range": {
+        "startLine": 391,
+        "startChar": 44,
+        "endLine": 391,
+        "endChar": 56
+      },
+      "revId": "533714271b1d2a829babf70725d804a9e5d13796",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
