@@ -22,6 +22,30 @@
       "revId": "d5484896adf24e8f391aa36cf9fb3a072470a4c2",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "540925fb_082f9a0a",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2018-03-01T04:00:57Z",
+      "side": 1,
+      "message": "My bad. Test it out on ipython and completely forgot what I suppose to paste over. :|",
+      "parentUuid": "df31c467_c01096b8",
+      "range": {
+        "startLine": 102,
+        "startChar": 48,
+        "endLine": 102,
+        "endChar": 57
+      },
+      "revId": "d5484896adf24e8f391aa36cf9fb3a072470a4c2",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
