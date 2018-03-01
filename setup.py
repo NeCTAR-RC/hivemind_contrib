@@ -16,6 +16,7 @@ requirements = [
     'hivemind',
     'sqlalchemy',
     'requests',
+    'jinja2'
 ]
 
 setup(
