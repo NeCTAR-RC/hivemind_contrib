@@ -439,7 +439,8 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
     os.makedirs(work_dir)
     affected = len(data)
 
-    subject = "Concerning the " + subject if subject else template
+    subject = subject if subject else \
+              "Important annoucements concerning your instance(s)"
     if affected:
         generate_logs(work_dir, data)
         generate_notification_mails(subject, template, data, work_dir,
@@ -555,13 +556,14 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                             default='no'):
             sys.exit(1)
 
-        subject = "Concerning the " + subject if subject else template
+        subject = subject if subject else \
+                  "Important annoucements concerning your instance(s)"
         generator = Generator(template, subject)
         emails = render_notification(generator, data, subject, start_time,
                                      end_time, timezone, zone, affected,
                                      nodes, cc)
         for email in emails:
-            subject = "[Nectar Notice] " + subject.upper() + "@" + email[1]
+            subject = "[Nectar Notice] " + subject
             print('\nCreating new Freshdesk ticket')
             ticket = fd.tickets.create_outbound_email(
                 name=" ".join(email[0].split("@")[0].split(".")).upper(),
