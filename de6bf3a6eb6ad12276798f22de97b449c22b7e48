@@ -68,6 +68,30 @@
       "revId": "de6bf3a6eb6ad12276798f22de97b449c22b7e48",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7779db03_a2cb85b9",
+        "filename": "hivemind_contrib/templates/schedule-for-deletion.tmpl",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000184
+      },
+      "writtenOn": "2018-03-01T04:13:11Z",
+      "side": 1,
+      "message": "Agree. This update should go into a separated commit though, as we need to update ALL templates and email subjects.",
+      "parentUuid": "413ed244_41882e9b",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "de6bf3a6eb6ad12276798f22de97b449c22b7e48",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
