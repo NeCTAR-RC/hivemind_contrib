@@ -218,10 +218,10 @@ def extract_server_info(server, project_cache, user_cache):
                                                             project_cache).name
         user = _extract_user_info(server_info, user_cache)
 
-        # handle instaces created by jenkins/tempest etc.
-        if user.email:
+        # handle instaces created by jenkins/tempest and users without fullname
+        if hasattr(user, 'full_name'):
             server_info['email'], server_info['fullname']\
-                    = user.email, user.full_name
+                    = user.name, user.full_name
         else:
             server_info['email'], server_info['fullname']\
                     = user.name, None
