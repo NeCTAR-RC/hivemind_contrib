@@ -388,7 +388,8 @@ def mailout(work_dir, data, subject, config, cc=None):
 @decorators.verbose
 def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          status="ACTIVE", project=None, user=None,
-                         subject=None, start_time=None, duration=0,
+                         subject="Important annoucement concerning your "
+                         "instance(s)", start_time=None, duration=0,
                          timezone="AEDT", test_recipient=None, cc = None,
                          smtp_server=None, instances_file=None, dry_run=True):
     """Generate mail announcements based on selective conditions
@@ -439,7 +440,6 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
     os.makedirs(work_dir)
     affected = len(data)
 
-    subject = "Concerning the " + subject if subject else template
     if affected:
         generate_logs(work_dir, data)
         generate_notification_mails(subject, template, data, work_dir,
@@ -492,7 +492,8 @@ def verify_mailout(dir, subject, mailto=None, smtp_server=None):
 @decorators.verbose
 def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                       status="ACTIVE", project=None, user=None,
-                      subject=None, start_time=None, duration=None,
+                      subject="Important annoucement concerning your "
+                      "instance(s)", start_time=None, duration=None,
                       timezone="AEDT", cc=None, instances_file=None,
                       dry_run=True):
     """Mailout announcements from freshdesk (Recommended). Freshdesk tickets
@@ -555,13 +556,12 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                             default='no'):
             sys.exit(1)
 
-        subject = "Concerning the " + subject if subject else template
         generator = Generator(template, subject)
         emails = render_notification(generator, data, subject, start_time,
                                      end_time, timezone, zone, affected,
                                      nodes, cc)
         for email in emails:
-            subject = "[Nectar Notice] " + subject.upper() + "@" + email[1]
+            subject = "[Nectar Notice] " + subject
             print('\nCreating new Freshdesk ticket')
             ticket = fd.tickets.create_outbound_email(
                 name=" ".join(email[0].split("@")[0].split(".")).upper(),
