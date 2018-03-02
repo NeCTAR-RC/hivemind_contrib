@@ -1,4 +1,5 @@
 import collections
+import dateutil.parser
 import os_client_config
 import re
 import sys
@@ -98,6 +99,14 @@ def get_flavor_id(client, flavor_name):
 def get_flavor(client, flavor_id):
     """Get a flavor ID"""
     return client.flavors.get(flavor_id)
+
+
+def list_instance_actions(client, instance_id):
+    return client.instance_action.list(instance_id)
+
+
+def get_instance_action(client, instance_id, req_id):
+    return client.instance_action.get(instance_id, req_id)
 
 
 def wait_for(func, error_message):
@@ -321,6 +330,28 @@ def file_contents(filenames):
             raise ValueError('Unrecognised url scheme %s' % url.scheme)
 
 
+def _scenario_compute_failure(novaclient, server, changes_since):
+    try:
+        last_action = list_instance_actions(novaclient, server['id'])[0]
+        if _normalize_time(last_action.start_time) >= _normalize_time(
+            changes_since) and last_action.action == "stop" \
+                           and not last_action.project_id \
+                           and not last_action.user_id:
+            return True
+        else:
+            return False
+    except Exception as e:
+        # bypass the failure when instance action call return failures
+        print("Exception %s with server %s" % (e, server['id']))
+        return False
+
+
+def _normalize_time(string):
+    t1 = dateutil.parser.parse(string)
+    t2 = t1.replace(tzinfo = dateutil.tz.tzutc())
+    return t2
+
+
 @task
 @decorators.verbose
 def boot(name, key_name=None, image_id=None, flavor='m1.small',
@@ -427,7 +458,7 @@ def list_host_aggregates(availability_zone, hostname=[]):
 @decorators.verbose
 def list_instances(zone=None, nodes=None, project=None, user=None,
                    status="ACTIVE", ip=None, image=None, limit=None,
-                   changes_since=None):
+                   changes_since=None, scenario=None):
     """Prints a pretty table of instances based on specific conditions
 
        :param str zone: Availability zone or availability zone range
@@ -444,8 +475,11 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
        :param str changes_since: List only instances changed after a certain
             point of time. The provided time should be an ISO 8061 formatted
             time. e.g. 2016-03-04T06:27:59Z
+       :param str scenario: List only instances which match with specific
+            scenario checking, available ones are ["compute_failure"]
     """
     novaclient = client()
+    print("Listing the instances...")
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
                          ip=ip, image=image, project=project, user=user,
                          limit=limit, changes_since=changes_since)
@@ -454,8 +488,18 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
         sys.exit(0)
     project_cache = {}
     user_cache = {}
+    print("Extracting instances information...")
     result = [extract_server_info(server, project_cache,
                                   user_cache) for server in result]
+    if scenario:
+        func = globals()["_scenario_" + scenario]
+        print("Filtering by scenario checking...")
+        result = [server for server in result if func(novaclient, server,
+                                                      changes_since)]
+        if not result:
+            print("No %s instances found!" % scenario)
+            sys.exit(0)
+
     header = None
     for inst in result:
         if not header:
