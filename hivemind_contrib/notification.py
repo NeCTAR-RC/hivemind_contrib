@@ -412,9 +412,10 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
     _validate_paramters(start_time, duration, instances_file, template)
     config = get_smtp_config(smtp_server)
 
-    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')
+    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
+                 if start_time else None
     end_time = start_time + datetime.timedelta(hours=int(duration))\
-               if start_time else None
+               if (start_time and duration) else None
 
     template = os.path.split(template)[1].split('.')[0]
     # find the impacted instances and construct data
@@ -518,9 +519,10 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
 
     _validate_paramters(start_time, duration, instances_file, template)
 
-    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')
+    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
+                 if start_time else None
     end_time = start_time + datetime.timedelta(hours=int(duration))\
-               if start_time else None
+               if (start_time and duration) else None
 
     template = os.path.split(template)[1].split('.')[0]
     # find the impacted instances and construct data
