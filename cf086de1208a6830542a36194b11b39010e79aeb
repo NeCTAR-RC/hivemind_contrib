@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e973e94_ccb1d7f3",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-03-04T23:54:32Z",
+      "side": 1,
+      "message": "I\u0027ve noticed that we were using user.email, I am wondering what is the reason behind dropping that and using user.name instead?",
+      "range": {
+        "startLine": 224,
+        "startChar": 22,
+        "endLine": 224,
+        "endChar": 31
+      },
+      "revId": "cf086de1208a6830542a36194b11b39010e79aeb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47619a2e_a345f0bb",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-03-04T23:54:32Z",
+      "side": 1,
+      "message": "I think we could use getattr(user, \u0027full_name\u0027, None) and save a few lines?",
+      "range": {
+        "startLine": 227,
+        "startChar": 33,
+        "endLine": 227,
+        "endChar": 37
+      },
+      "revId": "cf086de1208a6830542a36194b11b39010e79aeb",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
