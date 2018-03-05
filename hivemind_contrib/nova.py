@@ -1,8 +1,11 @@
+from __future__ import print_function
 import collections
 import dateutil.parser
+import itertools
 import os_client_config
 import re
 import sys
+import threading
 import time
 import urlparse
 
@@ -18,6 +21,7 @@ from sqlalchemy import String
 from sqlalchemy import Table
 
 from hivemind import decorators
+from hivemind.decorators import Spinner
 from hivemind.operations import run
 from hivemind.util import current_host
 from hivemind_contrib import keystone
@@ -128,6 +132,7 @@ def server_address(client, id):
                 return address['addr']
 
 
+@Spinner
 def all_servers(client, zone=None, host=None, status=None, ip=None,
                 image=None, project=None, user=None, limit=None,
                 changes_since=None):
@@ -342,7 +347,7 @@ def _scenario_compute_failure(novaclient, server, changes_since):
             return False
     except Exception as e:
         # bypass the failure when instance action call return failures
-        print("Exception %s with server %s" % (e, server['id']))
+        print("\nException %s with server %s" % (e, server['id']))
         return False
 
 
@@ -350,6 +355,18 @@ def _normalize_time(string):
     t1 = dateutil.parser.parse(string)
     t2 = t1.replace(tzinfo = dateutil.tz.tzutc())
     return t2
+
+
+@Spinner
+def extract_servers_info(servers, project_cache, user_cache):
+    return [extract_server_info(server, project_cache,
+                                user_cache) for server in servers]
+
+
+@Spinner
+def match_scenario(servers, func, novaclient, changes_since):
+    return [server for server in servers if func(novaclient, server,
+                                                 changes_since)]
 
 
 @task
@@ -479,7 +496,7 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
             scenario checking, available ones are ["compute_failure"]
     """
     novaclient = client()
-    print("Listing the instances...")
+    print("Listing the instances... ", end="")
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
                          ip=ip, image=image, project=project, user=user,
                          limit=limit, changes_since=changes_since)
@@ -488,18 +505,18 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
         sys.exit(0)
     project_cache = {}
     user_cache = {}
-    print("Extracting instances information...")
-    result = [extract_server_info(server, project_cache,
-                                  user_cache) for server in result]
+    print("\nExtracting instances information... ", end="")
+    result = extract_servers_info(result, project_cache, user_cache)
+
     if scenario:
         func = globals()["_scenario_" + scenario]
-        print("Filtering by scenario checking...")
-        result = [server for server in result if func(novaclient, server,
-                                                      changes_since)]
+        print("\nFiltering by scenario checking... ", end="")
+        result = match_scenario(result, func, novaclient, changes_since)
         if not result:
             print("No %s instances found!" % scenario)
             sys.exit(0)
 
+    print("\n")
     header = None
     for inst in result:
         if not header:
