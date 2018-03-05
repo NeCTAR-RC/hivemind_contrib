@@ -120,7 +120,8 @@ def server_address(client, id):
 
 
 def all_servers(client, zone=None, host=None, status=None, ip=None,
-                image=None, project=None, user=None, limit=None):
+                image=None, project=None, user=None, limit=None,
+                changes_since=None):
     marker = None
     opts = {}
     opts["all_tenants"] = True
@@ -130,6 +131,8 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
         opts['limit'] = limit
     if image:
         opts['image'] = image
+    if changes_since:
+        opts['changes-since'] = changes_since
     if project:
         opts['tenant_id'] = keystone.get_project(keystone.client(), project).id
     if user:
@@ -423,7 +426,8 @@ def list_host_aggregates(availability_zone, hostname=[]):
 @task
 @decorators.verbose
 def list_instances(zone=None, nodes=None, project=None, user=None,
-                   status="ACTIVE", ip=None, image=None, limit=None):
+                   status="ACTIVE", ip=None, image=None, limit=None,
+                   changes_since=None):
     """Prints a pretty table of instances based on specific conditions
 
        :param str zone: Availability zone or availability zone range
@@ -437,11 +441,14 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
             e.g. 192.168.122.[124-127]
        :param str image: Image id that the instances are launched based on
        :param str limit: Number of returned instances
+       :param str changes_since: List only instances changed after a certain
+            point of time. The provided time should be an ISO 8061 formatted
+            time. e.g. 2016-03-04T06:27:59Z
     """
     novaclient = client()
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
                          ip=ip, image=image, project=project, user=user,
-                         limit=limit)
+                         limit=limit, changes_since=changes_since)
     if not result:
         print("No instances found!")
         sys.exit(0)
