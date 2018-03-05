@@ -27,7 +27,8 @@ import time
 
 @decorators.configurable('smtp')
 @decorators.verbose
-def get_smtp_config(smtp_server=None):
+def get_smtp_config(smtp_server=None,
+                    sender='NeCTAR Research Cloud <bounces@rc.nectar.org.au>'):
     """fetch smtp parameters from config file"""
     msg = '\n'.join([
         'No smtp server parameter in either command options' +
@@ -45,7 +46,7 @@ def get_smtp_config(smtp_server=None):
     if smtp_server is None:
         error(msg)
 
-    config = {'smtp_server': smtp_server}
+    config = {'smtp_server': smtp_server, 'sender': sender}
 
     return config
 
@@ -55,6 +56,7 @@ class Mail_Sender(object):
     def __init__(self, config, debug=False):
         self.debug = debug
         self.smtp_server = config["smtp_server"]
+        self.sender = config["sender"]
         self.smtp_obj = None
         self.smtp_msgs_per_conn = 100
         self.smtp_curr_msg_num = 1
@@ -63,7 +65,7 @@ class Mail_Sender(object):
         msg = MIMEMultipart('alternative')
         msg.attach(MIMEText(text, 'plani', 'utf-8'))
 
-        msg['From'] = 'NeCTAR Research Cloud <bounces@rc.nectar.org.au>'
+        msg['From'] = self.sender
         msg['To'] = recipient
         msg['Reply-to'] = 'support@nectar.org.au'
         msg['Subject'] = subject
@@ -391,7 +393,8 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          subject="Important annoucement concerning your "
                          "instance(s)", start_time=None, duration=0,
                          timezone="AEDT", test_recipient=None, cc = None,
-                         smtp_server=None, instances_file=None, dry_run=True):
+                         smtp_server=None, sender=None, instances_file=None,
+                         dry_run=True):
     """Generate mail announcements based on selective conditions
 
        :param str template: Template to use for the mailout (Mandatory)
@@ -411,10 +414,11 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param boolean dry_run: By default generate emails without sending out\
                use --no-dry-run to send all notifications
        :param str smtp_server: Specify the SMTP server
+       :param str sender: Specify the mail sender
     """
 
     _validate_paramters(start_time, duration, instances_file, template)
-    config = get_smtp_config(smtp_server)
+    config = get_smtp_config(smtp_server, sender)
 
     start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
                  if start_time else None
@@ -463,7 +467,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
 
 @task
 @decorators.verbose
-def verify_mailout(dir, subject, mailto=None, smtp_server=None):
+def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
     """Verify mail sending to specific test address
 
        :param str dir: Path to mail content genearted by announcement_mailout
@@ -471,7 +475,7 @@ def verify_mailout(dir, subject, mailto=None, smtp_server=None):
        :param str mailto: Test mail address, xxxx@yyy.zzz
        :param str smtp_server: SMTP configuration
     """
-    config = get_smtp_config(smtp_server)
+    config = get_smtp_config(smtp_server, sender)
     mails = [get_email_address(f) for f in os.listdir(dir)
              if os.path.isfile(os.path.join(dir, f)) and "@" in f]
 
