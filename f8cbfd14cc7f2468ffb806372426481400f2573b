@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6db63714_bb47295f",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-06T00:43:50Z",
+      "side": 1,
+      "message": "you can pass changes-since into this method to to a filter on server side",
+      "range": {
+        "startLine": 335,
+        "startChar": 22,
+        "endLine": 335,
+        "endChar": 43
+      },
+      "revId": "f8cbfd14cc7f2468ffb806372426481400f2573b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2bc5db_ec9a96cc",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-06T00:43:50Z",
+      "side": 1,
+      "message": "do we not get all the info we need by listing the actions?",
+      "range": {
+        "startLine": 336,
+        "startChar": 8,
+        "endLine": 337,
+        "endChar": 65
+      },
+      "revId": "f8cbfd14cc7f2468ffb806372426481400f2573b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
