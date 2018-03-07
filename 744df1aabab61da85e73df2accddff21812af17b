@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f3ab893_6cf8ded8",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-03-07T09:20:39Z",
+      "side": 1,
+      "message": "you missed documenting this awesome new feature here :)",
+      "revId": "744df1aabab61da85e73df2accddff21812af17b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
