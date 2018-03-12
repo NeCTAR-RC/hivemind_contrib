@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b35e318f_b75c81a6",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-03-12T05:17:31Z",
+      "side": 1,
+      "message": "did you mean to check in this too?",
+      "revId": "52d563d93070a8daedfe1fd667f2235c4139fdc0",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
