@@ -1,10 +1,11 @@
 import collections
 import dateutil.parser
-import os_client_config
 import re
 import sys
 import time
 import urlparse
+
+from novaclient import client as nova_client
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -45,10 +46,10 @@ def db_connect(uri):
 
 
 @decorators.configurable('nectar.openstack.client')
-def client(url=None, username=None, password=None, tenant=None):
-    return os_client_config.make_client('compute', auth_url=url,
-                                        username=username, password=password,
-                                        project_name=tenant)
+def client(url=None, username=None, password=None, tenant=None, version='2'):
+    sess = keystone.get_session(username=username, password=password,
+                                tenant_name=tenant, auth_url=url)
+    return nova_client.Client(version, session=sess)
 
 
 def list_services():
