@@ -239,6 +239,44 @@ def public_audit():
 
 
 @task
+def image_audit(image_id):
+    """Print usage information about all public images
+    """
+    gc = client()
+    nc = nova.client()
+    db = nova.db_connect()
+
+    try:
+        image = gc.images.get(image_id)
+    except exc.HTTPNotFound:
+        error("Image ID not found.")
+
+    table = PrettyTable(["ID", "Name", "Created", "Running", "Boots",
+                         "Last Boot"])
+
+    table.align = 'l'
+    table.align['Running'] = 'r'
+    table.align['Boots'] = 'r'
+
+    sql = select([nova.instances_table])
+    where = [nova.instances_table.c.image_ref.like(image.id)]
+    sql = sql.where(*where).order_by(desc('created_at'))
+    image_instances = db.execute(sql).fetchall()
+    boot_count = len(image_instances)
+    last_boot = 'Never'
+    if boot_count > 0:
+        last_boot = image_instances[0].created_at
+    instances = nova.all_servers(nc, image=image['id'])
+
+    name = image.get('name', 'n/a')
+    num = len(instances) if instances else 0
+
+    table.add_row([image.id, name, image.created_at, num, boot_count,
+                   last_boot])
+    print(table)
+
+
+@task
 def official_audit():
     """Print usage information about official images
     """
