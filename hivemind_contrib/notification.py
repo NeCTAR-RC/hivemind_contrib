@@ -379,6 +379,9 @@ def mailout(work_dir, data, subject, config, cc=None):
                 for c in cc:
                     c_list = data[mail[0]][mail[1]].get(c)
                     if c_list:
+                        # Validate CC list before adding
+                        c_list = [email for email in c_list
+                                  if is_email_address(email)]
                         cc_list.extend(c_list)
 
             sender.send_email(mail[0], subject, text, cc_list)
@@ -544,7 +547,6 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
 
     cc = cc.split(",") if cc else None
     data = populate_data(instances, cc)
-
     if dry_run:
         print("\n DRY RUN MODE - PRINT RECIPIENTS ONLY: \n")
         print_dict(data)
@@ -569,12 +571,15 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
         for email in emails:
             subject = "[Nectar Notice] " + subject
             print('\nCreating new Freshdesk ticket')
+            # Validate the CC list
+            cc_list = [cc_email for cc_email in email[2]
+                        if is_email_address(cc_email)]
             ticket = fd.tickets.create_outbound_email(
                 name=" ".join(email[0].split("@")[0].split(".")).upper(),
                 description=email[3],
                 subject=subject,
                 email=email[0],
-                cc_emails=email[2],
+                cc_emails=cc_list,
                 email_config_id=int(fd_config['email_config_id']),
                 group_id=int(fd_config['group_id']),
                 priority=2,
