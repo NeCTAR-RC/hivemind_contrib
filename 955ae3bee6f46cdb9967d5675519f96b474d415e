@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e40d5d_3fd653e6",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-15T03:17:07Z",
+      "side": 0,
+      "message": "removing these args will meant the decorator above won\u0027t work.",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "955ae3bee6f46cdb9967d5675519f96b474d415e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
