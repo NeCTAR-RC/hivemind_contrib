@@ -18,6 +18,8 @@ from prettytable import PrettyTable
 
 import collections
 import datetime
+
+import io
 import os
 import re
 import smtplib
@@ -249,7 +251,7 @@ def generate_notification_mails(subject, template, data, work_dir,
                                                    end_time, timezone, zone,
                                                    affected, nodes)
             filename = user + "@" + proj
-            with open(os.path.join(work_dir, filename), 'wb') as mail:
+            with io.open(os.path.join(work_dir, filename), 'w') as mail:
                 recipient += 1
                 mail.write(msg)
 
@@ -371,9 +373,8 @@ def mailout(work_dir, data, subject, config, cc=None):
     print("Starting emails sending.....")
     for mail in mails:
         if is_email_address(mail[0]):
-            with open(os.path.join(work_dir, '@'.join(mail)), 'rb') as f:
+            with io.open(os.path.join(work_dir, '@'.join(mail)), 'rb') as f:
                 text = f.read()
-
             cc_list = []
             if cc:
                 for c in cc:
