@@ -9,10 +9,10 @@ We have identified your project as having one or more VMs on {{zone}} zone that 
 Your affected instances are:
 {% raw -%}
 <table>
-  <tr><td>UUID</td><td>IP Address</td><td>Host</td><td>Project</td></tr>
+  <tr><td>UUID</td><td>IP Address</td><td>Host</td></tr>
 {%- endraw %}
 {% for instance in instances -%}
-  <tr><td>{{ instance.id }}</td><td>{{ ','.join(instance.accessIPv4) }}</td><td>{{ instance.name }}</td><td>{{ instance.project_name }}</td></tr>
+  <tr><td>{{ instance.id }}</td><td>{{ ','.join(instance.accessIPv4) }}</td><td>{{ instance.name }}</td></tr>
 {%- endfor %}
 {% raw -%}</table>{%- endraw %}
 
@@ -34,8 +34,8 @@ Thank you for your attention.
 
 Kind regards,
 
-The Nectar Research Cloud Support Team
+Research Platform Services Nectar Cloud Support
+University of Melbourne
 
 --
-This email has been sent to users of the Nectar Research Cloud. It has been sent to the email address associated with your Research Cloud login. These emails are essential communications which we endeavour to keep to a minimum. 
-They only relate to events that may affect your Nectar Research Cloud resources or data integrity. If you receive multiple copies of this email, it may be due to the fact that you are a member of multiple projects.
+This email has been sent to users of the Nectar Research Cloud in the University of Melbourne availability zone. These emails are essential communications which we endeavour to keep to a minimum. They only relate to activities that may affect your Nectar Research Cloud resources or data integrity. If you receive multiple copies of this email, it may be due to the fact that you are a member of multiple projects, and each email should be read separately.
