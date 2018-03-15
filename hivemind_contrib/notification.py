@@ -428,7 +428,10 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                                         status=status, image=image)
     else:
         inst = get_instances_from_file(nova.client(), instances_file)
-        instances = map(nova.extract_server_info, inst)
+        project_cache = {}
+        user_cache = {}
+        instances = [nova.extract_server_info(instance, project_cache,
+                        user_cache) for instance in inst]
 
     cc = cc.split(",") if cc else None
     data = populate_data(instances, cc)
@@ -534,7 +537,10 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                                         status=status, image=image)
     else:
         inst = get_instances_from_file(nova.client(), instances_file)
-        instances = map(nova.extract_server_info, inst)
+        project_cache = {}
+        user_cache = {}
+        instances = [nova.extract_server_info(instance, project_cache,
+                        user_cache) for instance in inst]
 
     cc = cc.split(",") if cc else None
     data = populate_data(instances, cc)
