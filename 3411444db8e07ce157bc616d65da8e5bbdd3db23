@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d549d085_3e1eee1a",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-21T00:20:22Z",
+      "side": 1,
+      "message": "this should be made more descriptive, eg. notification:fd_ticket\n\nAlso what cleans up this metadata?",
+      "range": {
+        "startLine": 605,
+        "startChar": 52,
+        "endLine": 605,
+        "endChar": 61
+      },
+      "revId": "3411444db8e07ce157bc616d65da8e5bbdd3db23",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
