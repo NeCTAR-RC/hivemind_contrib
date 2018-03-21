@@ -272,7 +272,7 @@ def render_notification(generator, data, subject, start_time, end_time,
             if not html:
                 # convert to simple html, freshdesk supports html format only
                 html = msg.replace("\n", "<br />\n")
-            yield user, proj, cc_list, html
+            yield user, proj, cc_list, html, inst
 
 
 def is_email_address(mail):
@@ -526,6 +526,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
     fd = security.get_freshdesk_client(fd_config['domain'],
                                        fd_config['api_key'])
 
+    nc = nova.client()
+
     _validate_paramters(start_time, duration, instances_file, template)
 
     start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
@@ -597,5 +599,10 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          .format(domain, ticket_id)
             print('Ticket #{} has been created: {}'
                   .format(ticket_id, ticket_url))
+
+            # Record the ticket URL in the server metadata
+            for server in email[4]:
+                nc.servers.set_meta(server['id'], {'fd_ticket': ticket_url})
+
             # delay for freshdesk api rate limit consideration
             time.sleep(1)
