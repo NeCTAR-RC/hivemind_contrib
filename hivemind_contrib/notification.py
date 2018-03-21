@@ -272,7 +272,7 @@ def render_notification(generator, data, subject, start_time, end_time,
             if not html:
                 # convert to simple html, freshdesk supports html format only
                 html = msg.replace("\n", "<br />\n")
-            yield user, proj, cc_list, html
+            yield user, proj, cc_list, html, inst
 
 
 def is_email_address(mail):
@@ -501,7 +501,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                       subject="Important annoucement concerning your "
                       "instance(s)", start_time=None, duration=None,
                       timezone="AEDT", cc=None, instances_file=None,
-                      dry_run=True):
+                      dry_run=True, record_metadata=False,
+                      metadata_field="notification:fd_ticket"):
     """Mailout announcements from freshdesk (Recommended). Freshdesk tickets
        will be created along with outbound emails sending. Once the customer
        responds to the mail, the reply will be appended to the ticket and
@@ -521,10 +522,16 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str instances_file: Only consider instances listed in file
        :param boolean dry_run: by default print info only, use --no-dry-run\
                for realsies
+       :param boolean record_metadata: record the freshdesk ticket URL in\
+               the nova instance metadata
+       :param str metadata_field: set the name of the freshdesk ticket URL\
+               metadata field in the nova instance."
     """
     fd_config = security.get_freshdesk_config()
     fd = security.get_freshdesk_client(fd_config['domain'],
                                        fd_config['api_key'])
+
+    nc = nova.client()
 
     _validate_paramters(start_time, duration, instances_file, template)
 
@@ -597,5 +604,12 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          .format(domain, ticket_id)
             print('Ticket #{} has been created: {}'
                   .format(ticket_id, ticket_url))
+
+            if record_metadata:
+                # Record the ticket URL in the server metadata
+                for server in email[4]:
+                    nc.servers.set_meta(server['id'],
+                        {metadata_field: ticket_url})
+
             # delay for freshdesk api rate limit consideration
             time.sleep(1)
