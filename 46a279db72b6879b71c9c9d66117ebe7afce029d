@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47f83000_d9400a9f",
+        "filename": "hivemind_contrib/templates/schedule-for-deletion.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-21T02:17:31Z",
+      "side": 1,
+      "message": "this makes this template no longer be able to use by other sites",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 456
+      },
+      "revId": "46a279db72b6879b71c9c9d66117ebe7afce029d",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
