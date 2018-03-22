@@ -5,9 +5,9 @@ from email.MIMEText import MIMEText
 from fabric.api import task
 from fabric.utils import error
 from hivemind import decorators
+from hivemind_contrib import freshdesk
 from hivemind_contrib import keystone
 from hivemind_contrib import nova
-from hivemind_contrib import security
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import Template
@@ -522,9 +522,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param boolean dry_run: by default print info only, use --no-dry-run\
                for realsies
     """
-    fd_config = security.get_freshdesk_config()
-    fd = security.get_freshdesk_client(fd_config['domain'],
-                                       fd_config['api_key'])
+    fd_config = freshdesk.get_config()
+    fd = freshdesk.client()
 
     _validate_paramters(start_time, duration, instances_file, template)
 

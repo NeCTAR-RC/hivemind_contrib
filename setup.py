@@ -12,6 +12,7 @@ requirements = [
     'python-swiftclient',
     'python-neutronclient',
     'python-muranoclient',
+    'python-freshdesk',
     'prettytable',
     'hivemind',
     'sqlalchemy',
@@ -58,6 +59,7 @@ setup(
       murano = hivemind_contrib.murano
       notification = hivemind_contrib.notification
       nova = hivemind_contrib.nova
+      freshdesk = hivemind_contrib.freshdesk
       ospurge = hivemind_contrib.ospurge
       packages = hivemind_contrib.packages
       packaging = hivemind_contrib.debpackaging
