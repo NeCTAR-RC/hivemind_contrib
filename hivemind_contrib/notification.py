@@ -5,9 +5,9 @@ from email.MIMEText import MIMEText
 from fabric.api import task
 from fabric.utils import error
 from hivemind import decorators
+from hivemind_contrib import freshdesk
 from hivemind_contrib import keystone
 from hivemind_contrib import nova
-from hivemind_contrib import security
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import Template
@@ -527,9 +527,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str metadata_field: set the name of the freshdesk ticket URL\
                metadata field in the nova instance."
     """
-    fd_config = security.get_freshdesk_config()
-    fd = security.get_freshdesk_client(fd_config['domain'],
-                                       fd_config['api_key'])
+    fd_config = freshdesk.get_config()
+    fd = freshdesk.client()
 
     nc = nova.client()
 
