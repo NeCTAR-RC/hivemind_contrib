@@ -5,7 +5,6 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = [
-    'os-client-config',
     'python-glanceclient',
     'python-keystoneclient',
     'python-novaclient',
