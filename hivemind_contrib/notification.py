@@ -224,7 +224,7 @@ def _pretty_table_instances(instances):
     header = None
     for inst in instances:
         if not isinstance(inst, dict):
-            table = inst
+            return instances
         else:
             if not header:
                 header = inst.keys()
