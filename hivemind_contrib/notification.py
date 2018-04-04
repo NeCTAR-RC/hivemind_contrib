@@ -219,14 +219,14 @@ def print_dict(dictionary, tofile=None, ident='', braces=1):
             if not isinstance(table, PrettyTable):
                 print("{}{} = {}".format(ident, key, table), file = tofile)
             else:
-                print("{}{} = \n{}\n".format(ident, key, table), file = tofile)
+                print("{}{} = \n{}\n".format(ident, key, value), file = tofile)
 
 
 def _pretty_table_instances(instances):
     header = None
     for inst in instances:
         if not isinstance(inst, dict):
-            table = inst
+            return False
         else:
             if not header:
                 header = inst.keys()
