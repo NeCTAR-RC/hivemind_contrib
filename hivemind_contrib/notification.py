@@ -576,15 +576,16 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                                      end_time, timezone, zone, affected,
                                      nodes, cc)
         for email in emails:
-            subject = "[Nectar Notice] " + subject
+            subjectfd = "[Nectar Notice] " + subject
             print('\nCreating new Freshdesk ticket')
             # Validate the CC list
             cc_list = [cc_email for cc_email in email[2]
                         if is_email_address(cc_email)]
+
             ticket = fd.tickets.create_outbound_email(
                 name=" ".join(email[0].split("@")[0].split(".")).upper(),
                 description=email[3],
-                subject=subject,
+                subject=subjectfd,
                 email=email[0],
                 cc_emails=cc_list,
                 email_config_id=int(fd_config['email_config_id']),
