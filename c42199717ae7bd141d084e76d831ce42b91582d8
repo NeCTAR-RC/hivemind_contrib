@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c6186a5_a4601855",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-04-05T06:17:07Z",
+      "side": 1,
+      "message": "I\u0027m wondering why is there a need to prepend something here?\n\nAs an operator calling this function, I might be annoyed that it changes the subject I provided it with.",
+      "range": {
+        "startLine": 579,
+        "startChar": 12,
+        "endLine": 579,
+        "endChar": 52
+      },
+      "revId": "c42199717ae7bd141d084e76d831ce42b91582d8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
