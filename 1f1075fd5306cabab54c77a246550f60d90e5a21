@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b10ca4ff_c83014a7",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-04-05T06:05:35Z",
+      "side": 1,
+      "message": "could just use `value` here if you take into consideration the comments below.",
+      "range": {
+        "startLine": 220,
+        "startChar": 57,
+        "endLine": 220,
+        "endChar": 62
+      },
+      "revId": "1f1075fd5306cabab54c77a246550f60d90e5a21",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33b33f52_2c011064",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-04-05T06:05:35Z",
+      "side": 1,
+      "message": "I would prefer if this returns False, or better, throw an error.\n\nIt\u0027ll make code calling this function easier to read; you don\u0027t have to read this function to see what is the type of the value returned if it\u0027s not PrettyTable.",
+      "range": {
+        "startLine": 227,
+        "startChar": 12,
+        "endLine": 227,
+        "endChar": 28
+      },
+      "revId": "1f1075fd5306cabab54c77a246550f60d90e5a21",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
