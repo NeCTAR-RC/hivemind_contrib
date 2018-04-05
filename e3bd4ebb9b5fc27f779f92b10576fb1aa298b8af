@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af9936ac_11460afe",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-04-05T05:57:36Z",
+      "side": 1,
+      "message": "Is this redundant? the getattr call on the previous line would have set it to None. Unless you are testing for False?",
+      "range": {
+        "startLine": 224,
+        "startChar": 50,
+        "endLine": 224,
+        "endChar": 75
+      },
+      "revId": "e3bd4ebb9b5fc27f779f92b10576fb1aa298b8af",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
