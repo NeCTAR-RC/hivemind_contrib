@@ -40,6 +40,10 @@ instances_table = Table('instances', metadata,
                         Column('uuid', String(36)),
                         Column('image_ref', String(255)))
 
+# global cache for keystone api calls
+project_cache = {}
+user_cache = {}
+
 
 @decorators.configurable('connection')
 def db_connect(uri):
@@ -239,7 +243,10 @@ def extract_server_info(server, project_cache, user_cache):
         user = _extract_user_info(server_info, user_cache)
 
         # handle instaces created by jenkins/tempest and users without fullname
-        if user.email:
+        # set disabled user's email/fullname as None as it should be ruled out
+        if not user.enabled:
+            server_info['email'], server_info['fullname'] = None, None
+        elif user.email:
             server_info['email'], server_info['fullname']\
                     = user.email, getattr(user, 'full_name', None)
         else:
@@ -506,8 +513,6 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
     if not result:
         print("No instances found!")
         sys.exit(0)
-    project_cache = {}
-    user_cache = {}
     print("\nExtracting instances information... ", end="")
     result = extract_servers_info(result, project_cache, user_cache)
 

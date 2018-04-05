@@ -176,7 +176,7 @@ def populate_data(instances, roles):
 def _populate_user_dict(instances):
     user = collections.defaultdict(list)
     for instance in instances:
-        if not is_email_address(instance['email']):
+        if not instance['email'] or not is_email_address(instance['email']):
             continue
         if instance['email'] in user.keys():
             user[instance['email']].append(instance)
@@ -197,9 +197,22 @@ def _populate_project_dict(instances, roles):
                     members = keystone.list_members(instance['project_name'],
                                                     role)
                     if members:
-                        members = map(lambda x: x['name'], members.values())
+                        cclist = []
+                        for uid in members.keys():
+                            # use nova.py cache to reduce external calls
+                            # and update it if the user is not found
+                            if uid in nova.user_cache.keys():
+                                user = nova.user_cache[uid]
+                            else:
+                                user = keystone.get_user(keystone.client(),
+                                                         uid)
+                                nova.user_cache.update({uid: user})
+
+                            if user.enabled and user.email:
+                                cclist.append(user.email)
+
                         project[instance['project_name']].update(
-                            {role: members})
+                            {role: cclist})
     return project
 
 
