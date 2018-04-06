@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a15aa74_473899f5",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-04-06T04:25:12Z",
+      "side": 1,
+      "message": "might need to test if this is None",
+      "range": {
+        "startLine": 106,
+        "startChar": 31,
+        "endLine": 106,
+        "endChar": 35
+      },
+      "revId": "f3a5f458aa7d0c1daefb7ab0c472afca3611d9ed",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
