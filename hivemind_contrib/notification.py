@@ -199,15 +199,8 @@ def _populate_project_dict(instances, roles):
                     if members:
                         cclist = []
                         for uid in members.keys():
-                            # use nova.py cache to reduce external calls
-                            # and update it if the user is not found
-                            if uid in nova.user_cache.keys():
-                                user = nova.user_cache[uid]
-                            else:
-                                user = keystone.get_user(keystone.client(),
-                                                         uid)
-                                nova.user_cache.update({uid: user})
-
+                            user = keystone.get_user(keystone.client(),
+                                                     uid, use_cache=True)
                             if user.enabled and user.email:
                                 cclist.append(user.email)
 
@@ -448,10 +441,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                                         status=status, image=image)
     else:
         inst = get_instances_from_file(nova.client(), instances_file)
-        project_cache = {}
-        user_cache = {}
-        instances = [nova.extract_server_info(instance, project_cache,
-                        user_cache) for instance in inst]
+        instances = nova.extract_servers_info(inst)
 
     cc = cc.split(",") if cc else None
     data = populate_data(instances, cc)
@@ -565,10 +555,7 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                                         status=status, image=image)
     else:
         inst = get_instances_from_file(nova.client(), instances_file)
-        project_cache = {}
-        user_cache = {}
-        instances = [nova.extract_server_info(instance, project_cache,
-                        user_cache) for instance in inst]
+        instances = nova.extract_servers_info(inst)
 
     cc = cc.split(",") if cc else None
     data = populate_data(instances, cc)
