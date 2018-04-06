@@ -23,6 +23,10 @@ except ImportError:
     from keystoneclient import session
     loading = None
 
+# global session cache for project and user query data
+project_cache = {}
+user_cache = {}
+
 
 @decorators.configurable('nectar.openstack.client')
 def get_session(username=None, password=None, tenant_name=None, auth_url=None):
@@ -67,25 +71,41 @@ def get_projects_module(keystone):
         return keystone.tenants
 
 
-def get_project(keystone, name_or_id):
+def get_project(keystone, name_or_id, use_cache=False):
+    """Add access to project_cache to store all project objects
+    """
     projects = get_projects_module(keystone)
-    try:
-        project = projects.get(name_or_id)
-    except NotFound:
-        project = projects.find(name=name_or_id)
+    if use_cache and name_or_id in project_cache:
+        project = project_cache[name_or_id]
+    else:
+        try:
+            project = projects.get(name_or_id)
+        except NotFound:
+            project = projects.find(name=name_or_id)
+        finally:
+            if project:
+                project_cache.update({project.id: project})
     return project
 
 
-def get_tenant(keystone, name_or_id):
+def get_tenant(keystone, name_or_id, use_cache=False):
     print("get_tenant is deprecated, use get_project instead")
-    return get_project(keystone, name_or_id)
+    return get_project(keystone, name_or_id, use_cache)
 
 
-def get_user(keystone, name_or_id):
-    try:
-        user = keystone.users.get(name_or_id)
-    except NotFound:
-        user = keystone.users.find(name=name_or_id)
+def get_user(keystone, name_or_id, use_cache=False):
+    """Add access to user_cache to store all user objects
+    """
+    if use_cache and name_or_id in user_cache:
+        user = user_cache[name_or_id]
+    else:
+        try:
+            user = keystone.users.get(name_or_id)
+        except NotFound:
+            user = keystone.users.find(name=name_or_id)
+        finally:
+            if user:
+                user_cache.update({user.id: user})
     return user
 
 

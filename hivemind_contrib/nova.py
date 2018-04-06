@@ -40,10 +40,6 @@ instances_table = Table('instances', metadata,
                         Column('uuid', String(36)),
                         Column('image_ref', String(255)))
 
-# global cache for keystone api calls
-project_cache = {}
-user_cache = {}
-
 
 @decorators.configurable('connection')
 def db_connect(uri):
@@ -151,9 +147,11 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
     if changes_since:
         opts['changes-since'] = changes_since
     if project:
-        opts['tenant_id'] = keystone.get_project(keystone.client(), project).id
+        opts['tenant_id'] = keystone.get_project(keystone.client(), project,
+                                                 use_cache=True).id
     if user:
-        opts['user_id'] = keystone.get_user(keystone.client(), user).id
+        opts['user_id'] = keystone.get_user(keystone.client(), user,
+                                            use_cache=True).id
 
     host_list = parse_nodes(host) if host else None
     az_list = parse_nodes(zone) if zone else None
@@ -212,7 +210,7 @@ def _match_ip_address(server, ips):
     return False
 
 
-def extract_server_info(server, project_cache, user_cache):
+def extract_server_info(server):
     server_info = collections.defaultdict(dict)
     try:
         server_info['id'] = server.id
@@ -238,9 +236,10 @@ def extract_server_info(server, project_cache, user_cache):
 
         server_info['accessIPv4'] = _extract_ip(server)
 
-        server_info['project_name'] = _extract_project_info(server_info,
-                                                            project_cache).name
-        user = _extract_user_info(server_info, user_cache)
+        server_info['project_name'] = keystone.get_project(
+            keystone.client(), server_info['project'], use_cache=True).name
+        user = keystone.get_user(
+            keystone.client(), server_info['user'], use_cache=True)
 
         # handle instaces created by jenkins/tempest and users without fullname
         # set disabled user's email/fullname as None as it should be ruled out
@@ -256,20 +255,6 @@ def extract_server_info(server, project_cache, user_cache):
         raise type(e)(e.message + ' missing in context: %s' % server.to_dict())
 
     return server_info
-
-
-def _extract_project_info(server, project_cache):
-    if server['project'] not in project_cache.keys():
-        project_cache[server['project']] = keystone.get_project(
-            keystone.client(), server['project'])
-    return project_cache[server['project']]
-
-
-def _extract_user_info(server, user_cache):
-    if server['user'] not in user_cache.keys():
-        user_cache[server['user']] = keystone.get_user(keystone.client(),
-                                                       server['user'])
-    return user_cache[server['user']]
 
 
 def _extract_ip(server):
@@ -368,9 +353,8 @@ def _normalize_time(string):
 
 
 @Spinner
-def extract_servers_info(servers, project_cache, user_cache):
-    return [extract_server_info(server, project_cache,
-                                user_cache) for server in servers]
+def extract_servers_info(servers):
+    return [extract_server_info(server) for server in servers]
 
 
 @Spinner
@@ -516,7 +500,7 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
         print("No instances found!")
         sys.exit(0)
     print("\nExtracting instances information... ", end="")
-    result = extract_servers_info(result, project_cache, user_cache)
+    result = extract_servers_info(result)
 
     if scenario:
         func = globals()["_scenario_" + scenario]
