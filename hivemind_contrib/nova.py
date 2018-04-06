@@ -135,6 +135,7 @@ def server_address(client, id):
 def all_servers(client, zone=None, host=None, status=None, ip=None,
                 image=None, project=None, user=None, limit=None,
                 changes_since=None):
+    print("Listing the instances... ", end="")
     marker = None
     opts = {}
     opts["all_tenants"] = True
@@ -354,11 +355,13 @@ def _normalize_time(string):
 
 @Spinner
 def extract_servers_info(servers):
+    print("\nExtracting instances information... ", end="")
     return [extract_server_info(server) for server in servers]
 
 
 @Spinner
 def match_scenario(servers, func, novaclient, changes_since):
+    print("\nFiltering by scenario checking... ", end="")
     return [server for server in servers if func(novaclient, server,
                                                  changes_since)]
 
@@ -499,12 +502,10 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
     if not result:
         print("No instances found!")
         sys.exit(0)
-    print("\nExtracting instances information... ", end="")
     result = extract_servers_info(result)
 
     if scenario:
         func = globals()["_scenario_" + scenario]
-        print("\nFiltering by scenario checking... ", end="")
         result = match_scenario(result, func, novaclient, changes_since)
         if not result:
             print("No %s instances found!" % scenario)
