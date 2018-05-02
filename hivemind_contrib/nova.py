@@ -244,12 +244,16 @@ def extract_server_info(server, project_cache, user_cache):
 
         # handle instaces created by jenkins/tempest and users without fullname
         # set disabled user's email/fullname as None as it should be ruled out
-        if not user.enabled:
-            server_info['email'], server_info['fullname'] = None, None
-        elif user.email:
-            server_info['email'], server_info['fullname']\
-                    = user.email, getattr(user, 'full_name', None)
-        else:
+        try:
+            if not user.enabled:
+                server_info['email'], server_info['fullname'] = None, None
+            elif user.email:
+                server_info['email'], server_info['fullname']\
+                        = user.email, getattr(user, 'full_name', None)
+            else:
+                server_info['email'], server_info['fullname']\
+                        = user.name, None
+        except AttributeError as e:
             server_info['email'], server_info['fullname']\
                     = user.name, None
     except KeyError as e:
