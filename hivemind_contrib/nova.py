@@ -246,7 +246,7 @@ def extract_server_info(server, project_cache, user_cache):
         # set disabled user's email/fullname as None as it should be ruled out
         if not user.enabled:
             server_info['email'], server_info['fullname'] = None, None
-        elif user.email:
+        elif getattr(user, 'email', None):
             server_info['email'], server_info['fullname']\
                     = user.email, getattr(user, 'full_name', None)
         else:
