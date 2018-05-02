@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "062acee6_7787cec4",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-05-02T03:33:07Z",
+      "side": 1,
+      "message": "This could be done a bit simpler by just changing this to\n\nelif getattr(user, \u0027email\u0027, None):",
+      "range": {
+        "startLine": 250,
+        "startChar": 12,
+        "endLine": 250,
+        "endChar": 27
+      },
+      "revId": "d310a956b972551273820aef46e74f0cbc1d2dd1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
