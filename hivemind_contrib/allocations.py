@@ -130,7 +130,10 @@ def search(id=None, name=None, email=None):
     sql = select([allocations])
     where = []
     if id:
-        where.append(allocations.c.id == id)
+        where.append(or_(
+            allocations.c.id == id,
+            allocations.c.parent_request_id == id
+        ))
     if name:
         where.append(or_(
             allocations.c.project_name.like('%%%s%%' % name),
@@ -143,6 +146,7 @@ def search(id=None, name=None, email=None):
         sql = sql.where(and_(*where))
     elif where:
         sql = sql.where(*where)
+    sql = sql.order_by(allocations.c.modified_time.desc())
     allocation_list = db.execute(sql)
     print_allocations(allocation_list)
 
