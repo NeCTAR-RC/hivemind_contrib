@@ -246,7 +246,7 @@ def extract_server_info(server, project_cache, user_cache):
         # set disabled user's email/fullname as None as it should be ruled out
         if not user.enabled:
             server_info['email'], server_info['fullname'] = None, None
-        elif user.email:
+        elif getattr(user, 'email', None):
             server_info['email'], server_info['fullname']\
                     = user.email, getattr(user, 'full_name', None)
         else:
@@ -494,7 +494,7 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
             instances are in, e.g. cc[2-3,5]
        :param str project: Project name or id that the instances belong to
        :param str user: User name or id that the instances belong to
-       :param str status: Instances status
+       :param str status: Instances status. Use 'ALL' to list all instances
        :param str ip: Ip address or ip address range that instances are in,
             e.g. 192.168.122.[124-127]
        :param str image: Image id that the instances are launched based on
@@ -507,6 +507,8 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
     """
     novaclient = client()
     print("Listing the instances... ", end="")
+    if status == 'ALL':
+        status = None
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
                          ip=ip, image=image, project=project, user=user,
                          limit=limit, changes_since=changes_since)
