@@ -33,7 +33,8 @@ STATUS = {'N': 'New',
           'P': 'Provisioned',
           'L': 'Legacy submission',
           'M': 'Legacy approved',
-          'O': 'Legacy rejected'}
+          'O': 'Legacy rejected',
+          'D': 'Deleted'}
 
 
 metadata = MetaData()
