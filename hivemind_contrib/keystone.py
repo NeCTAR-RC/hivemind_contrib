@@ -1,4 +1,5 @@
 import collections
+import csv
 import os
 import random
 import re
@@ -419,3 +420,20 @@ def add_bot_account(project, user, suffix='bot'):
     print(str(table))
     add_project_roles(project, new_user, ['bot_user'])
     user_projects(new_user)
+
+
+@task
+def users_mailing_list(output):
+    """Generate a CSV file of current Nectar users email addresses.
+    """
+    keystone = client()
+    users = keystone.users.list(enabled=True)
+
+    with open(output, 'w') as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(['email', 'name'])
+        for user in users:
+            if getattr(user, 'email', None):
+                name = getattr(user, 'full_name', '')
+                writer.writerow([user.email, name])
+    print('CSV file written to {}'.format(output))
