@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2099ef9a_419f78fa",
+        "filename": "hivemind_contrib/allocations.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-06-08T05:54:25Z",
+      "side": 1,
+      "message": "Already there?",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "54ab3d69ba38b11b0bc8759de6ebef5eefc99e5b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
