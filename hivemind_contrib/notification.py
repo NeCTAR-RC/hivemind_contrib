@@ -401,7 +401,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          status="ACTIVE", project=None, user=None,
                          subject="Important annoucement concerning your "
                          "instance(s)", start_time=None, duration=0,
-                         timezone="AEDT", test_recipient=None, cc = None,
+                         timezone="AEDT", cc = None,
                          smtp_server=None, sender=None, instances_file=None,
                          dry_run=True):
     """Generate mail announcements based on selective conditions
@@ -416,7 +416,6 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str start_time: Outage start time
        :param float duration: Duration of outage in hours
        :param str timezone: Timezone
-       :param str test_recipient: Only generate notification to test_recipient
        :param list cc: Comma separated roles(e.g.TenantManager)\
                which will be cc-ed
        :param str instances_file: Only consider instances listed in file
