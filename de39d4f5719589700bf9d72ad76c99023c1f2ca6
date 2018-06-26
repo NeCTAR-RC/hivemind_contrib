@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cec36eea_a6b31dc6",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-06-26T23:15:27Z",
+      "side": 1,
+      "message": "As discussed we shouldn\u0027t use these addresses at all",
+      "range": {
+        "startLine": 263,
+        "startChar": 4,
+        "endLine": 266,
+        "endChar": 40
+      },
+      "revId": "de39d4f5719589700bf9d72ad76c99023c1f2ca6",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
