@@ -135,7 +135,7 @@ def server_address(client, id):
 def all_servers(client, zone=None, host=None, status=None, ip=None,
                 image=None, project=None, user=None, limit=None,
                 changes_since=None):
-    print("Listing the instances... ", end="")
+    print("\nListing the instances... ", end="")
     marker = None
     opts = {}
     opts["all_tenants"] = True
@@ -203,8 +203,6 @@ def _match_ip_address(server, ips):
     if not ips:
         return True
     for ip in ips:
-        if ip == server.accessIPv4 or ip == server.accessIPv6:
-            return True
         if any(map(lambda a: any(map(lambda aa: ip in aa['addr'], a)),
                         server.addresses.values())):
             return True
@@ -235,7 +233,7 @@ def extract_server_info(server):
             server_info['user'] = server.user_id
             server_info['project'] = server.tenant_id
 
-        server_info['accessIPv4'] = _extract_ip(server)
+        server_info['addresses'] = _extract_ip(server)
 
         server_info['project_name'] = keystone.get_project(
             keystone.client(), server_info['project'], use_cache=True).name
@@ -260,10 +258,6 @@ def extract_server_info(server):
 
 def _extract_ip(server):
     addresses = set()
-    if server.accessIPv4:
-        addresses.add(server.accessIPv4)
-    elif server.accessIPv6:
-        addresses.add(server.accessIPv6)
 
     for address in server.addresses.values():
         for addr in address:
@@ -493,7 +487,6 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
             scenario checking, available ones are ["compute_failure"]
     """
     novaclient = client()
-    print("Listing the instances... ", end="")
     if status == 'ALL':
         status = None
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
