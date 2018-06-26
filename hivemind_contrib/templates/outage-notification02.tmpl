@@ -29,7 +29,7 @@ AFFECTED INSTANCES:
 
 UUID                                  IP Address      Host            Project
 {% for instance in instances -%}
-{{ instance.id }}  {{ instance.accessIPv4 }}  {{ instance.name }}      {{ instance.project_name }}
+{{ instance.id }}  {{ instance.addresses }}  {{ instance.name }}      {{ instance.project_name }}
 {% endfor -%}
 {% endif %}
 

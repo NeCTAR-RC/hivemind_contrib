@@ -12,7 +12,7 @@ Your affected instances are:
   <tr><td>UUID</td><td>IP Address</td><td>Host</td></tr>
 {%- endraw %}
 {% for instance in instances -%}
-  <tr><td>{{ instance.id }}</td><td>{{ ','.join(instance.accessIPv4) }}</td><td>{{ instance.name }}</td></tr>
+  <tr><td>{{ instance.id }}</td><td>{{ ','.join(instance.addresses) }}</td><td>{{ instance.name }}</td></tr>
 {%- endfor %}
 {% raw -%}</table>{%- endraw %}
 

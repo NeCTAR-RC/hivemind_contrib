@@ -135,7 +135,7 @@ def server_address(client, id):
 def all_servers(client, zone=None, host=None, status=None, ip=None,
                 image=None, project=None, user=None, limit=None,
                 changes_since=None):
-    print("Listing the instances... ", end="")
+    print("\nListing the instances... ", end="")
     marker = None
     opts = {}
     opts["all_tenants"] = True
@@ -235,7 +235,7 @@ def extract_server_info(server):
             server_info['user'] = server.user_id
             server_info['project'] = server.tenant_id
 
-        server_info['accessIPv4'] = _extract_ip(server)
+        server_info['addresses'] = _extract_ip(server)
 
         server_info['project_name'] = keystone.get_project(
             keystone.client(), server_info['project'], use_cache=True).name
@@ -493,7 +493,6 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
             scenario checking, available ones are ["compute_failure"]
     """
     novaclient = client()
-    print("Listing the instances... ", end="")
     if status == 'ALL':
         status = None
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,

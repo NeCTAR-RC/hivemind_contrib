@@ -11,7 +11,7 @@ AFFECTED INSTANCE:
 
 {% for instance in instances -%}
 UUID: {{ instance.id }}
-IP Address:Port: {{ instance.accessIPv4 }}:{{ instance.port }}
+IP Address:Port: {{ instance.addresses }}:{{ instance.port }}
 HOST: {{ instance.name }}
 PROJECT: {{ instance.project_name }}
 {% endfor -%}
