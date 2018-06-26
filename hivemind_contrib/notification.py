@@ -188,13 +188,13 @@ def _populate_user_dict(instances):
 def _populate_project_dict(instances, roles):
     project = collections.defaultdict(dict)
     for instance in instances:
-        if instance['project_name'] in project.keys():
-            project[instance['project_name']]['instances'].append(instance)
+        if instance['project'] in project.keys():
+            project[instance['project']]['instances'].append(instance)
         else:
-            project[instance['project_name']] = {'instances': [instance]}
+            project[instance['project']] = {'instances': [instance]}
             if roles:
                 for role in roles:
-                    members = keystone.list_members(instance['project_name'],
+                    members = keystone.list_members(instance['project'],
                                                     role)
                     if members:
                         cclist = []
@@ -204,7 +204,7 @@ def _populate_project_dict(instances, roles):
                             if user.enabled and user.email:
                                 cclist.append(user.email)
 
-                        project[instance['project_name']].update(
+                        project[instance['project']].update(
                             {role: cclist})
     return project
 
