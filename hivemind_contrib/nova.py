@@ -180,7 +180,13 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             instances = client.servers.list(search_opts=opts)
             if not instances:
                 return inst
-            marker = instances[-1].id
+            # for some instances stuck in build phase, servers.list api
+            # will always return the marker instance. Add old marker and
+            # new marker comparision to avoid the dead loop
+            marker_new = instances[-1].id
+            if marker == marker_new:
+                return inst
+            marker = marker_new
             instances = filter(lambda x: _match_availability_zone(x, az_list),
                                instances)
             instances = filter(lambda x: _match_ip_address(x, ip_list),
