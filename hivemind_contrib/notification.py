@@ -21,9 +21,11 @@ import datetime
 import io
 import os
 import re
+import shutil
 import smtplib
 import sys
 import time
+import yaml
 
 
 @decorators.configurable('smtp')
@@ -62,9 +64,12 @@ class Mail_Sender(object):
         self.smtp_msgs_per_conn = 100
         self.smtp_curr_msg_num = 1
 
-    def send_email(self, recipient, subject, text, cc=None):
+    def send_email(self, recipient, subject, text, cc=None, html=True):
         msg = MIMEMultipart('alternative')
-        msg.attach(MIMEText(text, 'plain', 'utf-8'))
+        if html:
+            msg.attach(MIMEText(text, 'html', 'utf-8'))
+        else:
+            msg.attach(MIMEText(text, 'plain', 'utf-8'))
 
         msg['From'] = self.sender
         msg['To'] = recipient
@@ -157,55 +162,40 @@ class Generator(object):
 # populate_data() changes instances data structure from
 # [INSTA, INSTB, INSTC, INSTD.....]
 # to:
-# { USER.EMAIL:[
-#     PROJECT1.ID:
-#       "INSTANCE": [INSTA, INSTB]
-#       "MANAGER": [PROJECT1.ROLE_ASSIGNMENT("MANAGER").email]
-#     PROJECT2.ID:
-#       "INSTANCE": [INSTC, INSTD]
-#       "MANAGER": [PROJECT2.ROLE_ASSIGNMENT("MANAGER").email]
-# ]}
-def populate_data(instances, roles):
-    users = _populate_user_dict(instances)
-    for email, instances in users.items():
-        projects = _populate_project_dict(instances, roles)
-        users[email] = projects
-    return users
+# { PROJECT1.ID:
+#     "INSTANCE": [INSTA, INSTB]
+#     "MANAGER": [PROJECT1.ROLE_ASSIGNMENT("MANAGER").email]
+#   PROJECT2.ID:
+#     "INSTANCE": [INSTC, INSTD]
+#     "MANAGER": [PROJECT2.ROLE_ASSIGNMENT("MANAGER").email]
+# }
+def populate_data(instances):
+    projects = _populate_project_dict(instances)
+    return projects
 
 
-def _populate_user_dict(instances):
-    user = collections.defaultdict(list)
-    for instance in instances:
-        if not instance['email'] or not is_email_address(instance['email']):
-            continue
-        if instance['email'] in user.keys():
-            user[instance['email']].append(instance)
-        else:
-            user[instance['email']] = [instance]
-    return user
-
-
-def _populate_project_dict(instances, roles):
+def _populate_project_dict(instances):
     project = collections.defaultdict(dict)
     for instance in instances:
         if instance['project'] in project.keys():
             project[instance['project']]['instances'].append(instance)
         else:
-            project[instance['project']] = {'instances': [instance]}
-            if roles:
-                for role in roles:
-                    members = keystone.list_members(instance['project'],
-                                                    role)
-                    if members:
-                        cclist = []
-                        for uid in members.keys():
-                            user = keystone.get_user(keystone.client(),
-                                                     uid, use_cache=True)
-                            if user.enabled and user.email:
-                                cclist.append(user.email)
+            cclist = []
+            for role in ['TenantManager', 'Member']:
+                members = keystone.list_members(instance['project'], role)
+                if not members:
+                    continue
+                for uid in members.keys():
+                    user = keystone.get_user(keystone.client(),
+                                             uid, use_cache=True)
+                    if user.enabled and user.email:
+                        cclist.append(user.email)
+            # rule out the projects where has no valid recipients(tempest. etc)
+            if cclist:
+                project[instance['project_name']] = {'instances': [instance]}
+                project[instance['project_name']].update(
+                    {'recipients': cclist})
 
-                        project[instance['project']].update(
-                            {role: cclist})
     return project
 
 
@@ -223,16 +213,16 @@ def print_dict(dictionary, tofile=None, ident='', braces=1):
         else:
             table = _pretty_table_instances(value)
             if not isinstance(table, PrettyTable):
-                print("{}{} = {}".format(ident, key, table), file = tofile)
+                print("{}{} = {}\n".format(ident, key, value), file = tofile)
             else:
-                print("{}{} = \n{}\n".format(ident, key, value), file = tofile)
+                print("{}{} = \n{}\n".format(ident, key, table), file = tofile)
 
 
 def _pretty_table_instances(instances):
     header = None
     for inst in instances:
         if not isinstance(inst, dict):
-            return False
+            return instances
         else:
             if not header:
                 header = inst.keys()
@@ -249,38 +239,35 @@ def generate_logs(work_dir, data):
 def generate_notification_mails(subject, template, data, work_dir,
                                start_time, end_time, timezone,
                                zone, affected, nodes):
-    recipient = 0
-    for user, uservalues in data.iteritems():
-        for proj, projvalues in uservalues.items():
-            inst = projvalues['instances']
-            generator = Generator(template, subject)
-            msg, html = generator.render_templates(inst, subject, start_time,
-                                                   end_time, timezone, zone,
-                                                   affected, nodes)
-            filename = user + "@" + proj
-            with io.open(os.path.join(work_dir, filename), 'w') as mail:
-                recipient += 1
-                mail.write(msg)
+    count = 0
+    instances_list = []
+    for proj, projvalues in data.items():
+        if not projvalues['recipients']:
+            continue
+        inst = projvalues['instances']
+        recipients = ','.join(projvalues['recipients'])
+        generator = Generator(template, subject)
+        msg, html = generator.render_templates(inst, subject, start_time,
+                                               end_time, timezone, zone,
+                                               affected, nodes)
+        if not html:
+            # convert to simple html, freshdesk supports html format only
+            html = msg.replace("\n", "<br />\n")
+            html = html.replace("\s", "&#160&#160&#160&#160")
+        filename = "notification@" + proj
+        with io.open(os.path.join(work_dir, filename), 'w') as mail:
+            count += 1
+            content = {'Body': html, 'Sendto': recipients}
+            yaml.dump(content, mail, default_flow_style=False)
 
-    print("Totally %s mail(s) is generated" % recipient)
+        for ins in inst:
+            instances_list.append(ins['id'])
 
+    with open(os.path.join(work_dir, "instances.list"), 'w') as i:
+        for ins in instances_list:
+            i.write("%s\n" % ins)
 
-def render_notification(generator, data, subject, start_time, end_time,
-                        timezone, zone, affected, nodes, cc):
-    for user, uservalues in data.iteritems():
-        for proj, projvalues in uservalues.items():
-            inst = projvalues['instances']
-            msg, html = generator.render_templates(inst, subject, start_time,
-                                                   end_time, timezone, zone,
-                                                   affected, nodes)
-            cc_list = []
-            if cc:
-                for c in cc:
-                    cc_list.extend(projvalues[c])
-            if not html:
-                # convert to simple html, freshdesk supports html format only
-                html = msg.replace("\n", "<br />\n")
-            yield user, proj, cc_list, html, inst
+    print("Totally %s mail(s) is generated" % count)
 
 
 def is_email_address(mail):
@@ -353,14 +340,12 @@ def _validate_paramters(start_time, duration, instances_file, template):
         sys.exit(1)
 
 
-def mailout(work_dir, data, subject, config, cc=None):
+def mailout(work_dir, data, subject, config):
     """Mailout the generated annoucement emails
 
        :param str dir: Path to mail content
        :param str subject: Mail subject
        :param str config: mail sending configuration
-       :param str cc: cc Mail other related recipient,
-          such as Members or TenantManager of specific projects
 
     """
     print("You should run: hivemind notification.announcement_mailout " +
@@ -369,8 +354,8 @@ def mailout(work_dir, data, subject, config, cc=None):
           "notification.verify_mailout before proceeding with --no-dry-run")
 
     sender = Mail_Sender(config)
-    mails = [get_email_address(f) for f in os.listdir(work_dir)
-             if os.path.isfile(os.path.join(work_dir, f)) and "@" in f]
+    mails = [f for f in os.listdir(work_dir) if os.path.isfile(
+        os.path.join(work_dir, f)) and "notification@" in f]
 
     query = '\nMailout could send massive emails, please be cautious!!!!!\n'\
             'There are totally %s mails to be sent, still continue?'
@@ -379,31 +364,22 @@ def mailout(work_dir, data, subject, config, cc=None):
 
     print("Starting emails sending.....")
     for mail in mails:
-        if is_email_address(mail[0]):
-            with io.open(os.path.join(work_dir, '@'.join(mail)), 'rb') as f:
-                text = f.read()
-            cc_list = []
-            if cc:
-                for c in cc:
-                    c_list = data[mail[0]][mail[1]].get(c)
-                    if c_list:
-                        # Validate CC list before adding
-                        c_list = [email for email in c_list
-                                  if is_email_address(email)]
-                        cc_list.extend(c_list)
+        with io.open(os.path.join(work_dir, mail), 'rb') as f:
+            content = yaml.load(f)
+        addresses = content['Sendto'].split(',')
+        toaddress = addresses.pop(0)
 
-            sender.send_email(mail[0], subject, text, cc_list)
+        sender.send_email(toaddress, subject, content['Body'], addresses)
 
 
 @task
 @decorators.verbose
 def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
-                         status="ACTIVE", project=None, user=None,
+                         status="ALL", project=None, user=None,
                          subject="Important annoucement concerning your "
                          "instance(s)", start_time=None, duration=0,
-                         timezone="AEDT", cc = None,
-                         smtp_server=None, sender=None, instances_file=None,
-                         dry_run=True):
+                         timezone="AEDT", smtp_server=None, sender=None,
+                         instances_file=None, dry_run=True):
     """Generate mail announcements based on selective conditions
 
        :param str template: Template to use for the mailout (Mandatory)
@@ -416,8 +392,6 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str start_time: Outage start time
        :param float duration: Duration of outage in hours
        :param str timezone: Timezone
-       :param list cc: Comma separated roles(e.g.TenantManager)\
-               which will be cc-ed
        :param str instances_file: Only consider instances listed in file
        :param boolean dry_run: By default generate emails without sending out\
                use --no-dry-run to send all notifications
@@ -442,8 +416,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
         inst = get_instances_from_file(nova.client(), instances_file)
         instances = nova.extract_servers_info(inst)
 
-    cc = cc.split(",") if cc else None
-    data = populate_data(instances, cc)
+    data = populate_data(instances)
 
     # write to logs and generate emails
     work_dir = '/tmp/outbox/' + datetime.datetime.now().strftime("%y-%m-%d_" +
@@ -451,7 +424,6 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
     print("Creating Outbox: " + work_dir)
     os.makedirs(work_dir)
     affected = len(data)
-
     if affected:
         generate_logs(work_dir, data)
         generate_notification_mails(subject, template, data, work_dir,
@@ -470,7 +442,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
               "[--smtp_server SMTP_SEVRVER]")
         print("\nThen rerun the command with --no-dry-run to mail ALL users")
     else:
-        mailout(work_dir, data, subject, config, cc)
+        mailout(work_dir, data, subject, config)
 
 
 @task
@@ -485,35 +457,42 @@ def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
        :param str smtp_server: SMTP configuration
     """
     config = get_smtp_config(smtp_server, sender)
-    mails = [get_email_address(f) for f in os.listdir(dir)
-             if os.path.isfile(os.path.join(dir, f)) and "@" in f]
+    mails = [f for f in os.listdir(dir) if os.path.isfile(
+        os.path.join(dir, f)) and "notification@" in f]
 
     mail = mails[-1]
-    if not mailto:
-        mailto = mail[0]
-    if not get_email_address(mailto):
-        print("The mail address %s is not valid" % mailto)
-        sys.exit(1)
-
     sender = Mail_Sender(config)
-    with open(os.path.join(dir, '@'.join(mail)), 'rb') as f:
-        text = f.read()
-    sender.send_email(mailto, subject, text, [mailto])
+    with open(os.path.join(dir, mail), 'rb') as f:
+        content = yaml.load(f)
+    if mailto:
+        toaddress = mailto
+        addresses = [mailto]
+    else:
+        mailto = content['Sendto']
+        if not get_email_address(mailto):
+            print("The mail address %s is not valid" % mailto)
+            sys.exit(1)
+        addresses = content['Sendto'].split(',')
+        toaddress = addresses.pop(0)
+
+    sender.send_email(toaddress, subject, content['Body'], addresses)
 
 
 @task
 @decorators.verbose
 def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
-                      status="ACTIVE", project=None, user=None,
+                      status="ALL", project=None, user=None,
                       subject="Important annoucement concerning your "
                       "instance(s)", start_time=None, duration=None,
-                      timezone="AEDT", cc=None, instances_file=None,
+                      timezone="AEDT", instances_file=None,
                       dry_run=True, record_metadata=False,
-                      metadata_field="notification:fd_ticket"):
-    """Mailout announcements from freshdesk (Recommended). Freshdesk tickets
-       will be created along with outbound emails sending. Once the customer
-       responds to the mail, the reply will be appended to the ticket and
-       Status is changed to Open.
+                      metadata_field="notification:fd_ticket",
+                      test_recipient=None):
+    """Mailout announcements from freshdesk (Recommended).
+       Freshdesk tickets per project will be created along with outbound email.
+       Each mail will notify the first TenantManager and cc all other members.
+       Once the customer responds to the mail, the reply will be appended to
+       the ticket and status is changed to Open.
 
        :param str template: template path to use for the mailout
        :param str zone: Availability zone affected by outage
@@ -525,7 +504,6 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str start_time: Outage start time
        :param float duration: duration of outage in hours
        :param str timezone: Timezone
-       :param str cc: Whether to cc related roles, like TenantManager
        :param str instances_file: Only consider instances listed in file
        :param boolean dry_run: by default print info only, use --no-dry-run\
                for realsies
@@ -547,51 +525,78 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
     end_time = start_time + datetime.timedelta(hours=int(duration))\
                if (start_time and duration) else None
 
-    # find the impacted instances and construct data
-    if not instances_file:
-        instances = nova.list_instances(zone=zone, nodes=nodes, ip=ip,
-                                        project=project, user=user,
-                                        status=status, image=image)
-    else:
-        inst = get_instances_from_file(nova.client(), instances_file)
-        instances = nova.extract_servers_info(inst)
+    work_dir = '/tmp/outbox/freshdesk/'
 
-    cc = cc.split(",") if cc else None
-    data = populate_data(instances, cc)
     if dry_run:
-        print("\n DRY RUN MODE - PRINT RECIPIENTS ONLY: \n")
-        print_dict(data)
-        sys.exit(0)
-    else:
+        # find the impacted instances and construct data
+        if not instances_file:
+            instances = nova.list_instances(zone=zone, nodes=nodes, ip=ip,
+                                            project=project, user=user,
+                                            status=status, image=image)
+        else:
+            inst = get_instances_from_file(nova.client(), instances_file)
+            instances = nova.extract_servers_info(inst)
+        # group by project
+        data = populate_data(instances)
         if not data:
             print("No notification needed, exit!")
             sys.exit(0)
-        affected = sum(len(v) for v in data.itervalues())
-        query = '\nOne outbounding email will create a separate ticket. '\
+
+        affected = len(data)
+
+        print("\n DRY RUN MODE - only generate notification emails: \n")
+        # write to logs and generate emails
+        print("Creating Outbox: " + work_dir)
+        if os.path.isdir(work_dir):
+            shutil.rmtree(work_dir)
+        os.makedirs(work_dir)
+        # render email content
+        generate_logs(work_dir, data)
+        generate_notification_mails(subject, template, data, work_dir,
+                                    start_time, end_time, timezone,
+                                    zone, affected, nodes)
+    else:
+        if not os.path.isdir(work_dir):
+            print('\nPlease run the command without --no-dry-run first!')
+            print('Dry-run mode will generate notification emails at '
+                  '/tmp/outbox/freshdesk')
+            sys.exit(0)
+
+        email_files = [name for name in os.listdir(work_dir)
+                       if os.path.isfile(os.path.join(work_dir, name)) and
+                       "notification@" in name]
+
+        if test_recipient:
+            print('You have specified the test_recipient option, '
+                  'all the emails will be sent to %s' % test_recipient)
+
+        query = '\nYou are running notification script in no-dry-run mode'\
+                '\nIt will use previously generated emails under '\
+                '/tmp/outbox/freshdesk \n'\
+                'Make sure the contents are all good before you do next step'\
+                '\nOne outbounding email will create a separate ticket. '\
                 'Be cautious since it could generate massive tickets!!!\n'\
                 'There are %s tickets to be created, it takes roughly %s min '\
                 'to finish all the creation, still continue?'
-        if not query_yes_no(query % (affected, affected / 60 + 1),
-                            default='no'):
+        if not query_yes_no(query % (len(email_files),
+                                     len(email_files) / 60 + 1), default='no'):
             sys.exit(1)
 
-        generator = Generator(template, subject)
-        emails = render_notification(generator, data, subject, start_time,
-                                     end_time, timezone, zone, affected,
-                                     nodes, cc)
-        for email in emails:
-            subjectfd = "[Nectar Notice] " + subject
+        subjectfd = "[Nectar Notice] " + subject
+        for email_file in email_files:
             print('\nCreating new Freshdesk ticket')
-            # Validate the CC list
-            cc_list = [cc_email for cc_email in email[2]
-                        if is_email_address(cc_email)]
-
+            with open(os.path.join(work_dir, email_file), 'rb') as f:
+                email = yaml.load(f)
+            addresses = email['Sendto'].split(',')
+            toaddress = addresses.pop(0)
+            if test_recipient:
+                toaddress = test_recipient
+                addresses = [test_recipient]
             ticket = fd.tickets.create_outbound_email(
-                name=" ".join(email[0].split("@")[0].split(".")).upper(),
-                description=email[3],
+                description=email['Body'],
                 subject=subjectfd,
-                email=email[0],
-                cc_emails=cc_list,
+                email=toaddress,
+                cc_emails=addresses,
                 email_config_id=int(fd_config['email_config_id']),
                 group_id=int(fd_config['group_id']),
                 priority=2,
