@@ -22,6 +22,30 @@
       "revId": "1fa1afb60ac77da309d4e14da8bda6c35082edd8",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68761864_5b5fe41a",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-07-02T23:46:27Z",
+      "side": 1,
+      "message": "some files will be generated for mailout. Just want to have a different name for the email files and log/instances files. Will add more comments about this",
+      "parentUuid": "a50983ce_ad9a36f9",
+      "range": {
+        "startLine": 358,
+        "startChar": 39,
+        "endLine": 358,
+        "endChar": 54
+      },
+      "revId": "1fa1afb60ac77da309d4e14da8bda6c35082edd8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
