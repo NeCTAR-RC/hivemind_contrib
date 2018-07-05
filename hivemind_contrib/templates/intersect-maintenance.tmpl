@@ -1,0 +1,81 @@
+Dear Nectar Research Cloud User,
+
+This email is to inform you of a scheduled outage to the Intersect Zone
+of the Nectar Research Cloud.
+
+DURATION:   {{ days }} day{% if days > 1 %}s{% endif %} {{ hours }} hours
+START TIME: {{ start_ts }} {{ tz }}
+END TIME:   {{ end_ts }} {{ tz }}
+
+DESCRIPTION:
+
+Users of the Intersect zone are advised that on July 26 there will be
+a series of rolling outages affecting most Intersect Nectar instances.
+These outages are part of regular maintenance.
+
+All compute node will be patched and rebooted, and this requires downtime
+for the instances.  The upgrade work will be performed progressively,
+with a number of compute nodes out of service at any one time. It is
+anticipated that each compute node will take about 1 hour.
+
+The upgrade procedure for each node will be as follows:
+
+1. All ACTIVE (i.e. running) NeCTAR instances on the compute node will
+   be shut down.
+2. The required updates will be done and the compute node will be rebooted.
+3. All instances that were ACTIVE in step 1. will be restarted.
+
+We cannot give a detailed schedule for when specific instances will be
+shut down and restarted, but we will use the @InterectOps twitter feed
+to keep you posted on progress.
+
+Impact:
+
+{% if affected -%}
+Your current instances in the Intersect zone are listed below.
+
+UUID \s IP Address \s Host \s Project
+{% for instance in instances -%}
+{{ instance.id }} \s {{ ','.join(instance.addresses) }} \s {{ instance.name }} \s {{ instance.project_name }}
+{% endfor -%}
+{% endif %}
+
+Advice:
+
+*  If your instances are providing services to end-users, plan an outage
+   window, and announce it to them.
+
+*  Ensure that your critical instances have appropriate (and tested) backup /
+   disaster recovery procedures, and that you have recent backups prior to
+   the outage window.
+
+*  We recommend that you put your instances into SHUTDOWN state before
+   the outage window, and then restart them yourself when notified.  You
+   should definitely do this if your instances are interdependent, or if
+   they have to be restarted in a specific order.
+
+*  If you have instances that are surplus to requirements, please release
+   the resources for other users to use.  This is includes instances that
+   have been in SHUTDOWN, PAUSED, STOPPED or ERROR state for a long time.
+
+Also, users connected with multiple Nectar projects may receive a copy of
+this email per project.  Sorry for spamming you.
+
+If you have any queries regarding this outage, please contact us by email:
+
+   support@ehelp.edu.au
+
+We apologise sincerely for any inconvenience caused by this outage.
+
+Regards,
+
+The Nectar Research Cloud Support Team
+
+--
+This email has been sent to users of the Nectar Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your Nectar Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
+
