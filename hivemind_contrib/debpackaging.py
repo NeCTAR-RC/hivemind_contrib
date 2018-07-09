@@ -231,8 +231,11 @@ def buildbackport(os_release=None, name=None, revision=1, upload=True):
 def promote(package_name,
             release='%s-%s' % (
                 pbuilder.dist_from_release(pbuilder.STABLE_RELEASE),
+                pbuilder.STABLE_RELEASE),
+            source='%s-%s-testing' % (
+                pbuilder.dist_from_release(pbuilder.STABLE_RELEASE),
                 pbuilder.STABLE_RELEASE)):
-    execute(repo.cp_package, package_name, release + '-testing', release)
+    execute(repo.cp_package, package_name, source, release)
 
 
 @task
