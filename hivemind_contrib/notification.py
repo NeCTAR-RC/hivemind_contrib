@@ -178,8 +178,8 @@ def populate_data(instances):
 def _populate_project_dict(instances):
     project = collections.defaultdict(dict)
     for instance in instances:
-        if instance['project'] in project.keys():
-            project[instance['project']]['instances'].append(instance)
+        if instance['project_name'] in project.keys():
+            project[instance['project_name']]['instances'].append(instance)
         else:
             cclist = []
             for role in ['TenantManager', 'Member']:
