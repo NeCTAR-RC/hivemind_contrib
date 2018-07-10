@@ -380,8 +380,10 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          "instance(s)", start_time=None, duration=0,
                          timezone="AEDT", smtp_server=None, sender=None,
                          instances_file=None, dry_run=True):
-    """Generate mail announcements based on options. Some files will be
-       generated and written into /tmp/outbox/<time-stamp> in dry run mode,
+    """Generate mail announcements based on options.
+
+       Some files will be generated and written into
+       ~/hivemind-mailout-outbox/<time-stamp> in dry run mode,
        which are for operator check and no-dry-run use. They include: 1)
        notify.log: run log with all instances info and its email recipients;
        2) notification@<project-name>: rendered emails content and
@@ -424,8 +426,9 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
     data = populate_data(instances)
 
     # write to logs and generate emails
-    work_dir = '/tmp/outbox/' + datetime.datetime.now().strftime("%y-%m-%d_" +
-                                                                 "%H:%M:%S")
+    work_dir = os.path.join(os.path.expanduser('~'), 'hivemind-mailout-outbox',
+                            datetime.datetime.now().strftime(
+                                "%y-%m-%d_" + "%H:%M:%S"))
     print("Creating Outbox: " + work_dir)
     os.makedirs(work_dir)
     affected = len(data)
@@ -454,6 +457,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
 @decorators.verbose
 def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
     """Verify mail sending to specific test address.
+
        The command should be used after announcement_mailout command run.
 
        :param str dir: Path to mail content genearted by announcement_mailout
@@ -494,14 +498,15 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                       dry_run=True, record_metadata=False,
                       metadata_field="notification:fd_ticket",
                       test_recipient=None):
-    """Mailout announcements from freshdesk (Recommended). Freshdesk tickets
-       per project will be created along with outbound email. Each mail will
-       notify the first TenantManager and cc all other members. Once the
-       customer responds to the mail, the reply will be appended to the
-       ticket and status is changed to Open. Some files will be generated and
-       written into /tmp/outbox/freshdesk/ in dry run mode, which are for
-       operator check and no-dry-run use. They include: 1) notify.log: run
-       log with all instances info and its email recipients;
+    """Mailout announcements from freshdesk (Recommended).
+
+       Freshdesk ticket per project will be created along with outbound email.
+       Each mail will notify the first TenantManager and cc all other members.
+       Once the customer responds to the mail, the reply will be appended to
+       the ticket and status is changed to Open. Some files will be generated
+       and written into ~/hivemind-mailout-outbox/freshdesk/ in dry run mode,
+       which are for operator check and no-dry-run use. They include: 1)
+       notify.log: run log with all instances info and its email recipients;
        2) notification@<project-name>: rendered emails content and
        recipients; 3) instances.list: all impacted instances id
 
@@ -536,7 +541,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
     end_time = start_time + datetime.timedelta(hours=int(duration))\
                if (start_time and duration) else None
 
-    work_dir = '/tmp/outbox/freshdesk/'
+    work_dir = os.path.join(os.path.expanduser('~'),
+                            'hivemind-mailout-outbox/freshdesk/')
 
     if dry_run:
         # find the impacted instances and construct data
@@ -570,7 +576,7 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
         if not os.path.isdir(work_dir):
             print('\nPlease run the command without --no-dry-run first!')
             print('Dry-run mode will generate notification emails at '
-                  '/tmp/outbox/freshdesk')
+                  '~/hivemind-mailout-outbox/freshdesk')
             sys.exit(0)
 
         email_files = [name for name in os.listdir(work_dir)
@@ -583,7 +589,7 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
 
         query = '\nYou are running notification script in no-dry-run mode'\
                 '\nIt will use previously generated emails under '\
-                '/tmp/outbox/freshdesk \n'\
+                '~/hivemind-mailout-outbox/freshdesk \n'\
                 'Make sure the contents are all good before you do next step'\
                 '\nOne outbounding email will create a separate ticket. '\
                 'Be cautious since it could generate massive tickets!!!\n'\
