@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30132faa_6e3d5fc6",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-07-10T06:52:36Z",
+      "side": 1,
+      "message": "little worried about this change. If a user had a dir called outbox already then not so good? Maybe something more unique like ~/hivemind-mailout-outbox or something like that. Just makes it super clear?",
+      "range": {
+        "startLine": 384,
+        "startChar": 34,
+        "endLine": 384,
+        "endChar": 43
+      },
+      "revId": "884d7d0e5454d48714826e5d5ec9b341cd5fdd3f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
