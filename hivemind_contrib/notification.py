@@ -188,7 +188,8 @@ def _populate_project_dict(instances):
                 for uid in members.keys():
                     user = keystone.get_user(keystone.client(),
                                              uid, use_cache=True)
-                    if user.enabled and user.email:
+                    if getattr(user, 'enabled', None) and \
+                       getattr(user, 'email', None):
                         cclist.append(user.email)
             # rule out the projects where has no valid recipients(tempest. etc)
             if cclist:
