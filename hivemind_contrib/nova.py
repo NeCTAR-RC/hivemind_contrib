@@ -269,7 +269,7 @@ def _extract_ip(server):
         for addr in address:
             if addr['addr']:
                 addresses.add(addr['addr'])
-    return set(addresses)
+    return list(addresses)
 
 
 def parse_dash(range_str):
