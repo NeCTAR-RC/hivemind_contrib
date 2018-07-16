@@ -4,7 +4,7 @@ from hivemind.decorators import verbose
 
 
 def reprepro(command):
-    with fapi.cd("/data/web/nectar-ubuntu"):
+    with fapi.cd("/srv/nectar-ubuntu"):
         fapi.run("reprepro {0}".format(command))
 
 
@@ -29,7 +29,7 @@ def ls(package):
 @fapi.hosts("repo@download.rc.nectar.org.au")
 def list_distributions():
     """List all the distributions."""
-    with fapi.cd("/data/web/nectar-ubuntu/dists"):
+    with fapi.cd("/srv/nectar-ubuntu/dists"):
         fapi.run("ls")
 
 
@@ -38,7 +38,7 @@ def list_distributions():
 @fapi.hosts("repo@download.rc.nectar.org.au")
 def cp_package(package, source, dest):
     """Copy a package from a source to a destination distribution."""
-    with fapi.cd("/data/web/nectar-ubuntu"), fapi.hide("stdout"):
+    with fapi.cd("/srv/nectar-ubuntu"), fapi.hide("stdout"):
         packages = fapi.run("reprepro listfilter %s '$Source (==%s)' | "
                             "awk '{print $2}' | sort | uniq" % (source,
                                                                 package))
