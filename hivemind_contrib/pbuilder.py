@@ -20,8 +20,8 @@ STABLE_RELEASE = "mitaka"
 OPENSTACK_RELEASES = ['queens', 'pike', 'ocata', 'newton', 'mitaka',
                       'liberty', 'kilo']
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
-CLOUD_ARCHIVE = 'http://mirrors.melbourne.nectar.org.au/ubuntu-cloud/ubuntu/'
-UBUNTU_MIRROR = 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/'
+CLOUD_ARCHIVE = 'http://download.rc.nectar.org.au/ubuntu-cloud/ubuntu/'
+UBUNTU_MIRROR = 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/'
 
 
 def dist_from_release(release):
@@ -116,8 +116,8 @@ mirrors = {
 }
 
 ubuntu_mirrors = {
-    'trusty': 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/',
-    'xenial': 'http://mirrors.melbourne.nectar.org.au/ubuntu-archive/ubuntu/',
+    'trusty': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
+    'xenial': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
 }
 
 
