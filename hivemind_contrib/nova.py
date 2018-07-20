@@ -228,7 +228,10 @@ def extract_server_info(server):
 
         # handle vms which are not booted from glance images
         server_image = getattr(server, "image", None)
-        server_info['image'] = server_image.get("id", None)
+        if server_image:
+            server_info['image'] = server_image.get("id", None)
+        else:
+            server_info['image'] = None
 
         # handle some tier2 services which using "global" service user/project
         if server.metadata and 'user_id' in server.metadata.keys()\
