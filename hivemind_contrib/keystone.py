@@ -60,9 +60,10 @@ def get_session(username=None, password=None, tenant_name=None, auth_url=None):
     return session.Session(auth=auth)
 
 
-def client(version=3):
-    sess = get_session()
-    return keystone_client.Client(version, session=sess)
+def client(version=3, session=None):
+    if session is None:
+        session = get_session()
+    return keystone_client.Client(version, session=session)
 
 
 def get_projects_module(keystone):

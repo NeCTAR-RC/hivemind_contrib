@@ -215,7 +215,7 @@ def _match_ip_address(server, ips):
     return False
 
 
-def extract_server_info(server):
+def extract_server_info(server, ksclient):
     server_info = collections.defaultdict(dict)
     try:
         server_info['id'] = server.id
@@ -245,9 +245,9 @@ def extract_server_info(server):
         server_info['addresses'] = _extract_ip(server)
 
         server_info['project_name'] = keystone.get_project(
-            keystone.client(), server_info['project'], use_cache=True).name
+            ksclient, server_info['project'], use_cache=True).name
         user = keystone.get_user(
-            keystone.client(), server_info['user'], use_cache=True)
+            ksclient, server_info['user'], use_cache=True)
 
         # handle instaces created by jenkins/tempest and users without fullname
         # set disabled user's email/fullname as None as it should be ruled out
@@ -357,9 +357,12 @@ def _normalize_time(string):
 
 
 @Spinner
-def extract_servers_info(servers):
+def extract_servers_info(servers, ksclient=None):
     print("\nExtracting instances information... ", end="")
-    return [extract_server_info(server) for server in servers]
+    if ksclient is None:
+        ksclient = keystone.client()
+    return [extract_server_info(server, ksclient=ksclient)
+            for server in servers]
 
 
 @Spinner
@@ -504,7 +507,7 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
     if not result:
         print("No instances found!")
         sys.exit(0)
-    result = extract_servers_info(result)
+    result = extract_servers_info(result, keystone.client())
 
     if scenario:
         func = globals()["_scenario_" + scenario]

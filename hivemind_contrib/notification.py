@@ -176,6 +176,8 @@ def populate_data(instances):
 
 
 def _populate_project_dict(instances):
+    session = keystone.get_session()
+    ksclient = keystone.client(session=session)
     project = collections.defaultdict(dict)
     for instance in instances:
         if instance['project_name'] in project.keys():
@@ -187,8 +189,7 @@ def _populate_project_dict(instances):
                 if not members:
                     continue
                 for uid in members.keys():
-                    user = keystone.get_user(keystone.client(),
-                                             uid, use_cache=True)
+                    user = keystone.get_user(ksclient, uid, use_cache=True)
                     if getattr(user, 'enabled', None) and \
                        getattr(user, 'email', None):
                         cclist.append(user.email)
