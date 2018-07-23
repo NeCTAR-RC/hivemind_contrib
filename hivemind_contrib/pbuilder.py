@@ -27,6 +27,8 @@ UBUNTU_MIRROR = 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/'
 def dist_from_release(release):
     if release in ['liberty', 'kilo']:
         return 'trusty'
+    if release == 'queens':
+        return 'bionic'
     return 'xenial'
 
 
@@ -41,6 +43,7 @@ def build_trusted():
     local("touch {0}".format(db))
     apt_key_recv_key("5EDB1B62EC4926EA", db)
     apt_key_recv_key("40976EAF437D05B5", db)
+    apt_key_recv_key("3B4FE6ACC0B21F32", db)
     with tempfile.NamedTemporaryFile() as tmp_gpg:
         response = requests.get(NECTAR_REPO + "nectar-custom.gpg")
         tmp_gpg.write(response.content)
@@ -106,18 +109,25 @@ mirrors = {
         "deb " + NECTAR_REPO + " xenial-pike-testing main",
         "deb " + NECTAR_REPO + " xenial-testing main",
         "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
-    'queens': [
+    'xqueens': [
         "deb " + CLOUD_ARCHIVE + " xenial-updates/queens main",
         "deb " + NECTAR_REPO + " xenial main",
         "deb " + NECTAR_REPO + " xenial-queens main",
         "deb " + NECTAR_REPO + " xenial-queens-testing main",
         "deb " + NECTAR_REPO + " xenial-testing main",
         "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
+    'queens': [
+        "deb " + NECTAR_REPO + " bionic main",
+        "deb " + NECTAR_REPO + " bionic-queens main",
+        "deb " + NECTAR_REPO + " bionic-queens-testing main",
+        "deb " + NECTAR_REPO + " bionic-testing main",
+        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
 }
 
 ubuntu_mirrors = {
     'trusty': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
     'xenial': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
+    'bionic': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
 }
 
 
