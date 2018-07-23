@@ -46,6 +46,8 @@ def parse_openstack_release(branch):
     release = split_branch(branch)
     if release in pbuilder.OPENSTACK_RELEASES:
         return release
+    elif release in pbuilder.UBUNTU_RELEASES:
+        return release
     return pbuilder.STABLE_RELEASE
 
 
@@ -123,8 +125,8 @@ def pbuilder_buildpackage(release, name=None):
         local("git-pbuilder -sa")
 
 
-def git_buildpackage(current_branch, upstream_tree, release, name=None):
-    with pbuilder.pbuilder_env(release, name):
+def git_buildpackage(current_branch, upstream_tree, release, ubuntu_release=None, name=None):
+    with pbuilder.pbuilder_env(release, name, ubuntu_release):
         local("gbp buildpackage -sa --git-debian-branch={0} "
               "--git-upstream-tree={1} --git-no-pristine-tar "
               "--git-force-create".format(current_branch, upstream_tree))
@@ -174,7 +176,7 @@ def discover_debian_branch(current_branch, version, os_release):
 
 @task
 @verbose
-def buildpackage(os_release=None, name=None, upload=True):
+def buildpackage(os_release=None, name=None, upload=True, ubuntu_release=None):
     """Build a package for the current repository."""
     git.assert_in_repository()
     version = git_version()
@@ -186,15 +188,19 @@ def buildpackage(os_release=None, name=None, upload=True):
         source_package = dpkg_parsechangelog()
         current_version = source_package["Version"]
         version['debian'] = get_debian_commit_number()
-        dist = pbuilder.dist_from_release(os_release)
+        if ubuntu_release:
+            dist = ubuntu_release
+        else:
+            dist = pbuilder.dist_from_release(os_release)
+        dist_release = pbuilder.get_build_env(os_release, ubuntu_release)
         version['distribution'] = dist
         release_version = debian_version(current_version, version)
-        local("dch -v {0} -D {1}-{2} --force-distribution 'Released'"
-              .format(release_version, dist, os_release))
+        local("dch -v {0} -D {1} --force-distribution 'Released'"
+              .format(release_version, dist_release))
         local("git add debian/changelog")
         local("git commit -m \"{0}\"".format("Updated Changelog"))
         git_buildpackage(current_branch, upstream_tree=merge.old_head,
-                         release=os_release, name=name)
+                         release=os_release, name=name, ubuntu_release=ubuntu_release)
         # Regenerate the source package information since it's changed
         # since we updated the changelog.
         source_package = dpkg_parsechangelog()
