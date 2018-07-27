@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "641efaba_f7019f0b",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-07-27T01:24:21Z",
+      "side": 1,
+      "message": "it\u0027s a task. I call it from the command line",
+      "parentUuid": "4e6209f8_92326535",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 69
+      },
+      "revId": "9b0f0d1f0d2b7af7554f35c5f4cb15b1f8471ac6",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6daba080_8458bb8a",
         "filename": "hivemind_contrib/glance.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-07-27T01:00:09Z",
       "side": 1,
       "message": "should this be `name \u003d \u0027%s (v%s)\u0027 % (name, build)`?",
+      "range": {
+        "startLine": 207,
+        "startChar": 8,
+        "endLine": 207,
+        "endChar": 38
+      },
+      "revId": "9b0f0d1f0d2b7af7554f35c5f4cb15b1f8471ac6",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12dfa017_a1abc98d",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-07-27T01:24:21Z",
+      "side": 1,
+      "message": "build variable is already set like that. See above at the assignment",
+      "parentUuid": "6daba080_8458bb8a",
       "range": {
         "startLine": 207,
         "startChar": 8,
