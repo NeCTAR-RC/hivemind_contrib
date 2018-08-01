@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "325d6dcc_02f27a45",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-08-01T07:13:18Z",
+      "side": 1,
+      "message": "`build` might not be defined if the previous try block failed?",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 38
+      },
+      "revId": "b9904bde82403fc30035251386d7fd3322f2a4ce",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
