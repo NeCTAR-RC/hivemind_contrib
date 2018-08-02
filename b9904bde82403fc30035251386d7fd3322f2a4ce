@@ -22,6 +22,30 @@
       "revId": "b9904bde82403fc30035251386d7fd3322f2a4ce",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fde173f_e36b77b1",
+        "filename": "hivemind_contrib/glance.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-08-02T23:51:13Z",
+      "side": 1,
+      "message": "actually, we\u0027re OK. If build is not defined, the error() statement above is basically raising an exception. \n\nI did actually hit this case when I was using it earlier, and it was all good.",
+      "parentUuid": "325d6dcc_02f27a45",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 38
+      },
+      "revId": "b9904bde82403fc30035251386d7fd3322f2a4ce",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
