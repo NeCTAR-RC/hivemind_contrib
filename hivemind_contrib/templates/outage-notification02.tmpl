@@ -27,9 +27,9 @@ Your current instances in the {{ zone }} zone are listed below.
 {% if affected -%}
 AFFECTED INSTANCES:
 
-UUID                                  IP Address      Host            Project
+UUID \s IP Address \s Host \s Project
 {% for instance in instances -%}
-{{ instance.id }}  {{ instance.accessIPv4 }}  {{ instance.name }}      {{ instance.project_name }}
+{{ instance.id }} \s {{ ','.join(instance.addresses) }} \s {{ instance.name }} \s {{ instance.project_name }}
 {% endfor -%}
 {% endif %}
 

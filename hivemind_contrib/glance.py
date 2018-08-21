@@ -76,6 +76,56 @@ def match(name, build, image):
 @task
 @decorators.verbose
 def promote(image_id, dry_run=True, project=None, contributed=False):
+
+    gc = client()
+    try:
+        image = gc.images.get(image_id)
+    except exc.HTTPNotFound:
+        error("Image ID not found.")
+
+    if contributed:
+        archive_project = get_contributed_project(project)
+        promote_contributed(gc, image, dry_run, project=archive_project)
+    else:
+        archive_project = get_archive_project(project)
+        promote_official(gc, image, dry_run, project=archive_project)
+
+
+def promote_contributed(gc, image, dry_run, project):
+    if dry_run:
+        print("Running in dry run mode")
+
+        if project:
+            print("Would change ownership of image {} ({}) to "
+                  "project {} ({})".format(image.name, image.id,
+                      project.name, project.id))
+    else:
+        if project:
+            print("Changing ownership of image {} ({}) to "
+                  "project {} ({})".format(image.name, image.id,
+                      project.name, project.id))
+            now = datetime.datetime.now()
+            publish_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+            expire = now + datetime.timedelta(days=180)
+            expiry_date = expire.strftime("%Y-%m-%dT%H:%M:%SZ")
+            gc.images.update(image.id, owner=project.id,
+                             published_at=publish_date,
+                             expires_at=expiry_date)
+
+    if image.visibility == 'public':
+        print("Image {} ({}) already set public"
+              .format(image.name, image.id))
+    else:
+        if dry_run:
+            print("Would set image {} ({}) to public"
+                  .format(image.name, image.id))
+        else:
+            print("Setting image {} ({}) to public"
+                  .format(image.name, image.id))
+            gc.images.update(image.id, visibility='public')
+
+
+def promote_official(gc, image, dry_run, project):
     """If the supplied image has nectar_name and nectar_build metadata, set
     to public. If there is an image with matching nectar_name and lower
     nectar_build, move that image to the <NECTAR_ARCHIVES> project.
@@ -84,56 +134,18 @@ def promote(image_id, dry_run=True, project=None, contributed=False):
     if dry_run:
         print("Running in dry run mode")
 
-    archive_project = None
-    if project:
-        if contributed:
-            archive_project = get_contributed_project(project)
-        else:
-            archive_project = get_archive_project(project)
-
-    gc = client()
     try:
-        image = gc.images.get(image_id)
-    except exc.HTTPNotFound:
-        error("Image ID not found.")
-    if not contributed:
-        try:
-            name = image.nectar_name
-            build = (int(image.nectar_build))
-        except AttributeError:
-            error("nectar_name or nectar_build not found for image.")
+        name = image.nectar_name
+        build = (int(image.nectar_build))
+    except AttributeError:
+        error("nectar_name or nectar_build not found for image.")
 
-        m_check = partial(match, name, build)
-        matchingimages = filter(m_check,
-                                gc.images.list(filters={'owner': image.owner}))
-    else:
-        matchingimages = [image]
+    m_check = partial(match, name, build)
+    matchingimages = filter(m_check,
+                            gc.images.list(filters={'owner': image.owner}))
 
     for i in matchingimages:
-        if dry_run:
-            if archive_project:
-                print("Would change ownership of image {} ({}) to "
-                      "project {} ({})".format(i.name, i.id,
-                          archive_project.name, archive_project.id))
-            if 'murano_image_info' in i:
-                print('Would remove murano image properties from {}'
-                      .format(i.id))
-        else:
-            if archive_project:
-                print("Changing ownership of image {} ({}) to "
-                      "project {} ({})".format(i.name, i.id,
-                          archive_project.name, archive_project.id))
-                now = datetime.datetime.now()
-                publish_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-                expire = now + datetime.timedelta(days=180)
-                expiry_date = expire.strftime("%Y-%m-%dT%H:%M:%SZ")
-                gc.images.update(i.id, owner=archive_project.id,
-                                 published_at=publish_date,
-                                 expires_at=expiry_date)
-            if 'murano_image_info' in i:
-                print('Removing murano image properties from {}'
-                      .format(i.id))
-                gc.images.update(i.id, remove_props=['murano_image_info'])
+        archive_official(gc, image, dry_run, project)
 
     if image.visibility == 'public':
         print("Image {} ({}) already set public"
@@ -151,18 +163,6 @@ def promote(image_id, dry_run=True, project=None, contributed=False):
 @task
 @decorators.verbose
 def archive(image_id, dry_run=True, project=None, contributed=False):
-    """Archive image by moving it to the <NECTAR_ARCHIVES> project.
-    If the contributed flag is set
-    please specify the contributed archive project id.
-    """
-    if dry_run:
-        print("Running in dry run mode")
-
-    archive_project = None
-    if contributed:
-        archive_project = get_contributed_archive_project(project)
-    else:
-        archive_project = get_archive_project(project)
 
     gc = client()
     try:
@@ -170,20 +170,54 @@ def archive(image_id, dry_run=True, project=None, contributed=False):
     except exc.HTTPNotFound:
         error("Image ID not found.")
 
+    if contributed:
+        archive_project = get_contributed_archive_project(project)
+        archive_contributed(gc, image, dry_run, archive_project)
+    else:
+        archive_project = get_archive_project(project)
+        archive_official(gc, image, dry_run, archive_project)
+
+
+def archive_contributed(gc, image, dry_run, project):
     if dry_run:
-        if archive_project:
-            print("Would archive image {} ({}) to project {} ({})"
-                  .format(image.name, image.id,
-                          archive_project.name, archive_project.id))
+        print("Running in dry run mode")
+        print("Would archive image {} ({}) to project {} ({})"
+              .format(image.name, image.id,
+                      project.name, project.id))
+    else:
+        print("Archiving image {} ({}) to project {} ({})"
+              .format(image.name, image.id, project.name, project.id))
+        gc.images.update(image.id, owner=project.id)
+
+
+def archive_official(gc, image, dry_run, project):
+    """Archive image by moving it to the <NECTAR_ARCHIVES> project.
+    If the contributed flag is set
+    please specify the contributed archive project id.
+    """
+    name = image.name
+    try:
+        build = '[v%s]' % image.nectar_build
+    except AttributeError:
+        error("nectar_build not found for image.")
+
+    # Add build number to name if it's not already there
+    # E.g. NeCTAR Ubuntu 17.10 LTS (Artful) amd64 (v10)
+    if build not in name:
+        name = '%s %s' % (name, build)
+
+    if dry_run:
+        print("Running in dry run mode")
+        print("Would archive image {} ({}) to project {} ({})"
+              .format(name, image.id,
+                      project.name, project.id))
         if 'murano_image_info' in image:
             print('Would remove murano image properties from {}'
                   .format(image.id))
     else:
-        if archive_project:
-            print("Archiving image {} ({}) to project {} ({})"
-                  .format(image.name, image.id,
-                          archive_project.name, archive_project.id))
-        gc.images.update(image.id, owner=archive_project.id)
+        print("Archiving image {} ({}) to project {} ({})"
+              .format(name, image.id, project.name, project.id))
+        gc.images.update(image.id, name=name, owner=project.id)
 
         if 'murano_image_info' in image:
             print('Removing murano image properties from {}'.format(image.id))

@@ -1,4 +1,5 @@
 import collections
+import csv
 import os
 import random
 import re
@@ -22,6 +23,10 @@ except ImportError:
     from keystoneclient.auth import identity
     from keystoneclient import session
     loading = None
+
+# global session cache for project and user query data
+project_cache = {}
+user_cache = {}
 
 
 @decorators.configurable('nectar.openstack.client')
@@ -55,9 +60,10 @@ def get_session(username=None, password=None, tenant_name=None, auth_url=None):
     return session.Session(auth=auth)
 
 
-def client(version=3):
-    sess = get_session()
-    return keystone_client.Client(version, session=sess)
+def client(version=3, session=None):
+    if session is None:
+        session = get_session()
+    return keystone_client.Client(version, session=session)
 
 
 def get_projects_module(keystone):
@@ -67,25 +73,41 @@ def get_projects_module(keystone):
         return keystone.tenants
 
 
-def get_project(keystone, name_or_id):
+def get_project(keystone, name_or_id, use_cache=False):
+    """Add access to project_cache to store all project objects
+    """
     projects = get_projects_module(keystone)
-    try:
-        project = projects.get(name_or_id)
-    except NotFound:
-        project = projects.find(name=name_or_id)
+    if use_cache and name_or_id in project_cache:
+        project = project_cache[name_or_id]
+    else:
+        try:
+            project = projects.get(name_or_id)
+        except NotFound:
+            project = projects.find(name=name_or_id)
+        finally:
+            if project:
+                project_cache.update({project.id: project})
     return project
 
 
-def get_tenant(keystone, name_or_id):
+def get_tenant(keystone, name_or_id, use_cache=False):
     print("get_tenant is deprecated, use get_project instead")
-    return get_project(keystone, name_or_id)
+    return get_project(keystone, name_or_id, use_cache)
 
 
-def get_user(keystone, name_or_id):
-    try:
-        user = keystone.users.get(name_or_id)
-    except NotFound:
-        user = keystone.users.find(name=name_or_id)
+def get_user(keystone, name_or_id, use_cache=False):
+    """Add access to user_cache to store all user objects
+    """
+    if use_cache and name_or_id in user_cache:
+        user = user_cache[name_or_id]
+    else:
+        try:
+            user = keystone.users.get(name_or_id)
+        except NotFound:
+            user = keystone.users.find(name=name_or_id)
+        finally:
+            if user:
+                user_cache.update({user.id: user})
     return user
 
 
@@ -419,3 +441,20 @@ def add_bot_account(project, user, suffix='bot'):
     print(str(table))
     add_project_roles(project, new_user, ['bot_user'])
     user_projects(new_user)
+
+
+@task
+def users_mailing_list(output):
+    """Generate a CSV file of current Nectar users email addresses.
+    """
+    keystone = client()
+    users = keystone.users.list(enabled=True)
+
+    with open(output, 'w') as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(['email', 'name'])
+        for user in users:
+            if getattr(user, 'email', None):
+                name = getattr(user, 'full_name', '')
+                writer.writerow([user.email, name])
+    print('CSV file written to {}'.format(output))

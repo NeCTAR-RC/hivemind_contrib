@@ -10,9 +10,9 @@ If your instances are no longer in use, please delete/terminate them. If you wou
 
 Your affected instances are:
 
-UUID                                  IP Address      Host            Project
+UUID \s IP Address \s Host \s Project
 {% for instance in instances -%}
-{{ instance.id }}  {{ instance.accessIPv4 }}  {{ instance.name }}      {{ instance.project_name }}
+{{ instance.id }} \s {{ instance.addresses }} \s {{ instance.name }} \s {{ instance.project_name }}
 {% endfor -%}
 
 Whilst no impact to data stored on research cloud servers is expected, we recommend users ensure all backups are up-to-date. If you have particular concerns regarding how this outage might impact your services running atop the research cloud then please contact research cloud support as soon as possible so that we can plan an alternate strategy for the relevant instances.

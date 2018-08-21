@@ -40,10 +40,6 @@ instances_table = Table('instances', metadata,
                         Column('uuid', String(36)),
                         Column('image_ref', String(255)))
 
-# global cache for keystone api calls
-project_cache = {}
-user_cache = {}
-
 
 @decorators.configurable('connection')
 def db_connect(uri):
@@ -139,6 +135,7 @@ def server_address(client, id):
 def all_servers(client, zone=None, host=None, status=None, ip=None,
                 image=None, project=None, user=None, limit=None,
                 changes_since=None):
+    print("\nListing the instances... ", end="")
     marker = None
     opts = {}
     opts["all_tenants"] = True
@@ -151,9 +148,11 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
     if changes_since:
         opts['changes-since'] = changes_since
     if project:
-        opts['tenant_id'] = keystone.get_project(keystone.client(), project).id
+        opts['tenant_id'] = keystone.get_project(keystone.client(), project,
+                                                 use_cache=True).id
     if user:
-        opts['user_id'] = keystone.get_user(keystone.client(), user).id
+        opts['user_id'] = keystone.get_user(keystone.client(), user,
+                                            use_cache=True).id
 
     host_list = parse_nodes(host) if host else None
     az_list = parse_nodes(zone) if zone else None
@@ -181,7 +180,13 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             instances = client.servers.list(search_opts=opts)
             if not instances:
                 return inst
-            marker = instances[-1].id
+            # for some instances stuck in build phase, servers.list api
+            # will always return the marker instance. Add old marker and
+            # new marker comparision to avoid the dead loop
+            marker_new = instances[-1].id
+            if marker == marker_new:
+                return inst
+            marker = marker_new
             instances = filter(lambda x: _match_availability_zone(x, az_list),
                                instances)
             instances = filter(lambda x: _match_ip_address(x, ip_list),
@@ -204,15 +209,13 @@ def _match_ip_address(server, ips):
     if not ips:
         return True
     for ip in ips:
-        if ip == server.accessIPv4 or ip == server.accessIPv6:
-            return True
         if any(map(lambda a: any(map(lambda aa: ip in aa['addr'], a)),
                         server.addresses.values())):
             return True
     return False
 
 
-def extract_server_info(server, project_cache, user_cache):
+def extract_server_info(server, ksclient):
     server_info = collections.defaultdict(dict)
     try:
         server_info['id'] = server.id
@@ -225,7 +228,10 @@ def extract_server_info(server, project_cache, user_cache):
 
         # handle vms which are not booted from glance images
         server_image = getattr(server, "image", None)
-        server_info['image'] = getattr(server_image, "id", None)
+        if server_image:
+            server_info['image'] = server_image.get("id", None)
+        else:
+            server_info['image'] = None
 
         # handle some tier2 services which using "global" service user/project
         if server.metadata and 'user_id' in server.metadata.keys()\
@@ -236,11 +242,12 @@ def extract_server_info(server, project_cache, user_cache):
             server_info['user'] = server.user_id
             server_info['project'] = server.tenant_id
 
-        server_info['accessIPv4'] = _extract_ip(server)
+        server_info['addresses'] = _extract_ip(server)
 
-        server_info['project_name'] = _extract_project_info(server_info,
-                                                            project_cache).name
-        user = _extract_user_info(server_info, user_cache)
+        server_info['project_name'] = keystone.get_project(
+            ksclient, server_info['project'], use_cache=True).name
+        user = keystone.get_user(
+            ksclient, server_info['user'], use_cache=True)
 
         # handle instaces created by jenkins/tempest and users without fullname
         # set disabled user's email/fullname as None as it should be ruled out
@@ -258,32 +265,14 @@ def extract_server_info(server, project_cache, user_cache):
     return server_info
 
 
-def _extract_project_info(server, project_cache):
-    if server['project'] not in project_cache.keys():
-        project_cache[server['project']] = keystone.get_project(
-            keystone.client(), server['project'])
-    return project_cache[server['project']]
-
-
-def _extract_user_info(server, user_cache):
-    if server['user'] not in user_cache.keys():
-        user_cache[server['user']] = keystone.get_user(keystone.client(),
-                                                       server['user'])
-    return user_cache[server['user']]
-
-
 def _extract_ip(server):
     addresses = set()
-    if server.accessIPv4:
-        addresses.add(server.accessIPv4)
-    elif server.accessIPv6:
-        addresses.add(server.accessIPv6)
 
     for address in server.addresses.values():
         for addr in address:
             if addr['addr']:
                 addresses.add(addr['addr'])
-    return set(addresses)
+    return list(addresses)
 
 
 def parse_dash(range_str):
@@ -368,13 +357,17 @@ def _normalize_time(string):
 
 
 @Spinner
-def extract_servers_info(servers, project_cache, user_cache):
-    return [extract_server_info(server, project_cache,
-                                user_cache) for server in servers]
+def extract_servers_info(servers, ksclient=None):
+    print("\nExtracting instances information... ", end="")
+    if ksclient is None:
+        ksclient = keystone.client()
+    return [extract_server_info(server, ksclient=ksclient)
+            for server in servers]
 
 
 @Spinner
 def match_scenario(servers, func, novaclient, changes_since):
+    print("\nFiltering by scenario checking... ", end="")
     return [server for server in servers if func(novaclient, server,
                                                  changes_since)]
 
@@ -506,7 +499,6 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
             scenario checking, available ones are ["compute_failure"]
     """
     novaclient = client()
-    print("Listing the instances... ", end="")
     if status == 'ALL':
         status = None
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
@@ -515,12 +507,10 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
     if not result:
         print("No instances found!")
         sys.exit(0)
-    print("\nExtracting instances information... ", end="")
-    result = extract_servers_info(result, project_cache, user_cache)
+    result = extract_servers_info(result, keystone.client())
 
     if scenario:
         func = globals()["_scenario_" + scenario]
-        print("\nFiltering by scenario checking... ", end="")
         result = match_scenario(result, func, novaclient, changes_since)
         if not result:
             print("No %s instances found!" % scenario)
