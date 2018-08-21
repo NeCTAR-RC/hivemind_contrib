@@ -1,0 +1,57 @@
+Dear NeCTAR Research Cloud User,
+
+This email is to inform you of a scheduled outage to the NeCTAR Research Cloud.
+
+DURATION:   {{ days }} day{% if days > 1 %}s{% endif %} {{ hours }} hours
+START TIME: {{ start_ts }} {{ tz }}
+END TIME:   {{ end_ts }} {{ tz }}
+
+DESCRIPTION:
+
+While rolling out routine upgrades as part of the ongoing Nectar upgrade schedule, an operator error resulted in the libvirt virtualisation software becoming inconsistent on several hosts in {{ zone }}.
+
+Existing instances on these hosts will continue to function normally so long as they do not change their state. Actions such as rebooting instances will result in them hanging. Likewise, we are unable to enact mitigations such as migrating the VMs to other hosts.
+
+To resolve the issue we will need to reboot the hosts, which will also require rebooting every instance on these hosts.
+
+A {% if days > 0 %}{{ days }} day{% if days > 1 %}s {% endif %}{% endif %}{{ hours }} hours outage is required to perform essential maintenance.
+
+IMPACT:
+
+All instances residing on the affected hosts need to be rebooted.
+
+ACTION REQUIRED:
+
+* No action is required by users.
+
+* After the outage, NeCTAR Cloud Operators will restart instances that were active prior
+
+* If an instance is in an ambiguous state at the time of the reboot, such as if it is hung in a powering-off state, we will leave it in a shutoff state after the reboot.
+
+{% if affected -%}
+AFFECTED INSTANCES:
+
+UUID                                  IP Address      Host            Project
+{% for instance in instances -%}
+{{ instance.id }}  {{ instance.accessIPv4 }}  {{ instance.name }}      {{ instance.project_name }}
+{% endfor -%}
+{% endif %}
+
+If you have any queries regarding this outage, please reply to this email or contact us at:
+
+   support@nectar.org.au
+
+We apologise sincerely for any inconvenience caused by this outage.
+
+
+Regards,
+
+
+The NeCTAR Research Cloud Support Team
+--
+This email has been sent to users of the NeCTAR Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your NeCTAR Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.

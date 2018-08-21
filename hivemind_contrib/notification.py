@@ -344,7 +344,7 @@ def _validate_paramters(start_time, duration, instances_file, template):
 
 
 def mailout(work_dir, data, subject, config):
-    """Mailout the generated annoucement emails
+    """Mailout the generated announcement emails
 
        :param str dir: Path to mail content
        :param str subject: Mail subject
@@ -386,7 +386,7 @@ def make_archive(work_dir):
 @decorators.verbose
 def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          status="ALL", project=None, user=None,
-                         subject="Important annoucement concerning your "
+                         subject="Important announcement concerning your "
                          "instance(s)", start_time=None, duration=0,
                          timezone="AEDT", smtp_server=None, sender=None,
                          instances_file=None, dry_run=True):
@@ -503,7 +503,7 @@ def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
 @decorators.verbose
 def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                       status="ALL", project=None, user=None,
-                      subject="Important annoucement concerning your "
+                      subject="Important announcement concerning your "
                       "instance(s)", start_time=None, duration=None,
                       timezone="AEDT", instances_file=None,
                       dry_run=True, record_metadata=False,
