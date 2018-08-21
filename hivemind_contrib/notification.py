@@ -361,7 +361,7 @@ def _validate_paramters(start_time, duration, instances_file, template):
 
 
 def mailout(work_dir, data, subject, config, cc=None):
-    """Mailout the generated annoucement emails
+    """Mailout the generated announcement emails
 
        :param str dir: Path to mail content
        :param str subject: Mail subject
@@ -406,7 +406,7 @@ def mailout(work_dir, data, subject, config, cc=None):
 @decorators.verbose
 def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          status="ACTIVE", project=None, user=None,
-                         subject="Important annoucement concerning your "
+                         subject="Important announcement concerning your "
                          "instance(s)", start_time=None, duration=0,
                          timezone="AEDT", test_recipient=None, cc = None,
                          smtp_server=None, sender=None, instances_file=None,
@@ -473,7 +473,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
         sys.exit(0)
 
     if dry_run:
-        print("Finish writing email annoucement in: " + work_dir)
+        print("Finish writing email announcement in: " + work_dir)
         print("\nOnce you have checked the log file and generated emails")
         print("Use the command below to verify emails sending to test user:")
         print("\n hivemind notification.verify_mailout " + work_dir + " " +
@@ -516,7 +516,7 @@ def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
 @decorators.verbose
 def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                       status="ACTIVE", project=None, user=None,
-                      subject="Important annoucement concerning your "
+                      subject="Important announcement concerning your "
                       "instance(s)", start_time=None, duration=None,
                       timezone="AEDT", cc=None, instances_file=None,
                       dry_run=True, record_metadata=False,
