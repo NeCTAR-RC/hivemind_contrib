@@ -19,7 +19,7 @@ except ImportError:
 @decorators.verbose
 def get_freshdesk_config(api_key=None,
                          email_config_id='6000071619',
-                         group_id='6000144734',
+                         group_id='6000208874',
                          domain='dhdnectar.freshdesk.com'):
     """fetch freshdesk API details from config file"""
     msg = '\n'.join([
