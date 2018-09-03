@@ -29,18 +29,24 @@ UBUNTU_MIRROR = 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/'
 def dist_from_release(release):
     if release in UBUNTU_RELEASES:
         return release
-    if release in ['liberty', 'kilo']:
+    elif release in ['kilo', 'liberty']:
         return 'trusty'
-    return DEFAULT_UBUNTU
+    elif release in ['queens']:
+        return 'bionic'
+    else:
+        return DEFAULT_UBUNTU
 
 
 def get_build_env(os_release, ubuntu_release=None):
     if os_release in UBUNTU_RELEASES:
         return os_release
     if not ubuntu_release:
-        if os_release in ['liberty', 'kilo']:
+        if os_release in ['kilo', 'liberty']:
             ubuntu_release = 'trusty'
-        ubuntu_release = DEFAULT_UBUNTU
+        elif os_release in ['queens']:
+            ubuntu_release = 'bionic'
+        else:
+            ubuntu_release = DEFAULT_UBUNTU
     return "%s-%s" % (ubuntu_release, os_release)
 
 
