@@ -188,11 +188,11 @@ def get_os_release_from_current_branch():
 
 @task
 @verbose
-def create(os_release=None, extra_mirror=None, name=None):
+def create(os_release=None, extra_mirror=None, name=None, ubuntu_release=None):
     """Create an environment for building packages."""
     if os_release is None:
         os_release = get_os_release_from_current_branch()
-    dist_release = get_build_env(os_release)
+    dist_release = get_build_env(os_release, ubuntu_release)
     path = '/var/cache/pbuilder/base-{dist_release}'.format(
         dist_release=dist_release)
     if name:
