@@ -187,7 +187,7 @@ def archive_contributed(gc, image, dry_run, project):
     else:
         print("Archiving image {} ({}) to project {} ({})"
               .format(image.name, image.id, project.name, project.id))
-        gc.images.update(image.id, owner=project.id)
+        gc.images.update(image.id, owner=project.id, visibility='community')
 
 
 def archive_official(gc, image, dry_run, project):
@@ -217,7 +217,8 @@ def archive_official(gc, image, dry_run, project):
     else:
         print("Archiving image {} ({}) to project {} ({})"
               .format(name, image.id, project.name, project.id))
-        gc.images.update(image.id, name=name, owner=project.id)
+        gc.images.update(image.id, name=name, owner=project.id,
+                         visibility='community')
 
         if 'murano_image_info' in image:
             print('Removing murano image properties from {}'.format(image.id))
