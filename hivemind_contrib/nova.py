@@ -134,7 +134,7 @@ def server_address(client, id):
 @Spinner
 def all_servers(client, zone=None, host=None, status=None, ip=None,
                 image=None, project=None, user=None, limit=None,
-                changes_since=None):
+                changes_since=None, trove=False):
     print("\nListing the instances... ", end="")
     marker = None
     opts = {}
@@ -163,8 +163,12 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
     host_list = parse_nodes(host) if host else None
     az_list = parse_nodes(zone) if zone else None
     ip_list = parse_nodes(ip) if ip else None
+    if trove and (project or user):
+        # add trove instances if search_opts contains project or user
+        inst = _search_trove_instances(client, opts)
+    else:
+        inst = []
 
-    inst = []
     if host_list:
         for host in host_list:
             opts['host'] = host
@@ -202,6 +206,33 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             inst.extend(instances)
             if limit and len(inst) >= int(limit):
                 return inst
+
+
+def _search_trove_instances(client, opts):
+    # keep the proj/user from searching opts
+    proj_id = opts.get('tenant_id', None)
+    user_id = opts.get('user_id', None)
+
+    # trove instances will be launched by global trove project
+    trove_opts = opts.copy()
+    trove_opts.pop('user_id', None)
+    trove_opts['tenant_id'] = keystone.get_project(
+        keystone.client(), 'trove', use_cache=True).id
+    trove_instances = client.servers.list(search_opts=trove_opts)
+    trove_instances = [instance for instance in trove_instances
+                       if _match_proj_user(instance, proj_id, user_id)]
+    return trove_instances
+
+
+def _match_proj_user(server, proj_id=None, user_id=None):
+    # server.metadata will return dict containing user's projectid and userid
+    if proj_id:
+        if getattr(server, 'metadata').get("project_id") != proj_id:
+            return False
+    if user_id:
+        if getattr(server, 'metadata').get("user_id") != user_id:
+            return False
+    return True
 
 
 def _match_availability_zone(server, az=None):
@@ -509,7 +540,7 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
         status = None
     result = all_servers(novaclient, zone=zone, host=nodes, status=status,
                          ip=ip, image=image, project=project, user=user,
-                         limit=limit, changes_since=changes_since)
+                         limit=limit, changes_since=changes_since, trove=True)
     if not result:
         print("No instances found!")
         sys.exit(0)
