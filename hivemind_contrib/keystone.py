@@ -4,6 +4,7 @@ import os
 import random
 import re
 import string
+import sys
 
 from fabric.api import task
 from fabric.utils import error
@@ -81,12 +82,16 @@ def get_project(keystone, name_or_id, use_cache=False):
         project = project_cache[name_or_id]
     else:
         try:
+            project = None
             project = projects.get(name_or_id)
         except NotFound:
             project = projects.find(name=name_or_id)
         finally:
             if project:
                 project_cache.update({project.id: project})
+            else:
+                print("Unknown Project")
+                sys.exit(1)
     return project
 
 
@@ -102,12 +107,16 @@ def get_user(keystone, name_or_id, use_cache=False):
         user = user_cache[name_or_id]
     else:
         try:
+            user = None
             user = keystone.users.get(name_or_id)
         except NotFound:
             user = keystone.users.find(name=name_or_id)
         finally:
             if user:
                 user_cache.update({user.id: user})
+            else:
+                print("Unknown User")
+                sys.exit(1)
     return user
 
 
