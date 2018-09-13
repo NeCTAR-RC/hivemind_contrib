@@ -148,11 +148,17 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
     if changes_since:
         opts['changes-since'] = changes_since
     if project:
-        opts['tenant_id'] = keystone.get_project(keystone.client(), project,
-                                                 use_cache=True).id
+        try:
+            opts['tenant_id'] = keystone.get_project(
+                keystone.client(), project, use_cache=True).id
+        except Exception:
+            sys.exit(1)
     if user:
-        opts['user_id'] = keystone.get_user(keystone.client(), user,
-                                            use_cache=True).id
+        try:
+            opts['user_id'] = keystone.get_user(
+                keystone.client(), user, use_cache=True).id
+        except Exception:
+            sys.exit(1)
 
     host_list = parse_nodes(host) if host else None
     az_list = parse_nodes(zone) if zone else None
