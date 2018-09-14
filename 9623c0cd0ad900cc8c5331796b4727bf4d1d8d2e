@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6745767c_19ae5d51",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-09-14T05:14:30Z",
+      "side": 1,
+      "message": "this works, but maybe it\u0027s better with a flag to include trove instances",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 17
+      },
+      "revId": "9623c0cd0ad900cc8c5331796b4727bf4d1d8d2e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
