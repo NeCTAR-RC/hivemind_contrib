@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4ddd7ca_b21d8d31",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-09-14T05:04:21Z",
+      "side": 1,
+      "message": "As spoken, it might not be nice behaviour for this function to exit a calling program.\n\nIf we replace this with project \u003d None, the caller can decide whether to exit or not based on return value.",
+      "range": {
+        "startLine": 94,
+        "startChar": 16,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "22ebd6f73e460926c1985292e3228fac2ebc0017",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
