@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad5e3ff6_e81309c8",
+        "filename": "hivemind_contrib/nova.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-09-16T23:50:36Z",
+      "side": 1,
+      "message": "should we extend the trove\u003dFalse option to here?\n\n(and make the corresponding trove\u003dTrue in notification.py) ?",
+      "range": {
+        "startLine": 518,
+        "startChar": 52,
+        "endLine": 518,
+        "endChar": 53
+      },
+      "revId": "3a25bdfcd8c42ae739c24879f1e02753f6546d38",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
