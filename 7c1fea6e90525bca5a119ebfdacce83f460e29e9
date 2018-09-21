@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53b8e90c_0f302439",
+        "filename": "hivemind_contrib/designate.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-09-21T06:19:06Z",
+      "side": 1,
+      "message": "why don\u0027t we just create the zone in their project to begin with then we don\u0027t need to transfer it",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "7c1fea6e90525bca5a119ebfdacce83f460e29e9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
