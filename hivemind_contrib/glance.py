@@ -145,7 +145,7 @@ def promote_official(gc, image, dry_run, project):
                             gc.images.list(filters={'owner': image.owner}))
 
     for i in matchingimages:
-        archive_official(gc, image, dry_run, project)
+        archive_official(gc, i, dry_run, project)
 
     if image.visibility == 'public':
         print("Image {} ({}) already set public"
