@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "083485e7_d2ccd742",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-03T09:49:11Z",
+      "side": 1,
+      "message": "is this just going to be trove project or will the be the users project?",
+      "range": {
+        "startLine": 28,
+        "startChar": 84,
+        "endLine": 28,
+        "endChar": 105
+      },
+      "revId": "517418119dde6370d1c0e631af9ceb0a30802a5f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
