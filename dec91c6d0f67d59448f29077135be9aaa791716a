@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "34c940d1_a78792aa",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T06:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19e94198_a59e1e3e",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "dec91c6d0f67d59448f29077135be9aaa791716a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c36798c_8f1ac08c",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-03T05:35:55Z",
       "side": 1,
       "message": "During the upgrade operation your database instance will be unavailable. This typically takes around 10 minutes but actual times can vary. \u003cAdd bit about backup here\u003e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "dec91c6d0f67d59448f29077135be9aaa791716a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d23f147c_9b95eba5",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T06:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c36798c_8f1ac08c",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f681e917_91c65ad1",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T06:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20689251_09a1f96e",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 82
+      },
+      "revId": "dec91c6d0f67d59448f29077135be9aaa791716a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c9b4fd1_d8095bee",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9d8389af_2b8fbc6b",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T06:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c9b4fd1_d8095bee",
+      "range": {
+        "startLine": 18,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "dec91c6d0f67d59448f29077135be9aaa791716a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f82636f4_92a95d54",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2018-10-03T05:35:55Z",
       "side": 1,
       "message": "isn\u0027t this the nova instance id not the trove instance id?\n\nIf this is too hard just remove the CLI instructions or change to.\n\nDo a trove list to list your instances and then a trove upgrade \u003cdb id\u003e to upgrade",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "dec91c6d0f67d59448f29077135be9aaa791716a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03baf1bd_9396b683",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T06:47:40Z",
+      "side": 1,
+      "message": "yes, good catch.",
+      "parentUuid": "f82636f4_92a95d54",
       "range": {
         "startLine": 22,
         "startChar": 27,
@@ -179,6 +299,30 @@
         "startChar": 10,
         "endLine": 34,
         "endChar": 27
+      },
+      "revId": "dec91c6d0f67d59448f29077135be9aaa791716a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "557dd678_d4719293",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T06:47:40Z",
+      "side": 1,
+      "message": "will remove id here",
+      "parentUuid": "7c2928b2_d11b7ea7",
+      "range": {
+        "startLine": 34,
+        "startChar": 107,
+        "endLine": 34,
+        "endChar": 134
       },
       "revId": "dec91c6d0f67d59448f29077135be9aaa791716a",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
