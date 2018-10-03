@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "1bb01d3d_33e4169a",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-03T05:35:55Z",
+      "side": 1,
+      "message": "Nectar",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "deaa9ce4_e03d3a55",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 2
@@ -136,6 +159,29 @@
         "startChar": 24,
         "endLine": 3,
         "endChar": 27
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffd5cf45_042a3333",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-03T05:35:55Z",
+      "side": 1,
+      "message": "Nectar",
+      "range": {
+        "startLine": 4,
+        "startChar": 38,
+        "endLine": 4,
+        "endChar": 44
       },
       "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
@@ -460,6 +506,29 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e0a3a80a_1e987af2",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 10
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42699cf6_6450c525",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-03T05:35:55Z",
+      "side": 1,
+      "message": "Nectar",
       "range": {
         "startLine": 47,
         "startChar": 4,
