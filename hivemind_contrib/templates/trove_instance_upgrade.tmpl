@@ -1,0 +1,54 @@
+Dear Nectar Research Cloud User,
+
+Due to a recent upgrade of our database service, one or more of your MySQL database
+instances need to be upgraded through Nectar Dashboard or CLI to apply the new MySQL
+image (version 5.7-8).
+
+
+IMPACT:
+
+Database instances running versions of the MySQL datastore earlier than 5.7-8 are
+affected by an issue where restoring from backup can fail.
+
+ACTION REQUIRED:
+
+* Backup your data by dumping the MySQL database before you start following steps.
+  <ul><li>Go to https://dashboard.rc.nectar.org.au/project/databases/</li>
+  <li>Click on the dropdown in the Actions column of the affected instances.</li>
+  <li>Select Upgrade Instance and then choose 5.7-8 as the new version.</li>
+  <li>Click Upgrade Databse Instance</li></ul>
+* Alternatively, you could use the CLI to do the database instances upgrade.
+  <ul>{% for instance in instances -%}
+   <li><i>trove upgrade {{ instance.id }} 5.7-8</i></li>
+  {%- endfor %}</ul>
+* Please finish above steps before <b>{{ end_ts }}</b>, otherwise, we will do that
+  as your representive.
+
+* If you are no longer using the instance(s) listed below, please delete/terminate them.
+
+
+AFFECTED DATABASES INSTANCES:
+<table border = "1">
+  <tr><th align="left">ID</th><th align="left">IP Address</th><th align="left">Host</th><th align="left">Project</th></tr>
+{% for instance in instances -%}
+  <tr><td>{{ instance.id }}</td><td>{{ ','.join(instance.addresses) }}</td><td>{{ instance.name }}</td><td>{{ instance.project_name }}</td></tr>
+{%- endfor %}
+</table>
+
+If you have any queries regarding this outage, please contact us by email:
+
+   support@nectar.org.au
+
+We apologise for any inconvenience.
+
+Regards,
+
+The Nectar Research Cloud Support Team
+
+--
+This email has been sent to users of the Nectar Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your Nectar Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
