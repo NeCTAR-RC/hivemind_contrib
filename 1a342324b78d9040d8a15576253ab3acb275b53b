@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef7890fc_84b3f33c",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "Nectar",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "deaa9ce4_e03d3a55",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "of",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a8768d_85a63595",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "MySQL - also a few other cases in this file",
+      "range": {
+        "startLine": 3,
+        "startChar": 70,
+        "endLine": 3,
+        "endChar": 75
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b1b95c_fb455568",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "space here",
+      "range": {
+        "startLine": 5,
+        "startChar": 5,
+        "endLine": 5,
+        "endChar": 6
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd07f19e_2a3c89e4",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "Database instances running versions of the MySQL datastore earlier than 5.7-8 are affected by an issue where restoring from backup can fail.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "678f5762_9a074b28",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "Some users may not have backup quota I guess. Maybe we could suggest they backup if they would like to? Not sure",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcad0a9_4c734864",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 19,
+        "startChar": 46,
+        "endLine": 19,
+        "endChar": 49
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "405376ae_195360c4",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "ID",
+      "range": {
+        "startLine": 33,
+        "startChar": 23,
+        "endLine": 33,
+        "endChar": 27
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a5f80ae_48cf852f",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "can probably drop this",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 22
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0a3a80a_1e987af2",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2018-10-03T03:59:11Z",
+      "side": 1,
+      "message": "Nectar",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 10
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
