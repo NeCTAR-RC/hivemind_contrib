@@ -1,0 +1,45 @@
+Dear Nectar Research Cloud User,
+
+
+Your Nectar database instances require a maintenance upgrade.
+This is to ensue you are running the latest version with all security and other miscellaneous fixes.
+
+Please upgrade your database at your convenience following the steps below before <b>{{ end_ts }}</b>. All databases that have not been upgraded by this time will be done automatically after this date.
+
+
+IMPACT:
+
+During the upgrade operation your database instance will be unavailable. This typically takes around 10 minutes but actual times can vary. Please create backups of all your databases using database utilities before proceeding.
+
+
+ACTION REQUIRED:
+  <ul><li>Go to https://dashboard.rc.nectar.org.au/project/databases/</li>
+  <li>Click on the dropdown in the Actions column of the affected instances</li>
+  <li>Select Upgrade Instance and then choose the available new version</li>
+  <li>Click Upgrade Databse Instance</li></ul>
+* Alternatively, you could use the CLI to upgrade them: do a <i>trove list</i> to list your instances and then <i>trove upgrade &lt trove-instance-id &gt &lt datastore-version &gt</i> to upgrade it.
+
+* If you are no longer using the instance(s) listed below, please delete/terminate them.
+
+
+AFFECTED DATABASES INSTANCES:
+<table cellspacing="5"><tr><th align="left">Host</th><th align="left">IP Address</th><th align="left">Project</th></tr>
+{% for instance in instances -%}
+  <tr><td>{{ instance.name }}</td><td>{{ ','.join(instance.addresses) }}</td><td>{{ instance.project_name }}</td></tr>
+{%- endfor %}</table>
+If you have any queries regarding this outage, please contact us by email:
+
+   support@nectar.org.au
+
+
+Regards,
+
+The Nectar Research Cloud Support Team
+
+--
+This email has been sent to users of the Nectar Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your Nectar Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
