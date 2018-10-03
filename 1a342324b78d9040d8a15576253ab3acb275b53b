@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f56aacf0_a9780970",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef7890fc_84b3f33c",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "deaa9ce4_e03d3a55",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 2
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "c7646252_b4bf4216",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19a8768d_85a63595",
+      "range": {
+        "startLine": 3,
+        "startChar": 70,
+        "endLine": 3,
+        "endChar": 75
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53c6cc16_7f5b2849",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deaa9ce4_e03d3a55",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57b1b95c_fb455568",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2018-10-03T03:59:11Z",
       "side": 1,
       "message": "space here",
+      "range": {
+        "startLine": 5,
+        "startChar": 5,
+        "endLine": 5,
+        "endChar": 6
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1c0e9bb_4cd16937",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57b1b95c_fb455568",
       "range": {
         "startLine": 5,
         "startChar": 5,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5b066a9b_b10e0a79",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd07f19e_2a3c89e4",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "678f5762_9a074b28",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2018-10-03T03:59:11Z",
       "side": 1,
       "message": "Some users may not have backup quota I guess. Maybe we could suggest they backup if they would like to? Not sure",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2dc606f_f4d7d681",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Maybe my wording is confusing here. We would like the users to do the backup via like mysqldump since not all of them have the trove backup quota.",
+      "parentUuid": "678f5762_9a074b28",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "4706ebd5_926bd27d",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fcad0a9_4c734864",
+      "range": {
+        "startLine": 19,
+        "startChar": 46,
+        "endLine": 19,
+        "endChar": 49
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "405376ae_195360c4",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 2
@@ -174,6 +342,30 @@
       "writtenOn": "2018-10-03T03:59:11Z",
       "side": 1,
       "message": "ID",
+      "range": {
+        "startLine": 33,
+        "startChar": 23,
+        "endLine": 33,
+        "endChar": 27
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeea06d0_f8635348",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "405376ae_195360c4",
       "range": {
         "startLine": 33,
         "startChar": 23,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "174c1222_e08d9afa",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a5f80ae_48cf852f",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 22
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0a3a80a_1e987af2",
         "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
         "patchSetId": 2
@@ -220,6 +436,30 @@
       "writtenOn": "2018-10-03T03:59:11Z",
       "side": 1,
       "message": "Nectar",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 10
+      },
+      "revId": "1a342324b78d9040d8a15576253ab3acb275b53b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb0d70fb_730f701e",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2018-10-03T05:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0a3a80a_1e987af2",
       "range": {
         "startLine": 47,
         "startChar": 4,
