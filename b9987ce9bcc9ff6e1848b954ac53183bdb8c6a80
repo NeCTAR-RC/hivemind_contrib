@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff0ba5ba_549d944b",
+        "filename": "hivemind_contrib/templates/trove_instance_upgrade.tmpl",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-10-04T03:29:39Z",
+      "side": 1,
+      "message": "\u0027ensure\u0027, or\n\u0027ensure that\u0027 ?",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 16
+      },
+      "revId": "b9987ce9bcc9ff6e1848b954ac53183bdb8c6a80",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
