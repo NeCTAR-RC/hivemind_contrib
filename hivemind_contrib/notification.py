@@ -35,8 +35,8 @@ def get_smtp_config(smtp_server=None,
                     sender='NeCTAR Research Cloud <bounces@rc.nectar.org.au>'):
     """fetch smtp parameters from config file"""
     msg = '\n'.join([
-        'No smtp server parameter in either command options' +
-        ' or your Hivemind config file.',
+        'No smtp server parameter in either command options'
+        + ' or your Hivemind config file.',
         '',
         'Use option --smtp-server SMTP_SERVER or',
         '',
@@ -351,10 +351,10 @@ def mailout(work_dir, data, subject, config):
        :param str config: mail sending configuration
 
     """
-    print("You should run: hivemind notification.announcement_mailout " +
-          "WITHOUT --no-dry-run first\n")
-    print("It's also recommended to verify the email sending by: hivemind" +
-          "notification.verify_mailout before proceeding with --no-dry-run")
+    print("You should run: hivemind notification.announcement_mailout "
+          + "WITHOUT --no-dry-run first\n")
+    print("It's also recommended to verify the email sending by: hivemind"
+          + "notification.verify_mailout before proceeding with --no-dry-run")
 
     sender = Mail_Sender(config)
     mails = [f for f in os.listdir(work_dir) if os.path.isfile(
@@ -455,9 +455,9 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
         print("Finish writing email announcement in: " + work_dir)
         print("\nOnce you have checked the log file and generated emails")
         print("Use the command below to verify emails sending to test user:")
-        print("\n hivemind notification.verify_mailout " + work_dir + " " +
-              "SUBJECT" + " " + "[--mailto TEST_ADDRESS]" + " " +
-              "[--smtp_server SMTP_SEVRVER]")
+        print("\n hivemind notification.verify_mailout " + work_dir + " "
+              + "SUBJECT" + " " + "[--mailto TEST_ADDRESS]" + " "
+              + "[--smtp_server SMTP_SEVRVER]")
         print("\nThen rerun the command with --no-dry-run to mail ALL users")
     else:
         mailout(work_dir, data, subject, config)
@@ -593,8 +593,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
             sys.exit(0)
 
         email_files = [name for name in os.listdir(work_dir)
-                       if os.path.isfile(os.path.join(work_dir, name)) and
-                       "notification@" in name]
+                       if os.path.isfile(os.path.join(work_dir, name))
+                       and "notification@" in name]
 
         if test_recipient:
             print('You have specified the test_recipient option, '

@@ -302,8 +302,8 @@ def get_general_allocations_information(filename=None, sslwarnings=False):
         ("Project Name", lambda x: x['project_name']),
         ("Project Descrition", lambda x: x['project_description']),
         ("Allocation Home",
-         lambda x: x['allocation_home'] if 'allocation_home' in x and
-         x['allocation_home'] is not None else ""),
+         lambda x: x['allocation_home'] if 'allocation_home' in x
+         and x['allocation_home'] is not None else ""),
         ("Status", lambda x: x['status']),
         ("Modified time", lambda x: x['modified_time']),
         ("Instances", lambda x: x['instance_quota']),
