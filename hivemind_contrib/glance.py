@@ -226,23 +226,31 @@ def archive_official(gc, image, dry_run, project):
 
 
 @task
-def public_audit(with_shared_and_community=False):
-    """Print usage information about all public images
+def public_audit(with_shared_and_community=False, images=[]):
+    """Print usage information about all or specified public images
+
+       :param boolean with_shared_and_community: Include shared and community
+         images
+       :param str images: Use multiple times for more then one image
     """
     gc = client()
     nc = nova.client()
     db = nova.db_connect()
 
+    if images:
+        public = images
+    else:
     # The visibility filter doesn't seem to work... so we filter them out again
-    images = gc.images.list(visibility='public')
-    public = [i for i in images if i['visibility'] == 'public']
-    if with_shared_and_community:
-        shared = gc.images.list(visibility='shared')
-        shared = [i for i in shared if i['visibility'] == 'shared']
-        community = gc.images.list(visibility='community')
-        community = [i for i in community if i['visibility'] == 'community']
-        public.extend(shared)
-        public.extend(community)
+        public = gc.images.list(visibility='public')
+        public = [i for i in public if i['visibility'] == 'public']
+        if with_shared_and_community:
+            shared = gc.images.list(visibility='shared')
+            shared = [i for i in shared if i['visibility'] == 'shared']
+            community = gc.images.list(visibility='community')
+            community = [i for i in community
+                         if i['visibility'] == 'community']
+            public.extend(shared)
+            public.extend(community)
 
     table = PrettyTable(["ID", "Name", "Official", "Build", "Running",
                          "Boots", "Last Boot"])
@@ -278,6 +286,7 @@ def public_audit(with_shared_and_community=False):
                        num, boot_count, last_boot])
 
     print(table.get_string(sortby="Running", reversesort=True))
+    return table._rows
 
 
 @task
