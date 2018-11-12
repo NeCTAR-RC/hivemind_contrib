@@ -226,7 +226,7 @@ def archive_official(gc, image, dry_run, project):
 
 
 @task
-def public_audit():
+def public_audit(with_shared_and_community=False):
     """Print usage information about all public images
     """
     gc = client()
@@ -236,6 +236,13 @@ def public_audit():
     # The visibility filter doesn't seem to work... so we filter them out again
     images = gc.images.list(visibility='public')
     public = [i for i in images if i['visibility'] == 'public']
+    if with_shared_and_community:
+        shared = gc.images.list(visibility='shared')
+        shared = [i for i in shared if i['visibility'] == 'shared']
+        community = gc.images.list(visibility='community')
+        community = [i for i in community if i['visibility'] == 'community']
+        public.extend(shared)
+        public.extend(community)
 
     table = PrettyTable(["ID", "Name", "Official", "Build", "Running",
                          "Boots", "Last Boot"])
