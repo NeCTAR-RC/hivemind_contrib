@@ -76,8 +76,10 @@ class Mail_Sender(object):
         msg['To'] = recipient
         msg['Reply-to'] = 'support@nectar.org.au'
         msg['Subject'] = subject
+        recipients = [recipient]
         if cc:
             msg['Cc'] = "; ".join(cc)
+            recipients = [recipient] + cc
 
         self.smtp_curr_msg_num += 1
         if self.smtp_curr_msg_num > self.smtp_msgs_per_conn:
@@ -94,7 +96,7 @@ class Mail_Sender(object):
             self.smtp_obj = smtplib.SMTP(self.smtp_server)
 
         try:
-            self.smtp_obj.sendmail(msg['From'], [recipient], msg.as_string())
+            self.smtp_obj.sendmail(msg['From'], recipients, msg.as_string())
         except smtplib.SMTPRecipientsRefused as err:
             sys.stderr.write('SMTP Recipients Refused:\n')
             sys.stderr.write('%s\n' % str(err))
