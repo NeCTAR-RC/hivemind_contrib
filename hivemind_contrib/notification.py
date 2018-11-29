@@ -258,7 +258,7 @@ def generate_notification_mails(subject, template, data, work_dir,
         if not html:
             # convert to simple html, freshdesk supports html format only
             html = msg.replace("\n", "<br />\n")
-            html = html.replace("\s", "&#160&#160&#160&#160")
+            html = html.replace(r"\s", "&#160&#160&#160&#160")
         filename = "notification@" + proj
         with io.open(os.path.join(work_dir, filename), 'w') as mail:
             count += 1

@@ -16,7 +16,7 @@ from hivemind.operations import run
 from hivemind_contrib.libvirt import list_instances
 from hivemind_contrib.nova import client
 
-comput_rule_re = re.compile("^Chain nova-compute-inst-(\d+) ")
+comput_rule_re = re.compile(r"^Chain nova-compute-inst-(\d+) ")
 
 
 def parse_rules():
