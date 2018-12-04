@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b2ced3d_62101288",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-12-04T21:54:30Z",
+      "side": 1,
+      "message": "what do you think of this defaulting to True so that default behaviour doesn\u0027t change?\n\nmay I know where are you using this? I grep the source and the only place that calls this is add_bot_account(), which shouldn\u0027t be affected.",
+      "range": {
+        "startLine": 386,
+        "startChar": 38,
+        "endLine": 386,
+        "endChar": 43
+      },
+      "revId": "a007dec89dcbdcfa26677c314e01b1992a94d384",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
