@@ -22,6 +22,30 @@
       "revId": "a007dec89dcbdcfa26677c314e01b1992a94d384",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0231a8c_79523336",
+        "filename": "hivemind_contrib/keystone.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-12-05T00:40:25Z",
+      "side": 1,
+      "message": "It\u0027s a task, he\u0027s using this directly, plus I think the default is sane",
+      "parentUuid": "6b2ced3d_62101288",
+      "range": {
+        "startLine": 386,
+        "startChar": 38,
+        "endLine": 386,
+        "endChar": 43
+      },
+      "revId": "a007dec89dcbdcfa26677c314e01b1992a94d384",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
