@@ -383,7 +383,7 @@ def remove_tenant_manager(project, user):
 
 @task
 @decorators.verbose
-def user_projects(user):
+def user_projects(user, show_disabled=False):
     keystone = client(version=3)
     projects = keystone.projects.list()
     projects = {project.id: project for project in projects}
@@ -415,6 +415,8 @@ def user_projects(user):
     for project_id, roles in user_project_roles.items():
         roles = ', '.join(sorted([role.name for role in roles]))
         project = projects[project_id]
+        if not show_disabled and not project.enabled:
+            continue
         table.add_row([project.id, project.name, roles])
     print("Projects and roles for user %s:" % user.name)
     print(str(table))
