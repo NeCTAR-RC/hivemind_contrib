@@ -17,10 +17,10 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "mitaka"
-OPENSTACK_RELEASES = ['queens', 'pike', 'ocata', 'newton', 'mitaka',
+OPENSTACK_RELEASES = ['rocky', 'queens', 'pike', 'ocata', 'newton', 'mitaka',
                       'liberty', 'kilo']
 UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic']
-DEFAULT_UBUNTU = 'xenial'
+DEFAULT_UBUNTU = 'bionic'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://download.rc.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -31,8 +31,8 @@ def dist_from_release(release):
         return release
     elif release in ['kilo', 'liberty']:
         return 'trusty'
-    elif release in ['queens']:
-        return 'bionic'
+    elif release in ['pike', 'ocata', 'newton', 'mitaka']:
+        return 'xenial'
     else:
         return DEFAULT_UBUNTU
 
@@ -43,8 +43,8 @@ def get_build_env(os_release, ubuntu_release=None):
     if not ubuntu_release:
         if os_release in ['kilo', 'liberty']:
             ubuntu_release = 'trusty'
-        elif os_release in ['queens']:
-            ubuntu_release = 'bionic'
+        elif os_release in ['pike', 'ocata', 'newton', 'mitaka']:
+            ubuntu_release = 'xenial'
         else:
             ubuntu_release = DEFAULT_UBUNTU
     return "%s-%s" % (ubuntu_release, os_release)
@@ -151,6 +151,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " bionic main",
         "deb " + NECTAR_REPO + " bionic-queens main",
         "deb " + NECTAR_REPO + " bionic-queens-testing main",
+        "deb " + NECTAR_REPO + " bionic-testing main",
+        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
+    'bionic-rocky': [
+        "deb " + CLOUD_ARCHIVE + " bionic-updates/rocky main",
+        "deb " + NECTAR_REPO + " bionic main",
+        "deb " + NECTAR_REPO + " bionic-rocky main",
+        "deb " + NECTAR_REPO + " bionic-rocky-testing main",
         "deb " + NECTAR_REPO + " bionic-testing main",
         "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
 }
