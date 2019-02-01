@@ -47,7 +47,7 @@ def upgrade(exclude="", verbose=False, upgrade_method=apt.upgrade,
         # check if there are packages available for upgrade
         count_packages = len(list(set(chain(*[p.keys()
                              for p in packages.values()]))))
-        if count_packages is 0:
+        if count_packages == 0:
             print("No packages to upgrade")
             return
         if verbose:
