@@ -15,6 +15,7 @@ requirements = [
     'prettytable',
     'hivemind',
     'sqlalchemy',
+    'pymysql',
     'requests',
     'jinja2'
 ]
