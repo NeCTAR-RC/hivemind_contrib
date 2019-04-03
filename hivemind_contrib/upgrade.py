@@ -27,9 +27,15 @@ from hivemind import puppet
 
 from hivemind_contrib import swift
 
+from warnings import filterwarnings
 
 env.use_ssh_config = True
 env.output_prefix = False
+
+# temporarily suppress
+# /usr/lib/python2.7/dist-packages/Crypto/Cipher/blockalgo.py:141:
+#    FutureWarning: CTR mode needs counter parameter, not IV
+filterwarnings("ignore", category=FutureWarning, module="Crypto.Cipher")
 
 
 @runs_once
