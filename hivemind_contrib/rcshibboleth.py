@@ -227,6 +227,10 @@ def link_duplicate(email, dry_run=True):
     update_ids = []
     for r in results:
         if r[users.c.state] == 'created':
+            if user_id:
+                # This shouldn't happen.  But if it does, we want to know!
+                error('Multiple "created" records exist for %s' % email)
+                return
             user_id = r[users.c.user_id]
         else:
             if r[users.c.state] == 'registered':
