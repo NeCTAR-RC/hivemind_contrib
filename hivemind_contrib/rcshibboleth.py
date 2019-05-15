@@ -193,7 +193,7 @@ def link_account(existing_email, new_email):
         project.name, project.id))
     client.projects.update(project.id, enabled=False)
     print('Disabling orphaned Keystone user %s (%s).' % (user.name, user.id))
-    client.users.update(user.id, enabled=False)
+    client.users.update(user.id, enabled=False, name="%s-disabled" % user.name)
     print('All done.')
 
 
