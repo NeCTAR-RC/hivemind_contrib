@@ -59,18 +59,16 @@ def get_archive_project(project=None):
 
 
 def match(name, build, image):
-    """return true if image's name == name, and nectar_build < build"""
-    try:
-        if not image.get('nectar_name') == name:
-            return False
-    except KeyError:
-        return False
-    try:
-        if not int(image.get('nectar_build')) < int(build):
-            return False
-    except KeyError:
-        return False
-    return True
+     """return true if image's name == name, and nectar_build < build"""
+     if image.get('nectar_name') != name:
+         return False
+
+     thisbuild = image.get('nectar_build')
+     if not thisbuild:
+         return False
+     if int(thisbuild) < int(build):
+         return True
+     return False
 
 
 @task
