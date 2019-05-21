@@ -50,11 +50,7 @@ def setup_project(
     cloned repo.
     """
 
-    github_user = get_github_username()
-    github_token = get_github_token()
-    full_name = org_name + '/' + name
-
-    if org_name == 'internal':
+    if org_name == 'internal':  # git.rc.nectar.org.au
         fork_repo = None
         #   get config from config.ini file
         config = gitea.get_gitea_config(url, api_token, teamidlist)
@@ -73,8 +69,13 @@ def setup_project(
         if teamidlist != "":
             for teamID in teamidlist:
                 gitea.teamifyrepo(org_name, name, teamID, url, api_token)
+        parent = 'CoreServices-Projects'
+        local('git remote add origin git@%s:%s/%s' % (url, org_name, name)
         print("Done!")
-    else:
+    else:   # github
+        github_user = get_github_username()
+        github_token = get_github_token()
+        full_name = org_name + '/' + name
         g = github.Github(github_user, github_token)
         org = g.get_organization(org_name)
 
@@ -98,49 +99,25 @@ def setup_project(
         team = org.get_team(team_id)
         team.add_to_repos(repo)
         print("Added %s team to repo" % team.name)
-
-    if org_name == 'NeCTAR-RC':
         parent = 'Public-Projects'
-    else:
-        parent = 'CoreServices-Projects'
+        local('git remote add nectar https://github.com/%s.git' % full_name)
 
-    try:
-        gerrit.create(full_name, parent=parent)
-        print("Added gerrit project %s" % full_name)
-    except:  # noqa
-        pass
-
+# Gerrit & Openstack
+    gerrit.create(full_name, parent=parent)
+    print("Added gerrit project %s" % full_name)
     gerrit_user = gerrit.gitreview_username()
-    try:
-        local('git remote rm origin')
-    except:  # noqa
-        pass
+    local('git remote rm origin')
 
     if fork_repo:
-        try:
-            local('git remote add openstack %s' % fork_repo.clone_url)
-        except:  # noqa
-            pass
+        local('git remote add openstack %s' % fork_repo.clone_url)
 
     if openstack_version:
         default_branch = "nectar/%s" % openstack_version
     else:
         default_branch = 'master'
-
-    if org_name == 'internal':
-        try:
-            local('git remote add origin git@git.melbourne.nectar.org.au:%s' %
-                  full_name)
-        except:  # noqa
-            pass
-    else:
-        try:
-            local('git remote add nectar https://github.com/%s.git' %
-                  full_name)
-        except:  # noqa
-            pass
-
+    
     local('git fetch --all')
+
     if openstack_version:
         local('git checkout -b nectar/%s %s%s' % (openstack_version,
                                                   stable_ref,
