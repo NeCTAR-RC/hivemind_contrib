@@ -108,49 +108,25 @@ def setup_project(
         team = org.get_team(team_id)
         team.add_to_repos(repo)
         print("Added %s team to repo" % team.name)
-
-    if org_name == 'NeCTAR-RC':
         parent = 'Public-Projects'
-    else:
-        parent = 'CoreServices-Projects'
+        local('git remote add nectar https://github.com/%s.git' % full_name)
 
-    try:
-        gerrit.create(full_name, parent=parent)
-        print("Added gerrit project %s" % full_name)
-    except:  # noqa
-        pass
-
+# Gerrit & Openstack
+    gerrit.create(full_name, parent=parent)
+    print("Added gerrit project %s" % full_name)
     gerrit_user = gerrit.gitreview_username()
-    try:
-        local('git remote rm origin')
-    except:  # noqa
-        pass
+    local('git remote rm origin')
 
     if fork_repo:
-        try:
-            local('git remote add openstack %s' % fork_repo.clone_url)
-        except:  # noqa
-            pass
+        local('git remote add openstack %s' % fork_repo.clone_url)
 
     if openstack_version:
         default_branch = "nectar/%s" % openstack_version
     else:
         default_branch = 'master'
-
-    if org_name == 'internal':
-        try:
-            local('git remote add origin git@git.melbourne.nectar.org.au:%s' %
-                  full_name)
-        except:  # noqa
-            pass
-    else:
-        try:
-            local('git remote add nectar https://github.com/%s.git' %
-                  full_name)
-        except:  # noqa
-            pass
-
+    
     local('git fetch --all')
+
     if openstack_version:
         local('git checkout -b nectar/%s %s%s' % (openstack_version,
                                                   stable_ref,
