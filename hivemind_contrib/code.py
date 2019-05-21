@@ -1,12 +1,12 @@
 from fabric.api import local
 from fabric.api import task
+import github
+from github.GithubException import UnknownObjectException
 
 from hivemind.decorators import verbose
 from hivemind import util
 from hivemind_contrib import gerrit
-
-import github
-from github.GithubException import UnknownObjectException
+from hivemind_contrib import gitea
 
 
 def get_github_username():
@@ -23,10 +23,14 @@ def get_github_token():
 
 @task
 @verbose
-def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
+def setup_project(repo_name, org_name='NeCTAR-RC', fork_from=None,
                   openstack_version=None, team_id=338031,
                   stable_ref='openstack/stable/'):
     """Create a new project.
+
+    org_name:
+        NeCTAR-RC implies github
+        internal implies git.rc.nectar.org.au
 
     For github integration you will need to have to following in your global
     git.config:
@@ -37,15 +41,21 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
 
     NOTE: you need to run this command inside the directory of the git
     cloned repo.
+
     """
 
     github_user = get_github_username()
     github_token = get_github_token()
-    full_name = org_name + '/' + name
+    full_name = org_name + '/' + repo_name
 
     if org_name == 'internal':
-        print('Need to create repo in gitolite')
         fork_repo = None
+        try:
+            response = gitea.create_repo(org_name, repo_name)
+        except response.exceptions.HTTPError as e:
+            print(e)
+            return
+        print("Creating repo %s/%s" % (org_name, repo_name))
     else:
         g = github.Github(github_user, github_token)
         org = g.get_organization(org_name)
@@ -53,7 +63,7 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
         if fork_from:
             fork_repo = g.get_repo(fork_from)
             try:
-                repo = org.get_repo(name)
+                repo = org.get_repo(repo_name)
             except UnknownObjectException:
                 repo = None
             if not repo:
@@ -62,9 +72,9 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
         else:
             fork_repo = None
             try:
-                repo = org.get_repo(name)
+                repo = org.get_repo(repo_name)
             except UnknownObjectException:
-                repo = org.create_repo(name)
+                repo = org.create_repo(repo_name)
                 print("Created repo %s" % repo.name)
 
         team = org.get_team(team_id)
@@ -101,7 +111,7 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
 
     if org_name == 'internal':
         try:
-            local('git remote add origin git@git.melbourne.nectar.org.au:%s' %
+            local('git remote add origin git@git.rc.nectar.org.au:%s' %
                   full_name)
         except:  # noqa
             pass
@@ -126,7 +136,8 @@ host=review.rc.nectar.org.au
 port=29418
 project=%(org_name)s/%(name)s.git
 defaultbranch=%(default_branch)s
-""" % {'name': name, 'org_name': org_name, 'default_branch': default_branch}
+""" % {'name': repo_name, 'org_name': org_name,
+        'default_branch': default_branch}
     gerrit_config_file = open('.gitreview', 'w')
     gerrit_config_file.write(gerrit_config)
     gerrit_config_file.close()
