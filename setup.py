@@ -50,8 +50,10 @@ setup(
 
       [hivemind.modules]
       designate = hivemind_contrib.designate
+      code = hivemind_contrib.code
       gerrit = hivemind_contrib.gerrit
       glance = hivemind_contrib.glance
+      gitea = hivemind_contrib.gitea
       iptables = hivemind_contrib.iptables
       keystone = hivemind_contrib.keystone
       libvirt = hivemind_contrib.libvirt
