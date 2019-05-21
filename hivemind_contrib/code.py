@@ -4,6 +4,7 @@ from fabric.api import task
 from hivemind.decorators import verbose
 from hivemind import util
 from hivemind_contrib import gerrit
+from hivemind_contrib import gitea
 
 import github
 from github.GithubException import UnknownObjectException
@@ -28,6 +29,10 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
                   stable_ref='openstack/stable/'):
     """Create a new project.
 
+    org_name:
+        NeCTAR-RC implies github
+        internal implies git.rc.nectar.org.au
+
     For github integration you will need to have to following in your global
     git.config:
 
@@ -37,6 +42,7 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
 
     NOTE: you need to run this command inside the directory of the git
     cloned repo.
+
     """
 
     github_user = get_github_username()
@@ -44,8 +50,9 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
     full_name = org_name + '/' + name
 
     if org_name == 'internal':
-        print('Need to create repo in gitolite')
         fork_repo = None
+        gitea.create_repo(org_name, name)
+        print("Creating repo %s/%s" % (org_name, name))
     else:
         g = github.Github(github_user, github_token)
         org = g.get_organization(org_name)
