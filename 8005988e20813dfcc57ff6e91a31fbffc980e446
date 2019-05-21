@@ -131,6 +131,53 @@
       "revId": "8005988e20813dfcc57ff6e91a31fbffc980e446",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d5f4e6a_4320cce7",
+        "filename": "hivemind_contrib/allocations.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-05-21T04:39:33Z",
+      "side": 1,
+      "message": "they\u0027re actually different queries",
+      "parentUuid": "a63f72d3_8597807a",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 47
+      },
+      "revId": "8005988e20813dfcc57ff6e91a31fbffc980e446",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9b7846e_dcdf4a74",
+        "filename": "setup.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-05-21T04:39:33Z",
+      "side": 1,
+      "message": "Would consider calling this placement instead",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 48
+      },
+      "revId": "8005988e20813dfcc57ff6e91a31fbffc980e446",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
     }
   ]
 }
