@@ -1,12 +1,14 @@
 from fabric.api import local
 from fabric.api import task
+import github
+from github.GithubException import UnknownObjectException
+import json
+import requests
 
 from hivemind.decorators import verbose
 from hivemind import util
 from hivemind_contrib import gerrit
-
-import github
-from github.GithubException import UnknownObjectException
+from hivemind_contrib import gitea
 
 
 def get_github_username():
@@ -28,6 +30,10 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
                   stable_ref='openstack/stable/'):
     """Create a new project.
 
+    org_name:
+        NeCTAR-RC implies github
+        internal implies git.rc.nectar.org.au
+
     For github integration you will need to have to following in your global
     git.config:
 
@@ -37,6 +43,7 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
 
     NOTE: you need to run this command inside the directory of the git
     cloned repo.
+
     """
 
     github_user = get_github_username()
@@ -44,8 +51,39 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
     full_name = org_name + '/' + name
 
     if org_name == 'internal':
-        print('Need to create repo in gitolite')
+        print("adding repo to Gitea")
         fork_repo = None
+        try:
+            gitea.create_repo(org_name, name)
+        except requests.exceptions.ConnectionError as e:
+            print(e)
+            return
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 409:
+                print(json.loads(e.response.text)['message'])
+                pass
+            else:
+                print(e)
+                return
+        else:
+            print("something went wrong")
+            return
+        # loop through teams.
+        config = gitea.get_gitea_config()
+        team_ids = config["team_ids"]
+        if team_ids != "":
+            for team_id in team_ids:
+                try:
+                    gitea.add_team_to_repo(org_name, name, team_id)
+                except ValueError as e:
+                    print(e)
+                    break
+                except requests.exceptions.HTTPError as e:
+                    print(e)
+                    pass
+            print("done adding teams to repo %s" % name)
+        else:
+            print("no teams configured to add to repo %s" % name)
     else:
         g = github.Github(github_user, github_token)
         org = g.get_organization(org_name)
@@ -101,7 +139,7 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
 
     if org_name == 'internal':
         try:
-            local('git remote add origin git@git.melbourne.nectar.org.au:%s' %
+            local('git remote add origin git@git.rc.nectar.org.au:%s' %
                   full_name)
         except:  # noqa
             pass
