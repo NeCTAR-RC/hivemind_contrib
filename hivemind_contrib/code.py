@@ -4,6 +4,7 @@ from fabric.api import task
 from hivemind.decorators import verbose
 from hivemind import util
 from hivemind_contrib import gerrit
+from hivemind_contrib import gitea
 
 import github
 from github.GithubException import UnknownObjectException
@@ -23,12 +24,31 @@ def get_github_token():
 
 @task
 @verbose
-def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
-                  openstack_version=None, team_id=338031,
-                  stable_ref='openstack/stable/'):
+def setup_project(
+    name,                   # reponame
+    org_name='NeCTAR-RC',
+    api_token=None,         # for gitea API
+    url=None,
+    teamidlist="",          # a csv list of team IDs for gitea repos
+    list_teams=False,       # just list the team names and ID's for an org.
+    fork_from=None,
+    openstack_version=None,
+    team_id=338031,
+    stable_ref='openstack/stable/'
+    ):
     """Create a new project.
+    org_name
+        NeCTAR-RC implies github
+        internal => use url to specify
+                    e.g. git.rc.nectar.org.au
+
+    teamidlist is expecting a comma separated list of team IDs
+        Use the list_teams flag to get that list
+        then exit with no other action
+
 
     For github integration you will need to have to following in your global
+
     git.config:
 
     [github]
@@ -39,14 +59,32 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
     cloned repo.
     """
 
-    github_user = get_github_username()
-    github_token = get_github_token()
-    full_name = org_name + '/' + name
-
     if org_name == 'internal':
-        print('Need to create repo in gitolite')
         fork_repo = None
-    else:
+        #   get config from config.ini file
+        config = gitea.get_gitea_config(url, api_token, teamidlist)
+        #   use config file values where no values passed in from CLI
+        if url is None:
+            url = config["url"]
+        if api_token is None:
+            api_token = config["token"]
+        if list_teams:   # Just list the teams for the organisation
+            gitea.getteamIDs(org_name, url, api_token)
+            return()
+        if teamidlist == "":
+            teamidlist = config["teamidlist"]
+        gitea.makerepo(org_name, name, url, api_token)
+        print("Creating repo %s/%s" % (org_name, name))
+        if teamidlist != "":
+            for teamID in teamidlist:
+                gitea.teamifyrepo(org_name, name, teamID, url, api_token)
+        parent = 'CoreServices-Projects'
+        local('git remote add origin git@%s:%s/%s' % (url, org_name, name))
+
+    else:   # github
+        github_user = get_github_username()
+        github_token = get_github_token()
+        full_name = org_name + '/' + name
         g = github.Github(github_user, github_token)
         org = g.get_organization(org_name)
 
