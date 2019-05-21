@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "379b816a_3f616f6f",
+        "filename": "hivemind_contrib/allocations.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-21T04:38:10Z",
+      "side": 1,
+      "message": "use a configurable here to get the DB connection from the config file like rcshibboleth.py",
+      "revId": "8005988e20813dfcc57ff6e91a31fbffc980e446",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "208352ed_55b72564",
         "filename": "hivemind_contrib/allocations.py",
         "patchSetId": 2
@@ -64,6 +81,29 @@
         "startChar": 10,
         "endLine": 65,
         "endChar": 20
+      },
+      "revId": "8005988e20813dfcc57ff6e91a31fbffc980e446",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c743193_41bd9fe3",
+        "filename": "hivemind_contrib/allocations.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-21T04:38:10Z",
+      "side": 1,
+      "message": "call it instance_uuid",
+      "range": {
+        "startLine": 65,
+        "startChar": 22,
+        "endLine": 65,
+        "endChar": 26
       },
       "revId": "8005988e20813dfcc57ff6e91a31fbffc980e446",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
