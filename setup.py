@@ -52,6 +52,7 @@ setup(
       code = hivemind_contrib.code
       designate = hivemind_contrib.designate
       gerrit = hivemind_contrib.gerrit
+      gitea = hivemind_contrib.gitea
       glance = hivemind_contrib.glance
       iptables = hivemind_contrib.iptables
       keystone = hivemind_contrib.keystone
