@@ -158,6 +158,30 @@
     },
     {
       "key": {
+        "uuid": "445fe5b2_f5d6933d",
+        "filename": "hivemind_contrib/allocations.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-21T04:58:46Z",
+      "side": 1,
+      "message": "ahh so they are :-)",
+      "parentUuid": "8d5f4e6a_4320cce7",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 47
+      },
+      "revId": "8005988e20813dfcc57ff6e91a31fbffc980e446",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9b7846e_dcdf4a74",
         "filename": "setup.py",
         "patchSetId": 2
