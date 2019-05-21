@@ -4,6 +4,7 @@ from fabric.api import task
 from hivemind.decorators import verbose
 from hivemind import util
 from hivemind_contrib import gerrit
+from hivemind_contrib import gitea
 
 import github
 from github.GithubException import UnknownObjectException
@@ -23,30 +24,48 @@ def get_github_token():
 
 @task
 @verbose
-def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
-                  openstack_version=None, team_id=338031,
-                  stable_ref='openstack/stable/'):
+def setup_project(
+    name,
+    org_name='NeCTAR-RC',
+    fork_from=None,
+    openstack_version=None,
+    team_id=338031,
+    stable_ref='openstack/stable/'
+    ):
     """Create a new project.
 
-    For github integration you will need to have to following in your global
-    git.config:
+    org_name
+        NeCTAR-RC implies github
+        internal => use url to specify
+                    e.g. git.rc.nectar.org.au
+            Use the list_teams flag to get a list of team name IDs
+            then exit with no other action
 
+    For github integration you will need to have to following in your global
+
+    git.config:
     [github]
     user  = <github-username>
     token = <github-api-token>
 
     NOTE: you need to run this command inside the directory of the git
     cloned repo.
+
     """
 
-    github_user = get_github_username()
-    github_token = get_github_token()
-    full_name = org_name + '/' + name
-
     if org_name == 'internal':
-        print('Need to create repo in gitolite')
         fork_repo = None
-    else:
+        gitea.getteamIDs(org_name)
+        gitea.makerepo(org_name, name)
+        print("Creating repo %s/%s" % (org_name, name))
+        parent = 'CoreServices-Projects'
+        local('git remote add origin git@git.rc.nectar.org.au:%s/%s' %
+              (org_name, name))
+
+    else:   # github
+        github_user = get_github_username()
+        github_token = get_github_token()
+        full_name = org_name + '/' + name
         g = github.Github(github_user, github_token)
         org = g.get_organization(org_name)
 
@@ -70,49 +89,25 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
         team = org.get_team(team_id)
         team.add_to_repos(repo)
         print("Added %s team to repo" % team.name)
-
-    if org_name == 'NeCTAR-RC':
         parent = 'Public-Projects'
-    else:
-        parent = 'CoreServices-Projects'
+        local('git remote add nectar https://github.com/%s.git' % full_name)
 
-    try:
-        gerrit.create(full_name, parent=parent)
-        print("Added gerrit project %s" % full_name)
-    except:  # noqa
-        pass
-
+# Gerrit & Openstack
+    gerrit.create(full_name, parent=parent)
+    print("Added gerrit project %s" % full_name)
     gerrit_user = gerrit.gitreview_username()
-    try:
-        local('git remote rm origin')
-    except:  # noqa
-        pass
+    local('git remote rm origin')
 
     if fork_repo:
-        try:
-            local('git remote add openstack %s' % fork_repo.clone_url)
-        except:  # noqa
-            pass
+        local('git remote add openstack %s' % fork_repo.clone_url)
 
     if openstack_version:
         default_branch = "nectar/%s" % openstack_version
     else:
         default_branch = 'master'
 
-    if org_name == 'internal':
-        try:
-            local('git remote add origin git@git.melbourne.nectar.org.au:%s' %
-                  full_name)
-        except:  # noqa
-            pass
-    else:
-        try:
-            local('git remote add nectar https://github.com/%s.git' %
-                  full_name)
-        except:  # noqa
-            pass
-
     local('git fetch --all')
+
     if openstack_version:
         local('git checkout -b nectar/%s %s%s' % (openstack_version,
                                                   stable_ref,
