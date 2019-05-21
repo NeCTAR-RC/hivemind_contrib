@@ -1,46 +1,22 @@
 import json
 import requests
-from hivemind.decorators import verbose, configurable
-from fabric.utils import error, warn
+import certifi
+from hivemind.decorators import verbose
+from hivemind.decorators import configurable
+from fabric.utils import warn
+from fabric.utils import error
 from fabric.api import task
-
-
-#  see https://git.test.rc.nectar.org.au/api/swagger
-
 
 @configurable('gitea')
 @verbose
 def get_gitea_config(url, token, teamidlist="", sslverify=True):
-    '''
-    #   expecting config.ini contant like the following:
-    #
-    #   [cfg:hivemind.gitea]
-    #    @doc = create a repo on git.rc.nectar.org.au
-    #    @command = code.setup_project
-    #    url = git.test.rc.nectar.org.au
-    #    SSLverify = true
-    #    token = abcdefghijklmnopqurstuvwxyz1234567890abc
-    #    teamidlist = "13, 19, 10"
-    #
-    #   for prod:
-    #    Owners: 4
-    #    CI: 19
-    #    CoreServices: 10
-    #    Gerrit: 13
-    #
-    #   remember - this is for internal git repo config so gerrit
-    #   can manage the resource
-    #   minimum config items we need to actually care about
-    #   without these there is no action possible.
-    '''
-    print(type(teamidlist))
     if url is None:
         error("Repo URL is empty - expecting a bare url e.g. \"git.test.rc.nectar.org.au\"")
     # and warn for other projvalues
     if token is None:
         warn("No API token specified - likely that the API call will fail")
     if teamidlist =="":
-        warn("No teams specified - new repos won't be assigned to any teams. \nThis is probably OK depending on what you are doing.")
+        warn("No teams specified - new repos won't be assigned to any teams.")
     else:
         teamidlist = ''.join(teamidlist.split())     # remove white space
         teamidlist = teamidlist.split(",")  # seperate into individual values at commas
@@ -79,14 +55,17 @@ def getteamIDs(orgname, url=None, token=None, sslverify=True):
             url_teamlist,
             verify=sslverify,
             params=parameters,
-            headers=teamhead,
+            headers=teamhead
             )
+        print(response)
         # Consider any status other than 2xx an error
         if not response.status_code // 100 == 2:
             print("Error: Unexpected response {}".format(response))
+            return()
     except requests.exceptions.RequestException as e:
         # A serious problem happened, like an SSLError or InvalidURL
         print("Error: {}".format(e))
+        return()
     teamsdict = json.loads(response.text)
     print("Team Name:   Team ID")
     for team in teamsdict:

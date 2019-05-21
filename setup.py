@@ -49,6 +49,7 @@ setup(
       # -*- Entry points: -*-
 
       [hivemind.modules]
+      code = hivemind_contrib.code
       designate = hivemind_contrib.designate
       code = hivemind_contrib.code
       gerrit = hivemind_contrib.gerrit
