@@ -2,11 +2,9 @@ from fabric.api import local
 from fabric.api import task
 
 from hivemind.decorators import verbose
-#from hivemind.decorators import configurable
 from hivemind import util
 from hivemind_contrib import gerrit
 from hivemind_contrib import gitea
-
 
 import github
 from github.GithubException import UnknownObjectException
@@ -32,7 +30,6 @@ def setup_project(
     api_token=None,         # for gitea API
     url=None,               # for gitea and testing
     teamidlist="",          # a csv list of team IDs for gitea repos
-    sslverify=True,         # only needed for test
     list_teams=False,       # just list the team names and ID's for an org.
     fork_from=None,
     openstack_version=None,
@@ -59,24 +56,22 @@ def setup_project(
     if org_name == 'internal':
         fork_repo = None
         #   get config from config.ini file
-        config = gitea.get_gitea_config(url, api_token, teamidlist, sslverify)
+        config = gitea.get_gitea_config(url, api_token, teamidlist)
         #   use config file values where no values passed in from CLI
         if url is None:
             url = config["url"]
         if api_token is None:
             api_token = config["token"]
-        if not sslverify:
-            sslverify = config["sslverify"]
         if list_teams:   # Just list the teams for the organisation
-            gitea.getteamIDs(org_name, url, api_token, sslverify)
+            gitea.getteamIDs(org_name, url, api_token)
             return()
         if teamidlist =="":
             teamidlist = config["teamidlist"]
-        gitea.makerepo(org_name, name, url, api_token, sslverify)
+        gitea.makerepo(org_name, name, url, api_token)
         print("Creating repo %s/%s" % (org_name, name))
         if teamidlist != "":
             for teamID in teamidlist:
-                gitea.teamifyrepo(org_name, name, teamID, url, api_token, sslverify)
+                gitea.teamifyrepo(org_name, name, teamID, url, api_token)
         print("Done!")
     else:
         g = github.Github(github_user, github_token)
@@ -111,19 +106,19 @@ def setup_project(
     try:
         gerrit.create(full_name, parent=parent)
         print("Added gerrit project %s" % full_name)
-    except:
+    except:  # noqa
         pass
 
     gerrit_user = gerrit.gitreview_username()
     try:
         local('git remote rm origin')
-    except:
+    except:  # noqa
         pass
 
     if fork_repo:
         try:
             local('git remote add openstack %s' % fork_repo.clone_url)
-        except:
+        except:  # noqa
             pass
 
     if openstack_version:
@@ -135,13 +130,13 @@ def setup_project(
         try:
             local('git remote add origin git@git.melbourne.nectar.org.au:%s' %
                   full_name)
-        except:
+        except:  # noqa
             pass
     else:
         try:
             local('git remote add nectar https://github.com/%s.git' %
                   full_name)
-        except:
+        except:  # noqa
             pass
 
     local('git fetch --all')
