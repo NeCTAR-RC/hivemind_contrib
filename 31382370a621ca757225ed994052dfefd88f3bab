@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8ff4a8_a9e601cc",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-22T05:21:45Z",
+      "side": 1,
+      "message": "all this uri to keep consistent with the others",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 18,
+        "endChar": 34
+      },
+      "revId": "31382370a621ca757225ed994052dfefd88f3bab",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "575ae19e_71dec7e4",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-22T05:21:45Z",
+      "side": 1,
+      "message": "all this uri to keep consistent with the others",
+      "range": {
+        "startLine": 19,
+        "startChar": 19,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "31382370a621ca757225ed994052dfefd88f3bab",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a5d9810_0ac07217",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-22T05:21:45Z",
+      "side": 1,
+      "message": "could print out what needs to be added to config file",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 22,
+        "endChar": 68
+      },
+      "revId": "31382370a621ca757225ed994052dfefd88f3bab",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "170b45e1_6e02113f",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-22T05:21:45Z",
+      "side": 1,
+      "message": "show_allocations",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 8
+      },
+      "revId": "31382370a621ca757225ed994052dfefd88f3bab",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9a4d452_9db209c6",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-22T05:21:45Z",
+      "side": 1,
+      "message": "clean_allocations",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 9
+      },
+      "revId": "31382370a621ca757225ed994052dfefd88f3bab",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
