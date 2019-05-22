@@ -9,8 +9,7 @@ import requests
 
 @configurable('gitea')
 @verbose
-def get_gitea_config(url, token, teamidlist=""):
-    print(type(teamidlist))
+def get_gitea_config(url=None, token=None, teamidlist=""):
     if url is None:
         error("Repo URL is empty - expecting a bare url"
               + " e.g. \"git.rc.nectar.org.au\"")
@@ -33,12 +32,9 @@ def get_gitea_config(url, token, teamidlist=""):
 @task
 def getteamIDs(orgname, url=None, token=None):
     #   get config from config.ini file
-    config = get_gitea_config(url, token, "")
-    #   use config file values where no values passed in from CLI
-    if url is None:
-        url = config["url"]
-    if token is None:
-        token = config["token"]
+    config = get_gitea_config()
+    url = config["url"]
+    token = config["token"]
     #   set up request values
     tokenstring = "token " + token
     url_teamlist = "https://" + url + "/api/v1/orgs/" + orgname + "/teams"
@@ -63,20 +59,17 @@ def getteamIDs(orgname, url=None, token=None):
         # A serious problem happened, like an SSLError or InvalidURL
         print("Error: {}".format(e))
     teamsdict = json.loads(response.text)
-    print("Team Name:   Team ID")
+    print("Team Name:   \tTeam ID")
     for team in teamsdict:
-        print(team['name'] + ": " + str(team['id']))
+        print(team['name'] + ": \t" + str(team['id']))
 
 
 @task
-def makerepo(orgname, reponame, url=None, token=None):
+def makerepo(orgname, reponame):
     #   get config from config.ini file
-    config = get_gitea_config(url, token, "")
-    #   use config file values where no values passed in from CLI
-    if url is None:
-        url = config["url"]
-    if token is None:
-        token = config["token"]
+    config = get_gitea_config()
+    url = config["url"]
+    token = config["token"]
     url_repo = "https://" + url + "/api/v1/org/" + orgname + "/repos"
     tokenstring = "token " + token
     repohead = {
@@ -93,7 +86,7 @@ def makerepo(orgname, reponame, url=None, token=None):
         "private": True,
         "readme": ""
         }
-
+    print('working on https://%s/%s/%s' % (url, orgname, reponame))
     try:
         response = requests.post(
             url_repo,
@@ -106,16 +99,20 @@ def makerepo(orgname, reponame, url=None, token=None):
     except requests.exceptions.RequestException as e:
         # A serious problem happened, like an SSLError or InvalidURL
         return "Error: {}".format(e)
+    print("success!")
+    teamidlist = config["teamidlist"]
+    if teamidlist != "":
+        for teamID in teamidlist:
+            teamifyrepo(orgname, reponame, teamID, url, token)
+    print("Done!")
 
 
 @task
 def teamifyrepo(orgname, reponame, ID, url=None, token=None):
-    config = get_gitea_config(url, token, "")
-    #   use config file values where no values passed in from CLI
-    if url is None:
-        url = config["url"]
-    if token is None:
-        token = config["token"]
+    #   get config from config.ini file
+    config = get_gitea_config()
+    url = config["url"]
+    token = config["token"]
     url_team = ("https://" + url + "/api/v1/teams/" + ID
                 + "/repos/" + orgname + "/" + reponame)
     tokenstring = "token " + token
@@ -137,7 +134,6 @@ def teamifyrepo(orgname, reponame, ID, url=None, token=None):
         if not response.status_code // 100 == 2:
             return "Error: Unexpected response {}".format(response)
         print("added repo %s/%s to team ID %s" % (orgname, reponame, ID))
-        return response
     except requests.exceptions.RequestException as e:
         # A serious problem happened, like an SSLError or InvalidURL
         return "Error: {}".format(e)
