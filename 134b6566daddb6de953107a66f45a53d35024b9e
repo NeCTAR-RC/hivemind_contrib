@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29c78501_cd2ef672",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2019-05-22T21:55:58Z",
+      "side": 1,
+      "message": "@sorrison - not sure I agree with calling this uri - that leads to hivemind config.ini\ncalling it \ncfg:hivemind_contrib.placement.uri.uri which doesn\u0027t tell you what it is really\ndatabase.uri seems much more explicit",
+      "revId": "134b6566daddb6de953107a66f45a53d35024b9e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
