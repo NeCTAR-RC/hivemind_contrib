@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42661f81_96c9a8c9",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "please keep this the same, unrelated change",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1610b254_148c4d92",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "Think this needs to change, we don\u0027t specify url",
+      "range": {
+        "startLine": 35,
+        "startChar": 20,
+        "endLine": 36,
+        "endChar": 45
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03919b4e_22136706",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 37,
+        "startChar": 12,
+        "endLine": 38,
+        "endChar": 42
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3ae8674_19735947",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "whoops",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 76
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa545e6e_5365e6f7",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "This doesn\u0027t look like it\u0027s doing anything? Is this needed?",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 34
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "980852c0_80d94a2d",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "can this go back to where it was please :-)",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 59,
+        "endChar": 41
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f718aeda_6222e4b0",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "unrelated change, please keep it the same, same as below",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 14
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6811ec0b_bbd3bb64",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "call this team_ids",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1c516ee_7f441ef3",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "maybe call this list_teams",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "091bbb2a_1d325c66",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "org_name to keep it consistent with setup_project, same as ones below",
+      "range": {
+        "startLine": 33,
+        "startChar": 15,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ad11b8_6073efd7",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "these don\u0027t seem to be used, can remove?",
+      "range": {
+        "startLine": 33,
+        "startChar": 24,
+        "endLine": 33,
+        "endChar": 44
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e091fc34_c247e6c8",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "is this right, seems to be duplicated",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 29
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479e556c_97f02260",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "name",
+      "range": {
+        "startLine": 68,
+        "startChar": 22,
+        "endLine": 68,
+        "endChar": 30
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ea98bb1_06e2b704",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "call the create_repo",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "947cf245_7cc7e592",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "call this team_id",
+      "range": {
+        "startLine": 111,
+        "startChar": 35,
+        "endLine": 111,
+        "endChar": 37
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14097238_c6c4dd16",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "not used?",
+      "range": {
+        "startLine": 111,
+        "startChar": 38,
+        "endLine": 111,
+        "endChar": 59
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2867e35e_8fe85b6a",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T01:24:31Z",
+      "side": 1,
+      "message": "teamify_repo",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 15
+      },
+      "revId": "a79e72a533eb652fcedb7933b880b88b2cd9dedc",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
