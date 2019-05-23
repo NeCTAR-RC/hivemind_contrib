@@ -1,3 +1,4 @@
+from fabric.api import env
 from fabric.api import local
 from fabric.api import task
 
@@ -86,23 +87,16 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
     else:
         parent = 'CoreServices-Projects'
 
-    try:
-        gerrit.create(full_name, parent=parent)
-        print("Added gerrit project %s" % full_name)
-    except:   # noqa
-        pass
+    # turn off exception abort for fabric.api
+    env.warn_only = True
 
+    gerrit.create(full_name, parent=parent)
+    print("Added gerrit project %s" % full_name)
     gerrit_user = gerrit.gitreview_username()
-    try:
-        local('git remote rm origin')
-    except:   # noqa
-        pass
+    local('git remote rm origin')
 
     if fork_repo:
-        try:
-            local('git remote add openstack %s' % fork_repo.clone_url)
-        except:   # noqa
-            pass
+        local('git remote add openstack %s' % fork_repo.clone_url)
 
     if openstack_version:
         default_branch = "nectar/%s" % openstack_version
@@ -110,17 +104,9 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
         default_branch = 'master'
 
     if org_name == 'internal':
-        try:
-            local('git remote add origin git@git.melbourne.nectar.org.au:%s' %
-                  full_name)
-        except:   # noqa
-            pass
+        local('git remote add origin git@git.melbourne.nectar.org.au:%s' % full_name)
     else:
-        try:
-            local('git remote add nectar https://github.com/%s.git' %
-                  full_name)
-        except:   # noqa
-            pass
+        local('git remote add nectar https://github.com/%s.git' % full_name)
 
     local('git fetch --all')
     if openstack_version:
