@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12a5191f_173fb1cb",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T04:56:19Z",
+      "side": 1,
+      "message": "Also just realise we need to be able to handle the repo already being created much like when we do it with org_name  \u003d \u0027NeCTAR-RC\u0027 using github.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 55
+      },
+      "revId": "18de630169d7a64efdbb36ce2dba6547a91c2976",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f994d8f_2372a4ae",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T04:56:19Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "18de630169d7a64efdbb36ce2dba6547a91c2976",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15888479_42188933",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T04:56:19Z",
+      "side": 1,
+      "message": "maybe call this list_teams",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 17
+      },
+      "revId": "18de630169d7a64efdbb36ce2dba6547a91c2976",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63435f7c_9ecfc9bc",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T04:56:19Z",
+      "side": 1,
+      "message": "is this correct, seems duplicated?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 29
+      },
+      "revId": "18de630169d7a64efdbb36ce2dba6547a91c2976",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa4b0072_92c2aff5",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T04:56:19Z",
+      "side": 1,
+      "message": "would be good to use pretty table like we have in other hivemind modules",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 54
+      },
+      "revId": "18de630169d7a64efdbb36ce2dba6547a91c2976",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "867d8ca3_b44eade3",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T04:56:19Z",
+      "side": 1,
+      "message": "maybe add a doc string to this method to be clear what teamify means\n\nIf it is adding a team to a repo you could alternatively rename the method add_team_to_repo which would be preferred",
+      "range": {
+        "startLine": 111,
+        "startChar": 3,
+        "endLine": 111,
+        "endChar": 16
+      },
+      "revId": "18de630169d7a64efdbb36ce2dba6547a91c2976",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "132ba1f5_8fb0bc9f",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-23T04:56:19Z",
+      "side": 1,
+      "message": "not used anywhere so can remove",
+      "range": {
+        "startLine": 111,
+        "startChar": 42,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "18de630169d7a64efdbb36ce2dba6547a91c2976",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
