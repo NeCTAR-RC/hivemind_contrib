@@ -20,6 +20,6 @@ Homepage: https://github.com/NeCTAR-RC/hivemind_contrib
 
 Package: python-hivemind-contrib
 Architecture: any
-Depends: ${misc:Depends}, ${python:Depends}, python-mysqldb
+Depends: ${misc:Depends}, ${python:Depends}, python-mysqldb, python-github
 Description: A collection of plugins for hivemind.
  hivemind_contrib, A collection of plugins for hivemind.
