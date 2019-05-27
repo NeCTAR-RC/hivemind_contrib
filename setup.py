@@ -17,7 +17,8 @@ requirements = [
     'sqlalchemy',
     'pymysql',
     'requests',
-    'jinja2'
+    'jinja2',
+    'pygithub'
 ]
 
 setup(
