@@ -349,7 +349,7 @@ def combine_files(file_contents):
     combined_message = MIMEMultipart()
     for i, contents in enumerate(file_contents):
         for content_type, start in FILE_TYPES.items():
-            if contents.startswith(start):
+            if start in contents.splitlines()[:2]:
                 break
         else:
             raise Exception("Can't find handler for '%s'" %
