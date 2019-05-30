@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57385650_1a09579f",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T01:27:55Z",
+      "side": 1,
+      "message": "Can we keep this name the same, not sure why we changing this argument?",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "54ddab0590fc3405ce7a0107d31198e8a5e541a1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
