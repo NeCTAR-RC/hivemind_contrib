@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a9db345_cd4d6143",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "no need to catch this exception if all we are doing it printing it out. Not catching the exception will do the same thing but be more useful as it will include the stack trace",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "883d71d8_75ef153b",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "just raise the original exception (same reason as above comment)",
+      "range": {
+        "startLine": 65,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 22
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5736f16_fa1bd14f",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "same as comment in code.py",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 16
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c2a2fba_437e8f77",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "this is redundant, so not needed",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb97c5b7_63103593",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "See comments from previous reviews, call it name",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 35
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fbefdad_5ff901c8",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "Prob not needed as exception will print the details",
+      "range": {
+        "startLine": 98,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 53
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab5a2ab7_3741c55d",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "this should be an error we don\u0027t want to handle as it is an actual issue",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 40
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8305ec_5acfc045",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T05:38:40Z",
+      "side": 1,
+      "message": "this should be an error we don\u0027t want to handle as it is an actual issue",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 39
+      },
+      "revId": "43dc75962490db4a83089da1a6d65627a251c711",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
