@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "630fefb9_8462811b",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T23:18:16Z",
+      "side": 1,
+      "message": "put this at the top of the method as a default",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "e015c6dba7370b40e53da100d50e25ee1e240d91",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7cc1491_f5b87e43",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T23:18:16Z",
+      "side": 1,
+      "message": "this is at the wrong indention level",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 62
+      },
+      "revId": "e015c6dba7370b40e53da100d50e25ee1e240d91",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff1b841_483ad2e9",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-05-30T23:18:16Z",
+      "side": 1,
+      "message": "name",
+      "range": {
+        "startLine": 50,
+        "startChar": 26,
+        "endLine": 50,
+        "endChar": 35
+      },
+      "revId": "e015c6dba7370b40e53da100d50e25ee1e240d91",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
