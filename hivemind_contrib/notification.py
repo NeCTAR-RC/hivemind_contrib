@@ -241,6 +241,13 @@ def generate_logs(work_dir, data):
         print_dict(data, log)
 
 
+def normalize_filename(filename):
+    illegal_chars = ['/']
+    for c in illegal_chars:
+        filename = re.sub(c, '_', filename)
+    return filename
+
+
 def generate_notification_mails(subject, template, data, work_dir,
                                start_time, end_time, timezone,
                                zone, affected, nodes):
@@ -259,7 +266,7 @@ def generate_notification_mails(subject, template, data, work_dir,
             # convert to simple html, freshdesk supports html format only
             html = msg.replace("\n", "<br />\n")
             html = html.replace(r"\s", "&#160&#160&#160&#160")
-        filename = "notification@" + proj
+        filename = normalize_filename("notification@" + proj)
         with io.open(os.path.join(work_dir, filename), 'w') as mail:
             count += 1
             content = {'Body': html, 'Sendto': recipients}
