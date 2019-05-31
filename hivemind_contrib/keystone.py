@@ -30,16 +30,15 @@ user_cache = {}
 
 
 @decorators.configurable('nectar.openstack.client')
-def get_session(username=None, password=None, project_name=None,
-                tenant_name=None, auth_url=None):
+def get_session(username=None, password=None, project_name=None, auth_url=None, use_env=True):
 
-    auth_url = os.environ.get('OS_AUTH_URL', auth_url)
-    username = os.environ.get('OS_USERNAME', username)
-    password = os.environ.get('OS_PASSWORD', password)
-    project_name = os.environ.get('OS_PROJECT_NAME', project_name)
-    # allow tenant_name for backwards compatibility
-    if not project_name:
-        project_name = os.environ.get('OS_TENANT_NAME', tenant_name)
+    if use_env:
+        auth_url = os.environ.get('OS_AUTH_URL', auth_url)
+        username = os.environ.get('OS_USERNAME', username)
+        password = os.environ.get('OS_PASSWORD', password)
+        project_name = os.environ.get('OS_PROJECT_NAME', project_name)
+        if not project_name:
+            project_name = os.environ.get('OS_TENANT_NAME', tenant_name)
 
     auth_args = {
         'auth_url': auth_url,

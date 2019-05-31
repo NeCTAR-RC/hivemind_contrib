@@ -1,6 +1,7 @@
 from __future__ import print_function
 import collections
 import dateutil.parser
+import ipaddress
 import re
 import sys
 import time
@@ -25,6 +26,8 @@ from hivemind.operations import run
 from hivemind.util import current_host
 from hivemind_contrib import keystone
 from hivemind_contrib.swift import client as swift_client
+from hivemind_contrib import designate
+
 
 DEFAULT_AZ = 'melbourne-qh2'
 DEFAULT_SECURITY_GROUPS = 'default,openstack-node,puppet-client'
@@ -50,7 +53,7 @@ def db_connect(uri):
 @decorators.configurable('nectar.openstack.client')
 def client(url=None, username=None, password=None, tenant=None, version='2.1'):
     sess = keystone.get_session(username=username, password=password,
-                                tenant_name=tenant, auth_url=url)
+                                project_name=tenant, auth_url=url)
     return nova_client.Client(version, session=sess)
 
 
@@ -467,6 +470,27 @@ def boot(name, key_name=None, image_id=None, flavor='m1.small',
     print(ip_address)
 
 
+def zone_for_addr(addr):
+    ip = ipaddress.ip_address(addr)
+    return ip.reverse_pointer
+
+
+@task
+@decorators.verbose
+def delete(name):
+    nova = client()
+    server = nova.servers.find(name=name)
+    address = server_address(nova, server.id)
+    dns = designate.client()
+    reverse = zone_for_addr(address) + '.'
+    zone = reverse.split('.', 1)[1]
+    ptr_record = dns.recordsets.delete(zone, reverse)
+    a_name = ptr_record['records'][0]
+    a_zone = a_name.split('.', 1)[1]
+    a_record = dns.recordsets.delete(a_zone, a_name)
+    server.delete()
+
+         
 @task
 @decorators.verbose
 def list_host_aggregates(availability_zone, hostname=[]):
