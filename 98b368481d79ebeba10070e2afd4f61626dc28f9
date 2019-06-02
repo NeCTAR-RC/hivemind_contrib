@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e9fe958c_cc76e437",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-02T23:40:42Z",
+      "side": 1,
+      "message": "this is in the wrong indent level",
+      "range": {
+        "startLine": 62,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 50
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc3fbaee_4be1c719",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-02T23:40:42Z",
+      "side": 1,
+      "message": "Comment removed by: Sam Morrison; Reason: Actually does work",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a50a7b3_adde9f22",
         "filename": "hivemind_contrib/gitea.py",
         "patchSetId": 21
@@ -13,6 +59,30 @@
       "writtenOn": "2019-06-02T23:36:08Z",
       "side": 1,
       "message": "After re-reading this, I wonder if we should skip the // 100 \u003d\u003d 2 stuff, and just go straight to raise_for_status() and use that as our measure for success instead?",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05e5490c_ee5f8dc8",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-02T23:40:42Z",
+      "side": 1,
+      "message": "Yeah I think just raise for status and then print the table after that",
+      "parentUuid": "6a50a7b3_adde9f22",
       "range": {
         "startLine": 39,
         "startChar": 4,
