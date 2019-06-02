@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a50a7b3_adde9f22",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-06-02T23:36:08Z",
+      "side": 1,
+      "message": "After re-reading this, I wonder if we should skip the // 100 \u003d\u003d 2 stuff, and just go straight to raise_for_status() and use that as our measure for success instead?",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "889a395f_d36793d6",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-06-02T23:36:08Z",
+      "side": 1,
+      "message": "These two lines are duplicated a few places in this file. I\u0027d drop them and do straight to:\n\n\"Authorization\": \"token \" + config[\u0027token\u0027] .. or ..\n\"Authorization\": \"token {}\".format(config[\u0027token\u0027])\n\nor even set the proper token string in the config method at the top.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6987639c_3b1786a4",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-06-02T23:36:08Z",
+      "side": 1,
+      "message": "I\u0027d leave this up to you to decide on your personal preference, but use format() instead and change this line to:\n\nurl_repo \u003d \"https://{}/api/v1/org/{}/repos\".format(config[\u0027url\u0027], org_name)\n\nI\u0027d also be considering changing any other strings like \u0027\"string %s string\" % var\u0027 to use the new format too.",
+      "range": {
+        "startLine": 56,
+        "startChar": 28,
+        "endLine": 56,
+        "endChar": 31
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693f365c_09727596",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-06-02T23:36:08Z",
+      "side": 1,
+      "message": "I think you should be able to drop this second if. I don\u0027t think there\u0027s going to be a case where you\u0027d hit one or the other if statements, always both?",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 16
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d180bdb6_5d6ff840",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-06-02T23:36:08Z",
+      "side": 1,
+      "message": "Like mentioned above, maybe go straight to raise_for_status and go from there?",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 35
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
