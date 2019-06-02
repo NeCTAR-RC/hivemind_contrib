@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "935676a8_3e40462b",
+        "filename": "hivemind_contrib/code.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-02T23:55:48Z",
+      "side": 1,
+      "message": "Actually this is valid, never seen it like this but it works. Docs say otherwise",
+      "parentUuid": "dc3fbaee_4be1c719",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "98b368481d79ebeba10070e2afd4f61626dc28f9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a50a7b3_adde9f22",
         "filename": "hivemind_contrib/gitea.py",
         "patchSetId": 21
