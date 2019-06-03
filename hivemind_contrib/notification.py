@@ -6,6 +6,7 @@ from fabric.api import task
 from fabric.utils import error
 from hivemind import decorators
 from hivemind_contrib import keystone
+from hivemind_contrib import log
 from hivemind_contrib import nova
 from hivemind_contrib import security
 from jinja2 import Environment
@@ -19,6 +20,7 @@ from prettytable import PrettyTable
 import collections
 import datetime
 import io
+import logging
 import os
 import re
 import shutil
@@ -542,7 +544,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str timezone: Timezone
        :param str instances_file: Only consider instances listed in file
        :param boolean dry_run: by default print info only, use --no-dry-run\
-               for realsies
+               for realsies. Log file notify_freshdesk.log will be generated\
+               with ticket/emails info during the realsies run.
        :param boolean record_metadata: record the freshdesk ticket URL in\
                the nova instance metadata
        :param str metadata_field: set the name of the freshdesk ticket URL\
@@ -620,13 +623,16 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                                      len(email_files) / 60 + 1), default='no'):
             sys.exit(1)
 
+        log.logger(os.path.join(work_dir, 'notify_freshdesk.log'))
+
         subjectfd = "[Nectar Notice] " + subject
         for email_file in email_files:
-            print('\nCreating new Freshdesk ticket')
+            logging.info('Creating new Freshdesk ticket')
             with open(os.path.join(work_dir, email_file), 'rb') as f:
                 email = yaml.load(f)
             addresses = email['Sendto'].split(',')
-            toaddress = addresses.pop(0)
+            toaddress = addresses[0]
+            ccaddresses = addresses[1:]
             if test_recipient:
                 toaddress = test_recipient
                 addresses = [test_recipient]
@@ -634,7 +640,7 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                 description=email['Body'],
                 subject=subjectfd,
                 email=toaddress,
-                cc_emails=addresses,
+                cc_emails=ccaddresses,
                 email_config_id=int(fd_config['email_config_id']),
                 group_id=int(fd_config['group_id']),
                 priority=2,
@@ -650,8 +656,12 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
 
             ticket_url = 'https://{}/helpdesk/tickets/{}'\
                          .format(domain, ticket_id)
-            print('Ticket #{} has been created: {}'
-                  .format(ticket_id, ticket_url))
+
+            proj = email_file.split("@", 1)[1]
+            logging.info('Ticket #{} has been created: <{}> for project <{}>'
+                         .format(ticket_id, ticket_url, proj))
+            logging.debug('Ticket #{} has email recipients: {}'
+                         .format(ticket_id, addresses))
 
             if record_metadata:
                 # Record the ticket URL in the server metadata
@@ -663,5 +673,5 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
             time.sleep(1)
 
         # make achive the outbox folder
-        print('Make archive after the mailout for %s' % work_dir)
+        logging.info('Make archive after the mailout for %s' % work_dir)
         make_archive(work_dir)
