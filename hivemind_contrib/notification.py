@@ -18,6 +18,7 @@ from prettytable import PrettyTable
 
 import collections
 import datetime
+import fileinput
 import io
 import os
 import re
@@ -652,6 +653,14 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                          .format(domain, ticket_id)
             print('Ticket #{} has been created: {}'
                   .format(ticket_id, ticket_url))
+
+            # update ticket_url under the project name in notify.log
+            proj = email_file.split("@", 1)[1]
+            proj = '[{}]'.format(proj)
+            proj_url = '{}\n  ticket_url = {}'.format(proj, ticket_url)
+            for line in fileinput.input(os.path.join(work_dir, "notify.log"),
+                                        inplace=True):
+                print(line.replace(proj, proj_url), end='')
 
             if record_metadata:
                 # Record the ticket URL in the server metadata
