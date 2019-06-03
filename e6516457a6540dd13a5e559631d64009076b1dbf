@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83ebe7ff_4c0b65c9",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2019-06-03T01:47:02Z",
+      "side": 1,
+      "message": "Go raise_for_status here too",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 35
+      },
+      "revId": "e6516457a6540dd13a5e559631d64009076b1dbf",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
