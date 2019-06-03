@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07efce3_903d4063",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-03T03:17:36Z",
+      "side": 1,
+      "message": "no need to define this variable since it\u0027s only used once",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "69885371b6b2a2dbdc0a5748b69c1c64ad55f5d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1cd0c93_19373977",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-03T03:17:36Z",
+      "side": 1,
+      "message": "need a / here in case the / is missed in the config, same for ones below",
+      "range": {
+        "startLine": 27,
+        "startChar": 22,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "69885371b6b2a2dbdc0a5748b69c1c64ad55f5d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b90b41_a7a871fb",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-03T03:17:36Z",
+      "side": 1,
+      "message": "I feel like if we can\u0027t add the repo to the desired team then it should be an error unless the team already has the repo?",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 49
+      },
+      "revId": "69885371b6b2a2dbdc0a5748b69c1c64ad55f5d3",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
