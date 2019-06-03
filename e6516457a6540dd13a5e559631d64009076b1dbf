@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8dfb8bd9_509ee4d1",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-03T02:08:42Z",
+      "side": 1,
+      "message": "Actually on second thought this really should be the full URL.\n\nSo the config option would be set to:\n\nhttps://git.rc.nectar.org.au/api/v1/",
+      "parentUuid": "0eb05517_baaeaf80",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "e6516457a6540dd13a5e559631d64009076b1dbf",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "912e0a71_c7e9ab04",
         "filename": "hivemind_contrib/gitea.py",
         "patchSetId": 22
