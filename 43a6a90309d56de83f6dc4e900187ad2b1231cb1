@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19a3da8e_932dca24",
+        "filename": "hivemind_contrib/gitea.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-04T00:24:42Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 37,
+        "startChar": 33,
+        "endLine": 37,
+        "endChar": 34
+      },
+      "revId": "43a6a90309d56de83f6dc4e900187ad2b1231cb1",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
