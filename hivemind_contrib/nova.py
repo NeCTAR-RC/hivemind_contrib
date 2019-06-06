@@ -32,6 +32,7 @@ DEFAULT_SECURITY_GROUPS = 'default,openstack-node,puppet-client'
 FILE_TYPES = {
     'cloud-config': '#cloud-config',
     'x-shellscript': '#!',
+    'jinja2': '## template: jinja',
 }
 
 metadata = MetaData()
@@ -349,7 +350,7 @@ def combine_files(file_contents):
     combined_message = MIMEMultipart()
     for i, contents in enumerate(file_contents):
         for content_type, start in FILE_TYPES.items():
-            if start in contents.splitlines()[:2]:
+            if contents.startswith(start):
                 break
         else:
             raise Exception("Can't find handler for '%s'" %
