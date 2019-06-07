@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a18e8d8_0bdb1ef5",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-06-07T04:22:34Z",
+      "side": 1,
+      "message": "think this should be at info level",
+      "range": {
+        "startLine": 663,
+        "startChar": 20,
+        "endLine": 663,
+        "endChar": 25
+      },
+      "revId": "ef5cafffd1ed48271717cafd10637a465dd5a78d",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
