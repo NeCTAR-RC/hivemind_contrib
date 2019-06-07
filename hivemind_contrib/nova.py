@@ -114,7 +114,7 @@ def get_instance_action(client, instance_id, req_id):
 
 
 def wait_for(func, error_message):
-    for i in xrange(60):
+    for i in xrange(90):
         ret = func()
         if ret:
             return ret
