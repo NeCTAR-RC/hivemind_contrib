@@ -1,35 +1,54 @@
 Dear Nectar Research Cloud User,
 
+Your Nectar database instance(s) require a maintenance upgrade.
+This is to ensure that you are running the latest version with all security
+and other miscellaneous fixes.
 
-Your Nectar database instances require a maintenance upgrade.
-This is to ensure that you are running the latest version with all security and other miscellaneous fixes.
+The latest changes for the MySQL datastore v5.7-10 are:
+<ul>
+  <li>MySQL Server upgraded to 5.7.26</li>
+  <li>Support for upgrading to MySQL 8.0 (to be released soon)</li>
+</ul>
 
-Please upgrade your database at your convenience following the steps below before <b>{{ end_ts }}</b>. All databases that have not been upgraded by this time will be done automatically after this date.
+We will automatically upgrade your database instance(s) during the maintenance
+window between <b>{{ start_ts }}</b> and <b>{{ end_ts }}</b>.
 
-
-IMPACT:
-
-During the upgrade operation your database instance will be unavailable. This typically takes around 10 minutes but actual times can vary. Please create backups of all your databases (see details in https://support.ehelp.edu.au/support/solutions/articles/6000178670-nectar-database-service) before proceeding.
-
-
-ACTION REQUIRED:
-  <ul><li>Go to https://dashboard.rc.nectar.org.au/project/databases/</li>
-  <li>Click on the dropdown in the Actions column of the affected instances</li>
-  <li>Select Upgrade Instance and then choose the available new version</li>
-  <li>Click Upgrade Databse Instance</li></ul>
-* Alternatively, you could use the CLI to upgrade them: do a <i>trove list</i> to list your instances and then <i>trove upgrade &lt trove-instance-id &gt &lt datastore-version &gt</i> to upgrade it.
-
-* If you are no longer using the instance(s) listed below, please delete/terminate them.
-
-
-AFFECTED DATABASES INSTANCES:
-<table cellspacing="5"><tr><th align="left">Host</th><th align="left">IP Address</th><th align="left">Project</th></tr>
+Your affected database instance(s) are:
+<ul>
 {% for instance in instances -%}
-  <tr><td>{{ instance.name }}</td><td>{{ ','.join(instance.addresses) }}</td><td>{{ instance.project_name }}</td></tr>
-{%- endfor %}</table>
-If you have any queries regarding this outage, please contact us by email:
+  <li>{{ instance.name }}</li>
+{%- endfor %}
+</ul>
 
-   support@nectar.org.au
+Alternatively, you can upgrade your databases instances(s) at your convenience
+before <b>{{ start_ts }}</b> by following the instructions below.
+
+During the upgrade operation your database instance will be unavailable.
+This typically takes around 10 minutes but actual times can vary. 
+
+We recommend you create a backup of your database instance(s) before the
+maintenance window. You can reference the Nectar Database service support
+documentation at https://support.ehelp.edu.au/support/solutions/articles/6000178670
+for more information.
+
+If you wish to upgrade yourself, you can do it either by the Nectar Research Cloud
+dashboard, or via the OpenStack CLI tools.
+
+Via the Dashboard:
+<ul>
+  <li>Go to https://dashboard.rc.nectar.org.au/project/databases/</li>
+  <li>Click on the dropdown in the <b>Actions</b> column of the affected instances</li>
+  <li>Select <b>Upgrade Instance</b> and then choose the available new version</li>
+  <li>Click <b>Upgrade Databse Instance</b></li>
+</ul>
+
+Using the CLI tools, simply load your credentials and start the upgrade by typing:
+{% for instance in instances -%}
+<pre>  trove upgrade {{ instance.name }} 5.7-10</pre>
+{%- endfor %}
+
+If you have any queries regarding this outage, please reply to this email or
+contact us at support@nectar.org.au.
 
 
 Regards,
