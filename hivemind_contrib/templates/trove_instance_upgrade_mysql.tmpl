@@ -16,7 +16,7 @@ window between <b>{{ start_ts }}</b> and <b>{{ end_ts }}</b>.
 Your affected database instance(s) are:
 <ul>
 {% for instance in instances -%}
-  <li>{{ instance.name }}</li>
+  <li>{{ instance.name }} (project {{ instance.project_name }})</li>
 {%- endfor %}
 </ul>
 
@@ -24,7 +24,7 @@ Alternatively, you can upgrade your databases instances(s) at your convenience
 before <b>{{ start_ts }}</b> by following the instructions below.
 
 During the upgrade operation your database instance will be unavailable.
-This typically takes around 10 minutes but actual times can vary. 
+This typically takes around 10 minutes but actual times can vary.
 
 We recommend you create a backup of your database instance(s) before the
 maintenance window. You can reference the Nectar Database service support
