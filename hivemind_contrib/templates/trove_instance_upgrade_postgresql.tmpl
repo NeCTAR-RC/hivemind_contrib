@@ -1,0 +1,63 @@
+Dear Nectar Research Cloud User,
+
+Your Nectar database instance(s) require a maintenance upgrade.
+This is to ensure that you are running the latest version with all security
+and other miscellaneous fixes.
+
+The latest changes for the PostgreSQL datastore v9.6-14 are:
+<ul>
+  <li>PostgreSQL Server upgraded to 9.6.14</li>
+</ul>
+
+We will automatically upgrade your database instance(s) during the maintenance
+window between <b>{{ start_ts }}</b> and <b>{{ end_ts }}</b>.
+
+Your affected database instance(s) are:
+<ul>
+{% for instance in instances -%}
+  <li>{{ instance.name }}</li>
+{%- endfor %}
+</ul>
+
+Alternatively, you can upgrade your databases instances(s) at your convenience
+before <b>{{ start_ts }}</b> by following the instructions below.
+
+During the upgrade operation your database instance will be unavailable.
+This typically takes around 10 minutes but actual times can vary. 
+
+We recommend you create a backup of your database instance(s) before the
+maintenance window. You can reference the Nectar Database service support
+documentation at https://support.ehelp.edu.au/support/solutions/articles/6000178670
+for more information.
+
+If you wish to upgrade yourself, you can do it either by the Nectar Research Cloud
+dashboard, or via the OpenStack CLI tools.
+
+Via the Dashboard:
+<ul>
+  <li>Go to https://dashboard.rc.nectar.org.au/project/databases/</li>
+  <li>Click on the dropdown in the <b>Actions</b> column of the affected instances</li>
+  <li>Select <b>Upgrade Instance</b> and then choose the available new version</li>
+  <li>Click <b>Upgrade Databse Instance</b></li>
+</ul>
+
+Using the CLI tools, simply load your credentials and start the upgrade by typing:
+{% for instance in instances -%}
+<pre>  trove upgrade {{ instance.name }} 5.7-10</pre>
+{%- endfor %}
+
+If you have any queries regarding this outage, please reply to this email or
+contact us at support@nectar.org.au.
+
+
+Regards,
+
+The Nectar Research Cloud Support Team
+
+--
+This email has been sent to users of the Nectar Research Cloud. It has been
+sent to the email address associated with your Research Cloud login. These
+emails are essential communications which we endeavour to keep to a minimum.
+They only relate to events that may affect your Nectar Research Cloud resources
+or data integrity. If you receive multiple copies of this email, it may be due
+to the fact that you are a member of multiple projects.
