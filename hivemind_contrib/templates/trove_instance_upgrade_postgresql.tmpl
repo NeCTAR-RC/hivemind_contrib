@@ -9,6 +9,10 @@ The latest changes for the PostgreSQL datastore v9.6-14 are:
   <li>PostgreSQL Server upgraded to 9.6.14</li>
 </ul>
 
+<b>Please Note:</b> We have a new major version of PostgreSQL available 11.3
+It is not possible to use the upgrade method to go from
+PostgreSQL 9.6 to the newly released PostgreSQL 11.3 version.
+
 We will automatically upgrade your database instance(s) during the maintenance
 window between <b>{{ start_ts }}</b> and <b>{{ end_ts }}</b>.
 
@@ -43,7 +47,7 @@ Via the Dashboard:
 
 Using the CLI tools, simply load your credentials and start the upgrade by typing:
 {% for instance in instances -%}
-<pre>  trove upgrade {{ instance.name }} 5.7-10</pre>
+<pre>  trove upgrade {{ instance.name }} 9.6-14</pre>
 {%- endfor %}
 
 If you have any queries regarding this outage, please reply to this email or
