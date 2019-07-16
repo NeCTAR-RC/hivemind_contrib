@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c9a56a7_398b2dfb",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-07-16T06:45:10Z",
+      "side": 1,
+      "message": "to make this better this should return a list of instance IDS\n\ndo: \nreturn [id for id, in results]",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 18
+      },
+      "revId": "184c2cd5c57d6629a02c1efd47fe1a9fade03067",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6114a706_c55355f9",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-07-16T06:45:10Z",
+      "side": 1,
+      "message": "call this instance_id and remove the brackets around dups",
+      "range": {
+        "startLine": 183,
+        "startChar": 12,
+        "endLine": 183,
+        "endChar": 13
+      },
+      "revId": "184c2cd5c57d6629a02c1efd47fe1a9fade03067",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f362bcec_fc3ea608",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-07-16T06:45:10Z",
+      "side": 1,
+      "message": "just call clean_allocation here",
+      "range": {
+        "startLine": 198,
+        "startChar": 16,
+        "endLine": 199,
+        "endChar": 70
+      },
+      "revId": "184c2cd5c57d6629a02c1efd47fe1a9fade03067",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7c41395_c6043f4c",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-07-16T06:45:10Z",
+      "side": 1,
+      "message": "this is redundant as clean_allocation has a dry_run mode",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 55
+      },
+      "revId": "184c2cd5c57d6629a02c1efd47fe1a9fade03067",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
