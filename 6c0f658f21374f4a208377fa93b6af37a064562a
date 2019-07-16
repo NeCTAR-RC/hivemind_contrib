@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c9ebe2d_8572ae3f",
+        "filename": "hivemind_contrib/placement.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000190
+      },
+      "writtenOn": "2019-07-16T01:42:54Z",
+      "side": 1,
+      "message": "Looks this docstring will never display. Maybe move it to below task functions?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 45
+      },
+      "revId": "6c0f658f21374f4a208377fa93b6af37a064562a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
