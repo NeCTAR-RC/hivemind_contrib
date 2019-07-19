@@ -118,6 +118,21 @@ def clean_allocation(instance_id, hypervisor,
         print("multiple allocation records not found for %s\n" % instance_id)
         return
 
+    # need to check here that instance actually lives on hypervisor
+    check = select(
+        [alloc_tb.c.consumer_id,
+             res_tb.c.name, alloc_tb.c.resource_provider_id]).select_from(
+                 alloc_tb.join(
+                     res_tb,
+                     alloc_tb.c.resource_provider_id == res_tb.c.id)).where(
+            and_(res_tb.c.name == hypervisor,
+                 alloc_tb.c.consumer_id == instance_id))
+    check_result = db_conn.execute(check).fetchall()
+    if not check_result:
+        print("WARN: instance %s does not have an allocation on %s\n" %
+              (instance_id, hypervisor))
+        return
+
     ids = [r[0] for r in results]
     stmt = alloc_tb.delete().where(alloc_tb.c.id.in_(ids))
 
