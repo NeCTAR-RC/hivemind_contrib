@@ -70,7 +70,7 @@ def get_tenant_managers_emails(kc, instance):
 
 @task
 @decorators.verbose
-def lock_instance(instance_id, dry_run=True):
+def lock_instance(instance_id, cc=None, dry_run=True):
     """pause and lock an instance"""
     if dry_run:
         print('Running in dry-run mode (use --no-dry-run for realsies)')
@@ -121,6 +121,8 @@ def lock_instance(instance_id, dry_run=True):
         email = user.email or 'no-reply@nectar.org.au'
         name = getattr(user, 'full_name', email)
         cc_emails = get_tenant_managers_emails(kc, instance)
+        if cc:
+            cc_emails.append(cc)
 
         # Create ticket if none exist, and add instance info
         subject = 'Security incident for instance {} ({})'.format(
