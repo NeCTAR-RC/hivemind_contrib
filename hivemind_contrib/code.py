@@ -159,5 +159,5 @@ defaultbranch=%(default_branch)s
     gerrit_config_file.write(gerrit_config)
     gerrit_config_file.close()
     local('git add .gitreview')
-    local('git commit -m "Use NeCTAR gerrit"')
+    local('git commit -m "Use Nectar gerrit"')
     local('git review')
