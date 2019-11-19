@@ -17,8 +17,8 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "mitaka"
-OPENSTACK_RELEASES = ['stein', 'rocky', 'queens', 'pike', 'ocata', 'newton',
-                      'mitaka', 'liberty', 'kilo']
+OPENSTACK_RELEASES = ['train', 'stein', 'rocky', 'queens', 'pike', 'ocata',
+                      'newton', 'mitaka', 'liberty', 'kilo']
 UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic']
 DEFAULT_UBUNTU = 'bionic'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
@@ -165,6 +165,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " bionic main",
         "deb " + NECTAR_REPO + " bionic-stein main",
         "deb " + NECTAR_REPO + " bionic-stein-testing main",
+        "deb " + NECTAR_REPO + " bionic-testing main",
+        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
+    'bionic-train': [
+        "deb " + CLOUD_ARCHIVE + " bionic-updates/train main",
+        "deb " + NECTAR_REPO + " bionic main",
+        "deb " + NECTAR_REPO + " bionic-train main",
+        "deb " + NECTAR_REPO + " bionic-train-testing main",
         "deb " + NECTAR_REPO + " bionic-testing main",
         "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
 }
