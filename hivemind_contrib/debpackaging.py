@@ -180,6 +180,7 @@ def discover_debian_branch(current_branch, version, os_release):
 def buildpackage(os_release=None, name=None, upload=True, ubuntu_release=None):
     """Build a package for the current repository."""
     git.assert_in_repository()
+    dbus_address = os.environ.pop('DBUS_SESSION_BUS_ADDRESS', None)
     version = git_version()
     current_branch = git.current_branch()
     if os_release is None:
@@ -209,6 +210,8 @@ def buildpackage(os_release=None, name=None, upload=True, ubuntu_release=None):
         changes = changes_filepath(source_package)
     if upload:
         execute(uploadpackage, changes)
+    if dbus_address:
+        os.environ['DBUS_SESSION_BUS_ADDRESS'] = dbus_address
 
 
 @task
