@@ -630,12 +630,12 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
             logging.info('Creating new Freshdesk ticket')
             with open(os.path.join(work_dir, email_file), 'rb') as f:
                 email = yaml.load(f)
-            addresses = email['Sendto'].split(',')
+            if test_recipient:
+                addresses = [test_recipient]
+            else:
+                addresses = email['Sendto'].split(',')
             toaddress = addresses[0]
             ccaddresses = addresses[1:]
-            if test_recipient:
-                toaddress = test_recipient
-                addresses = [test_recipient]
             ticket = fd.tickets.create_outbound_email(
                 description=email['Body'],
                 subject=subjectfd,
