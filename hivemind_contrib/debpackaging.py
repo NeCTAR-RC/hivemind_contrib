@@ -10,6 +10,8 @@ sixpack uploadpackage:./packaging/cpuset_1.5.6-3.1~nectar0_amd64.changes
 import email
 import os
 import re
+import shutil
+import tempfile
 
 from debian import deb822
 from fabric.api import execute
@@ -244,6 +246,18 @@ def promote(package_name,
                 pbuilder.dist_from_release(pbuilder.STABLE_RELEASE),
                 pbuilder.STABLE_RELEASE)):
     execute(repo.cp_package, package_name, release + '-testing', release)
+
+
+@task
+@verbose
+def download_source_package(project_name, branch_name):
+    """Download an upstream Ubuntu source package."""
+    url = "git://git.launchpad.net/~ubuntu-server-dev/ubuntu/+source/{}".format(
+        project_name)
+    tmp_dir = tempfile.mkdtemp()
+    local("git clone {0} -b {1} {2}".format(url, branch_name, tmp_dir))
+    local("cp -r {0}/debian .".format(tmp_dir))
+    shutil.rmtree(tmp_dir)
 
 
 @task
