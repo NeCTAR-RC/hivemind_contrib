@@ -219,12 +219,10 @@ def generate_instance_info(instance_id, style=None):
 @task
 @decorators.verbose
 def instance(instance_id):
-    """print detailed instance information"""
-    print(generate_instance_info(instance_id))
+    print('this function has been moved to nectar-osc client')
 
 
 @task
 @decorators.verbose
 def instance_sg_rules(instance_id):
-    """print security group rules applied to an instance"""
-    print(generate_instance_sg_rules_info(instance_id))
+    print('this function has been moved to nectar-osc client')
