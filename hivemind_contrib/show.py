@@ -13,6 +13,7 @@ from hivemind_contrib import glance
 from hivemind_contrib import keystone
 from hivemind_contrib import neutron
 from hivemind_contrib import nova
+from hivemind_contrib import removed
 
 
 def _get_sg_remote(rule):
@@ -219,12 +220,10 @@ def generate_instance_info(instance_id, style=None):
 @task
 @decorators.verbose
 def instance(instance_id):
-    """print detailed instance information"""
-    print(generate_instance_info(instance_id))
+    print(removed.message)
 
 
 @task
 @decorators.verbose
 def instance_sg_rules(instance_id):
-    """print security group rules applied to an instance"""
-    print(generate_instance_sg_rules_info(instance_id))
+    print(removed.message)
