@@ -17,9 +17,9 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "mitaka"
-OPENSTACK_RELEASES = ['train', 'stein', 'rocky', 'queens', 'pike', 'ocata',
-                      'newton', 'mitaka', 'liberty', 'kilo']
-UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic']
+OPENSTACK_RELEASES = ['ussuri', 'train', 'stein', 'rocky', 'queens', 'pike',
+                      'ocata', 'newton', 'mitaka', 'liberty', 'kilo']
+UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal']
 DEFAULT_UBUNTU = 'bionic'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://download.rc.nectar.org.au/ubuntu-cloud/ubuntu/'
@@ -92,6 +92,12 @@ mirrors = {
         "deb " + NECTAR_REPO + " bionic-queens-testing main",
         "deb " + NECTAR_REPO + " bionic-testing main",
         "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
+    'focal': [
+        "deb " + NECTAR_REPO + " focal main",
+        "deb " + NECTAR_REPO + " focal-testing main",
+        "deb " + NECTAR_REPO + " focal-ussuri main",
+        "deb " + NECTAR_REPO + " focal-ussuri-testing main",
+        "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
     'trusty-kilo': [
         "deb " + CLOUD_ARCHIVE + " trusty-updates/kilo main",
         "deb " + NECTAR_REPO + " trusty main",
@@ -174,12 +180,19 @@ mirrors = {
         "deb " + NECTAR_REPO + " bionic-train-testing main",
         "deb " + NECTAR_REPO + " bionic-testing main",
         "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
+    'focal-ussuri': [
+        "deb " + NECTAR_REPO + " focal main",
+        "deb " + NECTAR_REPO + " focal-ussuri main",
+        "deb " + NECTAR_REPO + " focal-ussuri-testing main",
+        "deb " + NECTAR_REPO + " focal-testing main",
+        "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
 }
 
 ubuntu_mirrors = {
     'trusty': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
     'xenial': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
     'bionic': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
+    'focal': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
 }
 
 
