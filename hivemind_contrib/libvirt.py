@@ -14,7 +14,7 @@ def list_instances():
     servers = []
     for line in output.split("\n"):
         if headers is None:
-            headers = [l.lower() for l in line.split()]
+            headers = [ln.lower() for ln in line.split()]
             continue
         if line.startswith("-----"):
             continue

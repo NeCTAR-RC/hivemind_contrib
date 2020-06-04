@@ -61,7 +61,7 @@ def list_services():
     header = None
     for line in output.split("\n"):
         if not header:
-            header = [l.lower() for l in line.split()]
+            header = [ln.lower() for ln in line.split()]
             continue
         services.append(dict(zip(header, line.split())))
     return services
