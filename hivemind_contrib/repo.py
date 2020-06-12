@@ -1,4 +1,5 @@
 from fabric import api as fapi
+from prettytable import PrettyTable
 
 from hivemind.decorators import verbose
 
@@ -22,6 +23,39 @@ def list(distribution):
 def ls(package):
     """List the package version across all distributions."""
     reprepro("ls {0}".format(package))
+
+
+@fapi.task
+@verbose
+@fapi.hosts("repo@download.rc.nectar.org.au")
+def compare_distribution(distribution1, distribution2=None, show_all=False):
+    """Compare package versions across two distributions."""
+
+    if distribution2 is None:
+        distribution2 = distribution1 + '-testing'
+
+    def parse_line(line):
+        dist, name, version = line.split(" ")
+        return (name, version)
+
+    def get_packages(distribution):
+        packages = fapi.run("reprepro list {0}".format(distribution))
+        return dict(map(parse_line, packages.split('\r\n')))
+
+    with fapi.cd("/srv/nectar-ubuntu"), fapi.hide("stdout"):
+        packages1 = get_packages(distribution1)
+        packages2 = get_packages(distribution2)
+
+    pt = PrettyTable(['Package', distribution2, distribution1], caching=False)
+    pt.align = 'l'
+    for name in sorted(packages1.keys() + packages2.keys()):
+        version1 = packages1.get(name)
+        version2 = packages2.get(name)
+        promotable = version2 is not None
+        different = version1 != version2
+        if (different and promotable) or show_all:
+            pt.add_row([name, version2 or "", version1 or ""])
+    print(pt.get_string())
 
 
 @fapi.task
