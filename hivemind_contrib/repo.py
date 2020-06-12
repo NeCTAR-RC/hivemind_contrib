@@ -1,3 +1,6 @@
+from __future__ import print_function
+import sys
+
 from fabric import api as fapi
 from prettytable import PrettyTable
 
@@ -28,8 +31,14 @@ def ls(package):
 @fapi.task
 @verbose
 @fapi.hosts("repo@download.rc.nectar.org.au")
-def compare_distribution(distribution1, distribution2=None, show_all=False):
+def compare_distribution(distribution1, distribution2=None, show_all=False,
+                         binary=False, promote=False):
     """Compare package versions across two distributions."""
+
+    if promote and binary:
+        print("Error: --promote cannot be used with binary packages.\n",
+              file=sys.stderr)
+        sys.exit(1)
 
     if distribution2 is None:
         distribution2 = distribution1 + '-testing'
@@ -39,7 +48,8 @@ def compare_distribution(distribution1, distribution2=None, show_all=False):
         return (name, version)
 
     def get_packages(distribution):
-        packages = fapi.run("reprepro list {0}".format(distribution))
+        packages = fapi.run("reprepro list {0} | grep {1} '|source: '".format(
+                            distribution, '-v' if binary else ''))
         return dict(map(parse_line, packages.split('\r\n')))
 
     with fapi.cd("/srv/nectar-ubuntu"), fapi.hide("stdout"):
@@ -56,6 +66,27 @@ def compare_distribution(distribution1, distribution2=None, show_all=False):
         if (different and promotable) or show_all:
             pt.add_row([name, version2 or "", version1 or ""])
     print(pt.get_string())
+
+    if promote:
+        print("")
+        for name in sorted(packages2.keys()):
+            version1 = packages1.get(name)
+            version2 = packages2.get(name)
+            promotable = version2 is not None and version1 != version2
+            if promotable:
+                print("Promoting {0}".format(name))
+                print("  Old version: {0}".format(version1 or "(not present)"))
+                print("  New version: {0}".format(version2))
+                _input = raw_input("Proceed? (y/n/q) ")
+                print("")
+                if _input == 'y':
+                    fapi.execute(cp_package, name,
+                                 distribution2, distribution1)
+                elif _input == 'q':
+                    break
+                else:
+                    print("Skipping promotion of {0}".format(name))
+                print("")
 
 
 @fapi.task
