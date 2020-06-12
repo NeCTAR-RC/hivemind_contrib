@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66c9a2d8_66e7e913",
+        "filename": "hivemind_contrib/repo.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2020-06-12T05:21:51Z",
+      "side": 1,
+      "message": "if promote and binary are true wouldn\u0027t it be better to error with msg\nthat you can\u0027t have both ?",
+      "revId": "53a98b106153960eef346678b93af79e4a07a765",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
