@@ -58,7 +58,7 @@ def compare_distribution(distribution1, distribution2=None, show_all=False,
 
     pt = PrettyTable(['Package', distribution2, distribution1], caching=False)
     pt.align = 'l'
-    for name in sorted(packages1.keys() + packages2.keys()):
+    for name in sorted(set(packages1.keys()) | set(packages2.keys())):
         version1 = packages1.get(name)
         version2 = packages2.get(name)
         promotable = version2 is not None
