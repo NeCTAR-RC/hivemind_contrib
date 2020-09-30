@@ -16,11 +16,11 @@ from hivemind import git
 
 ARCH = "amd64"
 
-STABLE_RELEASE = "mitaka"
+STABLE_RELEASE = "ussuri"
 OPENSTACK_RELEASES = ['ussuri', 'train', 'stein', 'rocky', 'queens', 'pike',
                       'ocata', 'newton', 'mitaka', 'liberty', 'kilo']
 UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal']
-DEFAULT_UBUNTU = 'bionic'
+DEFAULT_UBUNTU = 'focal'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://download.rc.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -33,6 +33,8 @@ def dist_from_release(release):
         return 'trusty'
     elif release in ['pike', 'ocata', 'newton', 'mitaka']:
         return 'xenial'
+    if release in ['train', 'stein', 'rocky', 'queens']:
+        return 'bionic'
     else:
         return DEFAULT_UBUNTU
 
@@ -45,6 +47,8 @@ def get_build_env(os_release, ubuntu_release=None):
             ubuntu_release = 'trusty'
         elif os_release in ['pike', 'ocata', 'newton', 'mitaka']:
             ubuntu_release = 'xenial'
+        elif os_release in ['train', 'stein', 'rocky', 'queens']:
+            ubuntu_release = 'bionic'
         else:
             ubuntu_release = DEFAULT_UBUNTU
     return "%s-%s" % (ubuntu_release, os_release)
