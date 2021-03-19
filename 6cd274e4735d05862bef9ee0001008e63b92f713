@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f3afe0_c6a4bac1",
+        "filename": "hivemind_contrib/debpackaging.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2021-03-19T00:44:11Z",
+      "side": 1,
+      "message": "not your fault, but this code is whacky!",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 33
+      },
+      "revId": "6cd274e4735d05862bef9ee0001008e63b92f713",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
