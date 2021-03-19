@@ -161,11 +161,14 @@ def get_debian_commit_number():
     return local(command, capture=True)
 
 
-def discover_debian_branch(current_branch, version, os_release):
+def discover_debian_branch(current_branch, version, os_release,
+                           ubuntu_release=None):
     if os.path.exists(os.path.join(git.root_dir(), 'debian/')):
         deb_branch = current_branch
     else:
-        deb_branch = debian_branch(version)
+        deb_branch = "debian/%s-%s" % (ubuntu_release, os_release)
+        if not git.branch_exists(deb_branch):
+            deb_branch = debian_branch(version)
         if not git.branch_exists(deb_branch):
             deb_branch = "debian/{0}".format(os_release)
         if not git.branch_exists(deb_branch):
@@ -185,7 +188,8 @@ def buildpackage(os_release=None, name=None, upload=True, ubuntu_release=None):
     current_branch = git.current_branch()
     if os_release is None:
         os_release = parse_openstack_release(current_branch)
-    deb_branch = discover_debian_branch(current_branch, version, os_release)
+    deb_branch = discover_debian_branch(current_branch, version, os_release,
+                                        ubuntu_release)
     with git.temporary_merge(deb_branch) as merge:
         source_package = dpkg_parsechangelog()
         current_version = source_package["Version"]
