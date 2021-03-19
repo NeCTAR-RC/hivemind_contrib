@@ -185,6 +185,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " bionic-train-testing main",
         "deb " + NECTAR_REPO + " bionic-testing main",
         "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
+    'bionic-ussuri': [
+        "deb " + CLOUD_ARCHIVE + " bionic-updates/ussuri main",
+        "deb " + NECTAR_REPO + " bionic main",
+        "deb " + NECTAR_REPO + " bionic-ussuri main",
+        "deb " + NECTAR_REPO + " bionic-ussuri-testing main",
+        "deb " + NECTAR_REPO + " bionic-testing main",
+        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
     'focal-ussuri': [
         "deb " + NECTAR_REPO + " focal main",
         "deb " + NECTAR_REPO + " focal-ussuri main",
