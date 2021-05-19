@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8b765f5_5c8bf7b9",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000130
+      },
+      "writtenOn": "2021-05-19T15:15:56Z",
+      "side": 1,
+      "message": "The \u0027not\u0027 operator has higher precedence, so currently the condition is equivalent to:\n( not instances_file ) or zone or nodes or ip or status\nProbably want:\nnot ( instances_file or ip or nodes or status or zone )",
+      "revId": "4718e0b8a17d28fd052285479fddb84abf758ebe",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f7bea1_dea1fe8d",
+        "filename": "hivemind_contrib/notification.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1000130
+      },
+      "writtenOn": "2021-05-19T15:15:56Z",
+      "side": 1,
+      "message": "Line 348 is unindented, but not back to indent level of line 343. Looks like the standard is 4 spaces; I\u0027d suggest lines 348 and 352 need unindenting by 2 spaces each. I\u0027d guess this is issue that jenkins is complaining about but mistakenly pointing at line 1:1.",
+      "revId": "4718e0b8a17d28fd052285479fddb84abf758ebe",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
