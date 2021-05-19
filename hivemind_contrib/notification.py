@@ -338,16 +338,21 @@ def query_yes_no(question, default="yes"):
                              "(or 'y' or 'n').\n")
 
 
-def _validate_paramters(start_time, duration, instances_file, template):
-    if not instances_file:
-        if not start_time:
-            print("No --start-time START_TIME: Please specify an outage\
-                  start time. (e.g. '09:00 25-06-2015')")
-            sys.exit(2)
-        if not duration:
-            print("No --duration DURATIOn: Please specify outage duratioan\
-                  in hours.")
-            sys.exit(2)
+def _validate_paramters(start_time, duration, instances_file, template, ip,
+    nodes, status, zone):
+    if not instances_file or zone or nodes or ip or status:
+        print("No means of filtering supplied. Please specify one of \
+            instances_file or zone or nodes or ip or project or user \
+            or status")
+        sys.exit(2)
+      if not start_time:
+        print("No --start-time START_TIME: Please specify an outage\
+            start time. (e.g. '09:00 25-06-2015')")
+        sys.exit(2)
+      if not duration:
+        print("No --duration DURATION: Please specify outage duration\
+            in hours.")
+        sys.exit(2)
 
     if not os.path.exists(template):
         print("Template could not be found.")
@@ -427,7 +432,7 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str sender: Specify the mail sender
     """
 
-    _validate_paramters(start_time, duration, instances_file, template)
+    _validate_paramters(start_time, duration, instances_file, template, ip, nodes, status, zone)
     config = get_smtp_config(smtp_server, sender)
 
     start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
@@ -557,7 +562,7 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
 
     nc = nova.client()
 
-    _validate_paramters(start_time, duration, instances_file, template)
+    _validate_paramters(start_time, duration, instances_file, template, ip, nodes, status, zone)
 
     start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
                  if start_time else None
