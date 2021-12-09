@@ -17,9 +17,9 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "ussuri"
-OPENSTACK_RELEASES = ['victoria', 'ussuri', 'train', 'stein', 'rocky',
-                      'queens', 'pike', 'ocata', 'newton', 'mitaka', 'liberty',
-                      'kilo']
+OPENSTACK_RELEASES = ['xena', 'wallaby', 'victoria', 'ussuri', 'train',
+                      'stein', 'rocky', 'queens', 'pike', 'ocata', 'newton',
+                      'mitaka', 'liberty', 'kilo']
 UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal']
 DEFAULT_UBUNTU = 'focal'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
@@ -203,6 +203,20 @@ mirrors = {
         "deb " + NECTAR_REPO + " focal main",
         "deb " + NECTAR_REPO + " focal-victoria main",
         "deb " + NECTAR_REPO + " focal-victoria-testing main",
+        "deb " + NECTAR_REPO + " focal-testing main",
+        "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
+    'focal-wallaby': [
+        "deb " + CLOUD_ARCHIVE + " focal-updates/wallaby main",
+        "deb " + NECTAR_REPO + " focal main",
+        "deb " + NECTAR_REPO + " focal-wallaby main",
+        "deb " + NECTAR_REPO + " focal-wallaby-testing main",
+        "deb " + NECTAR_REPO + " focal-testing main",
+        "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
+    'focal-xena': [
+        "deb " + CLOUD_ARCHIVE + " focal-updates/xena main",
+        "deb " + NECTAR_REPO + " focal main",
+        "deb " + NECTAR_REPO + " focal-xena main",
+        "deb " + NECTAR_REPO + " focal-xena-testing main",
         "deb " + NECTAR_REPO + " focal-testing main",
         "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
 }
