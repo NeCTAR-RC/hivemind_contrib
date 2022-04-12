@@ -17,7 +17,7 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "ussuri"
-OPENSTACK_RELEASES = ['xena', 'wallaby', 'victoria', 'ussuri', 'train',
+OPENSTACK_RELEASES = ['yoga', 'xena', 'wallaby', 'victoria', 'ussuri', 'train',
                       'stein', 'rocky', 'queens', 'pike', 'ocata', 'newton',
                       'mitaka', 'liberty', 'kilo']
 UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal']
@@ -217,6 +217,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " focal main",
         "deb " + NECTAR_REPO + " focal-xena main",
         "deb " + NECTAR_REPO + " focal-xena-testing main",
+        "deb " + NECTAR_REPO + " focal-testing main",
+        "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
+    'focal-yoga': [
+        "deb " + CLOUD_ARCHIVE + " focal-updates/yoga main",
+        "deb " + NECTAR_REPO + " focal main",
+        "deb " + NECTAR_REPO + " focal-yoga main",
+        "deb " + NECTAR_REPO + " focal-yoga-testing main",
         "deb " + NECTAR_REPO + " focal-testing main",
         "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
 }
