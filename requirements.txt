@@ -2,4 +2,4 @@ pbr
 mox
 pytest
 mock
--e git://github.com/NeCTAR-RC/hivemind.git#egg=hivemind
+-e https://github.com/NeCTAR-RC/hivemind.git#egg=hivemind
