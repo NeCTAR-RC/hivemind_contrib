@@ -20,7 +20,7 @@ STABLE_RELEASE = "ussuri"
 OPENSTACK_RELEASES = ['yoga', 'xena', 'wallaby', 'victoria', 'ussuri', 'train',
                       'stein', 'rocky', 'queens', 'pike', 'ocata', 'newton',
                       'mitaka', 'liberty', 'kilo']
-UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal']
+UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal', 'jammy']
 DEFAULT_UBUNTU = 'focal'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://download.rc.nectar.org.au/ubuntu-cloud/ubuntu/'
@@ -36,6 +36,10 @@ def dist_from_release(release):
         return 'xenial'
     elif release in ['train', 'stein', 'rocky', 'queens']:
         return 'bionic'
+    elif release in ['xena', 'wallaby', 'victoria', 'ussuri']:
+        return 'focal'
+    elif release in ['yoga']:
+        return 'jammy'
     else:
         return DEFAULT_UBUNTU
 
@@ -67,6 +71,7 @@ def build_trusted():
     apt_key_recv_key("5EDB1B62EC4926EA", db)
     apt_key_recv_key("40976EAF437D05B5", db)
     apt_key_recv_key("3B4FE6ACC0B21F32", db)
+    apt_key_recv_key("871920D1991BC93C", db)
     with tempfile.NamedTemporaryFile() as tmp_gpg:
         response = requests.get(NECTAR_REPO + "nectar-custom.gpg")
         tmp_gpg.write(response.content)
@@ -103,6 +108,12 @@ mirrors = {
         "deb " + NECTAR_REPO + " focal-ussuri main",
         "deb " + NECTAR_REPO + " focal-ussuri-testing main",
         "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
+    'jammy': [
+        "deb " + NECTAR_REPO + " jammy main",
+        "deb " + NECTAR_REPO + " jammy-testing main",
+        "deb " + NECTAR_REPO + " jammy-yoga main",
+        "deb " + NECTAR_REPO + " jammy-yoga-testing main",
+        "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
     'trusty-kilo': [
         "deb " + CLOUD_ARCHIVE + " trusty-updates/kilo main",
         "deb " + NECTAR_REPO + " trusty main",
@@ -226,6 +237,12 @@ mirrors = {
         "deb " + NECTAR_REPO + " focal-yoga-testing main",
         "deb " + NECTAR_REPO + " focal-testing main",
         "deb " + UBUNTU_MIRROR + " focal-updates main universe"],
+    'jammy-yoga': [
+        "deb " + NECTAR_REPO + " jammy main",
+        "deb " + NECTAR_REPO + " jammy-yoga main",
+        "deb " + NECTAR_REPO + " jammy-yoga-testing main",
+        "deb " + NECTAR_REPO + " jammy-testing main",
+        "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
 }
 
 ubuntu_mirrors = {
@@ -233,6 +250,7 @@ ubuntu_mirrors = {
     'xenial': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
     'bionic': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
     'focal': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
+    'jammy': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
 }
 
 
