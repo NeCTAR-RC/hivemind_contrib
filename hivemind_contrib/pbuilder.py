@@ -17,9 +17,9 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "ussuri"
-OPENSTACK_RELEASES = ['yoga', 'xena', 'wallaby', 'victoria', 'ussuri', 'train',
-                      'stein', 'rocky', 'queens', 'pike', 'ocata', 'newton',
-                      'mitaka', 'liberty', 'kilo']
+OPENSTACK_RELEASES = ['zed', 'yoga', 'xena', 'wallaby', 'victoria', 'ussuri',
+                      'train', 'stein', 'rocky', 'queens', 'pike', 'ocata',
+                      'newton', 'mitaka', 'liberty', 'kilo']
 UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal', 'jammy']
 DEFAULT_UBUNTU = 'focal'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
@@ -38,7 +38,7 @@ def dist_from_release(release):
         return 'bionic'
     elif release in ['xena', 'wallaby', 'victoria', 'ussuri']:
         return 'focal'
-    elif release in ['yoga']:
+    elif release in ['zed', 'yoga']:
         return 'jammy'
     else:
         return DEFAULT_UBUNTU
@@ -48,14 +48,7 @@ def get_build_env(os_release, ubuntu_release=None):
     if os_release in UBUNTU_RELEASES:
         return os_release
     if not ubuntu_release:
-        if os_release in ['kilo', 'liberty']:
-            ubuntu_release = 'trusty'
-        elif os_release in ['pike', 'ocata', 'newton', 'mitaka']:
-            ubuntu_release = 'xenial'
-        elif os_release in ['train', 'stein', 'rocky', 'queens']:
-            ubuntu_release = 'bionic'
-        else:
-            ubuntu_release = DEFAULT_UBUNTU
+        ubuntu_release = dist_from_release(os_release)
     return "%s-%s" % (ubuntu_release, os_release)
 
 
@@ -241,6 +234,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " jammy main",
         "deb " + NECTAR_REPO + " jammy-yoga main",
         "deb " + NECTAR_REPO + " jammy-yoga-testing main",
+        "deb " + NECTAR_REPO + " jammy-testing main",
+        "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
+    'jammy-zed': [
+        "deb " + CLOUD_ARCHIVE + " jammy-updates/zed main",
+        "deb " + NECTAR_REPO + " jammy main",
+        "deb " + NECTAR_REPO + " jammy-zed main",
+        "deb " + NECTAR_REPO + " jammy-zed-testing main",
         "deb " + NECTAR_REPO + " jammy-testing main",
         "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
 }
