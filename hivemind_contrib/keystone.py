@@ -451,7 +451,7 @@ def add_bot_account(project, user, suffix='bot'):
     table.add_row([new_user.id, new_user.name, password,
                    real_user.name, real_user.id])
     print(str(table))
-    add_project_roles(project, new_user, ['bot_user'])
+    add_project_roles(project, new_user, ['bot_user', 'Member'])
     user_projects(new_user)
 
 
