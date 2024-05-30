@@ -17,9 +17,9 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "ussuri"
-OPENSTACK_RELEASES = ['zed', 'yoga', 'xena', 'wallaby', 'victoria', 'ussuri',
-                      'train', 'stein', 'rocky', 'queens', 'pike', 'ocata',
-                      'newton', 'mitaka', 'liberty', 'kilo']
+OPENSTACK_RELEASES = ['2023.1', 'zed', 'yoga', 'xena', 'wallaby', 'victoria',
+                      'ussuri', 'train', 'stein', 'rocky', 'queens', 'pike',
+                      'ocata', 'newton', 'mitaka', 'liberty', 'kilo']
 UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal', 'jammy']
 DEFAULT_UBUNTU = 'focal'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
@@ -38,7 +38,7 @@ def dist_from_release(release):
         return 'bionic'
     elif release in ['xena', 'wallaby', 'victoria', 'ussuri']:
         return 'focal'
-    elif release in ['zed', 'yoga']:
+    elif release in ['2023.1', 'zed', 'yoga']:
         return 'jammy'
     else:
         return DEFAULT_UBUNTU
@@ -241,6 +241,13 @@ mirrors = {
         "deb " + NECTAR_REPO + " jammy main",
         "deb " + NECTAR_REPO + " jammy-zed main",
         "deb " + NECTAR_REPO + " jammy-zed-testing main",
+        "deb " + NECTAR_REPO + " jammy-testing main",
+        "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
+    'jammy-2023.1': [
+        "deb " + CLOUD_ARCHIVE + " jammy-updates/antelope main",
+        "deb " + NECTAR_REPO + " jammy main",
+        "deb " + NECTAR_REPO + " jammy-antelope main",
+        "deb " + NECTAR_REPO + " jammy-antelope-testing main",
         "deb " + NECTAR_REPO + " jammy-testing main",
         "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
 }
