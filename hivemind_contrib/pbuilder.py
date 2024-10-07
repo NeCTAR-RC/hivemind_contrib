@@ -17,11 +17,10 @@ from hivemind import git
 ARCH = "amd64"
 
 STABLE_RELEASE = "ussuri"
-OPENSTACK_RELEASES = ['2023.1', 'zed', 'yoga', 'xena', 'wallaby', 'victoria',
-                      'ussuri', 'train', 'stein', 'rocky', 'queens', 'pike',
-                      'ocata', 'newton', 'mitaka', 'liberty', 'kilo']
-UBUNTU_RELEASES = ['trusty', 'xenial', 'bionic', 'focal', 'jammy']
-DEFAULT_UBUNTU = 'focal'
+OPENSTACK_RELEASES = ['2024.1', '2023.2', '2023.1', 'zed', 'yoga', 'xena',
+                      'wallaby', 'victoria', 'ussuri']
+UBUNTU_RELEASES = ['focal', 'jammy', 'noble']
+DEFAULT_UBUNTU = 'jammy'
 NECTAR_REPO = 'http://download.rc.nectar.org.au/nectar-ubuntu/'
 CLOUD_ARCHIVE = 'http://download.rc.nectar.org.au/ubuntu-cloud/ubuntu/'
 UBUNTU_MIRROR = 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/'
@@ -38,8 +37,10 @@ def dist_from_release(release):
         return 'bionic'
     elif release in ['xena', 'wallaby', 'victoria', 'ussuri']:
         return 'focal'
-    elif release in ['2023.1', 'zed', 'yoga']:
+    elif release in ['2023.2', '2023.1', 'zed', 'yoga']:
         return 'jammy'
+    elif release in ['2024.1']:
+        return 'noble'
     else:
         return DEFAULT_UBUNTU
 
@@ -82,19 +83,6 @@ def build_trusted():
 
 
 mirrors = {
-    'xenial': [
-        "deb " + CLOUD_ARCHIVE + " xenial-updates/queens main",
-        "deb " + NECTAR_REPO + " xenial main",
-        "deb " + NECTAR_REPO + " xenial-queens main",
-        "deb " + NECTAR_REPO + " xenial-queens-testing main",
-        "deb " + NECTAR_REPO + " xenial-testing main",
-        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
-    'bionic': [
-        "deb " + NECTAR_REPO + " bionic main",
-        "deb " + NECTAR_REPO + " bionic-queens main",
-        "deb " + NECTAR_REPO + " bionic-queens-testing main",
-        "deb " + NECTAR_REPO + " bionic-testing main",
-        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
     'focal': [
         "deb " + NECTAR_REPO + " focal main",
         "deb " + NECTAR_REPO + " focal-testing main",
@@ -107,95 +95,12 @@ mirrors = {
         "deb " + NECTAR_REPO + " jammy-yoga main",
         "deb " + NECTAR_REPO + " jammy-yoga-testing main",
         "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
-    'trusty-kilo': [
-        "deb " + CLOUD_ARCHIVE + " trusty-updates/kilo main",
-        "deb " + NECTAR_REPO + " trusty main",
-        "deb " + NECTAR_REPO + " trusty-kilo main",
-        "deb " + NECTAR_REPO + " trusty-kilo-testing main",
-        "deb " + NECTAR_REPO + " trusty-testing main",
-        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
-    'trusty-liberty': [
-        "deb " + CLOUD_ARCHIVE + " trusty-updates/liberty main",
-        "deb " + NECTAR_REPO + " trusty main",
-        "deb " + NECTAR_REPO + " trusty-liberty main",
-        "deb " + NECTAR_REPO + " trusty-liberty-testing main",
-        "deb " + NECTAR_REPO + " trusty-testing main",
-        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
-    'trusty-mitaka': [
-        "deb " + CLOUD_ARCHIVE + " trusty-updates/mitaka main",
-        "deb " + NECTAR_REPO + " trusty main",
-        "deb " + NECTAR_REPO + " trusty-mitaka main",
-        "deb " + NECTAR_REPO + " trusty-mitaka-testing main",
-        "deb " + NECTAR_REPO + " trusty-testing main",
-        "deb " + UBUNTU_MIRROR + " trusty-updates main universe"],
-    'xenial-mitaka': [
-        "deb " + NECTAR_REPO + " xenial main",
-        "deb " + NECTAR_REPO + " xenial-mitaka main",
-        "deb " + NECTAR_REPO + " xenial-mitaka-testing main",
-        "deb " + NECTAR_REPO + " xenial-testing main",
-        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
-    'xenial-newton': [
-        "deb " + CLOUD_ARCHIVE + " xenial-updates/newton main",
-        "deb " + NECTAR_REPO + " xenial main",
-        "deb " + NECTAR_REPO + " xenial-newton main",
-        "deb " + NECTAR_REPO + " xenial-newton-testing main",
-        "deb " + NECTAR_REPO + " xenial-testing main",
-        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
-    'xenial-ocata': [
-        "deb " + CLOUD_ARCHIVE + " xenial-updates/ocata main",
-        "deb " + NECTAR_REPO + " xenial main",
-        "deb " + NECTAR_REPO + " xenial-ocata main",
-        "deb " + NECTAR_REPO + " xenial-ocata-testing main",
-        "deb " + NECTAR_REPO + " xenial-testing main",
-        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
-    'xenial-pike': [
-        "deb " + CLOUD_ARCHIVE + " xenial-updates/pike main",
-        "deb " + NECTAR_REPO + " xenial main",
-        "deb " + NECTAR_REPO + " xenial-pike main",
-        "deb " + NECTAR_REPO + " xenial-pike-testing main",
-        "deb " + NECTAR_REPO + " xenial-testing main",
-        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
-    'xenial-queens': [
-        "deb " + CLOUD_ARCHIVE + " xenial-updates/queens main",
-        "deb " + NECTAR_REPO + " xenial main",
-        "deb " + NECTAR_REPO + " xenial-queens main",
-        "deb " + NECTAR_REPO + " xenial-queens-testing main",
-        "deb " + NECTAR_REPO + " xenial-testing main",
-        "deb " + UBUNTU_MIRROR + " xenial-updates main universe"],
-    'bionic-queens': [
-        "deb " + NECTAR_REPO + " bionic main",
-        "deb " + NECTAR_REPO + " bionic-queens main",
-        "deb " + NECTAR_REPO + " bionic-queens-testing main",
-        "deb " + NECTAR_REPO + " bionic-testing main",
-        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
-    'bionic-rocky': [
-        "deb " + CLOUD_ARCHIVE + " bionic-updates/rocky main",
-        "deb " + NECTAR_REPO + " bionic main",
-        "deb " + NECTAR_REPO + " bionic-rocky main",
-        "deb " + NECTAR_REPO + " bionic-rocky-testing main",
-        "deb " + NECTAR_REPO + " bionic-testing main",
-        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
-    'bionic-stein': [
-        "deb " + CLOUD_ARCHIVE + " bionic-updates/stein main",
-        "deb " + NECTAR_REPO + " bionic main",
-        "deb " + NECTAR_REPO + " bionic-stein main",
-        "deb " + NECTAR_REPO + " bionic-stein-testing main",
-        "deb " + NECTAR_REPO + " bionic-testing main",
-        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
-    'bionic-train': [
-        "deb " + CLOUD_ARCHIVE + " bionic-updates/train main",
-        "deb " + NECTAR_REPO + " bionic main",
-        "deb " + NECTAR_REPO + " bionic-train main",
-        "deb " + NECTAR_REPO + " bionic-train-testing main",
-        "deb " + NECTAR_REPO + " bionic-testing main",
-        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
-    'bionic-ussuri': [
-        "deb " + CLOUD_ARCHIVE + " bionic-updates/ussuri main",
-        "deb " + NECTAR_REPO + " bionic main",
-        "deb " + NECTAR_REPO + " bionic-ussuri main",
-        "deb " + NECTAR_REPO + " bionic-ussuri-testing main",
-        "deb " + NECTAR_REPO + " bionic-testing main",
-        "deb " + UBUNTU_MIRROR + " bionic-updates main universe"],
+    'noble': [
+        "deb " + NECTAR_REPO + " noble main",
+        "deb " + NECTAR_REPO + " noble-testing main",
+        "deb " + NECTAR_REPO + " noble-caracal main",
+        "deb " + NECTAR_REPO + " noble-caracal-testing main",
+        "deb " + UBUNTU_MIRROR + " noble-updates main universe"],
     'focal-ussuri': [
         "deb " + NECTAR_REPO + " focal main",
         "deb " + NECTAR_REPO + " focal-ussuri main",
@@ -250,14 +155,25 @@ mirrors = {
         "deb " + NECTAR_REPO + " jammy-antelope-testing main",
         "deb " + NECTAR_REPO + " jammy-testing main",
         "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
+    'jammy-2023.2': [
+        "deb " + CLOUD_ARCHIVE + " jammy-updates/bobcat main",
+        "deb " + NECTAR_REPO + " jammy main",
+        "deb " + NECTAR_REPO + " jammy-bobcat main",
+        "deb " + NECTAR_REPO + " jammy-bobcat-testing main",
+        "deb " + NECTAR_REPO + " jammy-testing main",
+        "deb " + UBUNTU_MIRROR + " jammy-updates main universe"],
+    'noble-2024.1': [
+        "deb " + NECTAR_REPO + " noble main",
+        "deb " + NECTAR_REPO + " noble-caracal main",
+        "deb " + NECTAR_REPO + " noble-caracal-testing main",
+        "deb " + NECTAR_REPO + " noble-testing main",
+        "deb " + UBUNTU_MIRROR + " noble-updates main universe"],
 }
 
 ubuntu_mirrors = {
-    'trusty': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
-    'xenial': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
-    'bionic': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
     'focal': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
     'jammy': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
+    'noble': 'http://download.rc.nectar.org.au/ubuntu-archive/ubuntu/',
 }
 
 
