@@ -253,8 +253,8 @@ def scenario():
               nova will return a 'No Valid Host' error otherwise.
               Leave blank to let scheduler choose a host.""")
 @click.option('-c', '--cloud',
-              help="""Cloud to run tempest on: production, testing, development.
-              Default to production.""")
+              help="""Cloud to run tempest on: production, testing,
+              development. Default to production.""")
 @click.option('--nowait', is_flag=True, default=False,
               help="""Return the queue url immediately.""")
 @click.option('--debug', is_flag=True,
@@ -275,8 +275,8 @@ def compute_check(availability_zone, host, cloud, nowait, debug):
               nova will return a 'No Valid Host' error otherwise.
               Leave blank to let scheduler choose a host.""")
 @click.option('-c', '--cloud',
-              help="""Cloud to run tempest on: production, testing, development.
-              Default to production.""")
+              help="""Cloud to run tempest on: production, testing,
+              development. Default to production.""")
 @click.option('--nowait', is_flag=True, default=False,
               help="""Return the queue url immediately.""")
 @click.option('--debug', default=False,

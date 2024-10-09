@@ -236,7 +236,7 @@ def get_members(keystone, project, roles=None):
             users[ra.user['id']]['roles'] = [ra.role['name']]
             users[ra.user['id']]['project_name']\
                     = ra.scope['project']['name']
-    return(users)
+    return users
 
 
 def print_members(keystone, project, roles=None):

@@ -1,5 +1,16 @@
 pbr
-mox
-pytest
-mock
-git+https://github.com/NeCTAR-RC/hivemind.git#egg=hivemind
+hivemind @ git+https://github.com/NeCTAR-RC/hivemind.git#egg=hivemind
+python-designateclient
+python-glanceclient
+python-keystoneclient
+python-novaclient
+python-swiftclient
+python-neutronclient
+python-muranoclient
+prettytable==0.7.2
+keystoneauth1==5.0.0
+sqlalchemy
+pymysql
+requests
+jinja2
+PyGitHub

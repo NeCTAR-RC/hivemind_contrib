@@ -1,5 +1,4 @@
 import unittest
-import mock
 
 from hivemind_contrib import glance
 
@@ -19,7 +18,7 @@ class FakeImage(object):
         self.name = name
 
     def get(self, v):
-        return(getattr(self, v, None))
+        return getattr(self, v, None)
 
 
 class GlanceTestCase(unittest.TestCase):

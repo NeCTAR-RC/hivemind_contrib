@@ -1,7 +1,7 @@
 """
 Build a package
 """
-import ConfigParser
+import configparser
 import os
 from os.path import expanduser
 import tempfile
@@ -178,11 +178,11 @@ ubuntu_mirrors = {
 
 
 def package_export_dir():
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(os.path.expanduser('~/.gbp.conf'))
     try:
         return os.path.abspath(config.get('git-buildpackage', 'export-dir'))
-    except ConfigParser.NoSectionError:
+    except configparser.NoSectionError:
         return os.path.abspath(config.get('buildpackage', 'export-dir'))
 
 

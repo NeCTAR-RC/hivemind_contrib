@@ -98,7 +98,7 @@ def add_team_to_repo(org_name, name, team_id):
         print("Team ID found is : {}".format(team_id))
         print("Edit config file to match the desired teams below")
         list_teams(org_name)
-        raise(e)
+        raise e
     teamhead = {
         "accept": "application/json",
         "Authorization": config["token"]

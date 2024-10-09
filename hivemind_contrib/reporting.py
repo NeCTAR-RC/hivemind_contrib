@@ -25,7 +25,7 @@ def csv_output(headings, rows, filename=None):
                             quoting=csv.QUOTE_MINIMAL)
     csv_output.writerow(headings)
     for row in rows:
-        csv_output.writerow(map(lambda x: unicode(x).encode('utf-8'), row))
+        csv_output.writerow(map(lambda x: str(x).encode('utf-8'), row))
     if filename is not None:
         fp.close()
 

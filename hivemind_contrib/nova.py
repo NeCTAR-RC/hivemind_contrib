@@ -1,10 +1,9 @@
-from __future__ import print_function
 import collections
 import dateutil.parser
 import re
 import sys
 import time
-import urlparse
+from urllib import parse
 
 from novaclient import client as nova_client
 
@@ -114,7 +113,7 @@ def get_instance_action(client, instance_id, req_id):
 
 
 def wait_for(func, error_message):
-    for i in xrange(90):
+    for i in range(90):
         ret = func()
         if ret:
             return ret
@@ -366,7 +365,7 @@ def combine_files(file_contents):
 
 def file_contents(filenames):
     for filename in filenames:
-        url = urlparse.urlsplit(filename)
+        url = parse.urlsplit(filename)
         if url.scheme == 'swift':
             resp = swift_client().get_object(url.netloc, url.path.strip('/'))
             yield resp[1]

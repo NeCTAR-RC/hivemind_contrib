@@ -77,7 +77,7 @@ def compare_distribution(distribution1, distribution2=None, show_all=False,
                 print("Promoting {0}".format(name))
                 print("  Old version: {0}".format(version1 or "(not present)"))
                 print("  New version: {0}".format(version2))
-                _input = raw_input("Proceed? (y/n/q) ")
+                _input = input("Proceed? (y/n/q) ")
                 print("")
                 if _input == 'y':
                     fapi.execute(cp_package, name,
