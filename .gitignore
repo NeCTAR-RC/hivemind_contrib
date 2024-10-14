@@ -20,13 +20,22 @@ lib64
 
 # Installer logs
 pip-log.txt
+logs/*
 
 # Unit test / coverage reports
+.coverage/*
 .coverage
+.coverage*
+.cache
 .tox
-.pytest_cache
 nosetests.xml
 htmlcov
+.testrepository/*
+.eggs/*
+.venv*
+cover/*
+coverage.xml
+.stestr/*
 
 # Translations
 *.mo
@@ -42,3 +51,12 @@ output/*/index.html
 
 # Sphinx
 docs/_build
+
+# vs code
+.vscode
+
+# Editors
+.#*
+*~
+
+etc/manuka/*.sample
