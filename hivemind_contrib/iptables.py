@@ -4,9 +4,7 @@ import re
 
 from fabric.api import env
 from fabric.api import execute
-from fabric.api import hosts
 from fabric.api import puts
-from fabric.api import show
 from fabric.api import task
 from fabric.utils import error
 from prettytable import PrettyTable
@@ -44,12 +42,14 @@ def parse_rules():
         # Skip the column headers
         if columns[0] == 'target':
             continue
-        rule = {'target': columns[0],
-                'protocol': columns[1],
-                'options': columns[2],
-                'source': columns[3],
-                'destination': columns[4],
-                'filter': ' '.join(columns[5:])}
+        rule = {
+            'target': columns[0],
+            'protocol': columns[1],
+            'options': columns[2],
+            'source': columns[3],
+            'destination': columns[4],
+            'filter': ' '.join(columns[5:]),
+        }
         host_rules[instance_id].append(rule)
     return host_rules
 
@@ -62,32 +62,27 @@ def vm_rules():
     nova_client = client()
     server = nova_client.servers.get(uuid)
     host = getattr(server, 'OS-EXT-SRV-ATTR:hypervisor_hostname')
-    libvirt_server = [s for s in chain(*execute(list_instances,
-                                                host=host).values())
-                      if s['uuid'] == uuid][0]
-    for vm, rules in chain.from_iterable(map(dict.items,
-                                             execute(parse_rules,
-                                                     host=host).values())):
+    libvirt_server = [
+        s
+        for s in chain(*execute(list_instances, host=host).values())
+        if s['uuid'] == uuid
+    ][0]
+    for vm, rules in chain.from_iterable(
+        map(dict.items, execute(parse_rules, host=host).values())
+    ):
         if vm != str(libvirt_server['nova_id']):
             continue
-        table = PrettyTable(['Target', 'Protocol', 'Source',
-                             'Destination', 'Filter'])
+        table = PrettyTable(
+            ['Target', 'Protocol', 'Source', 'Destination', 'Filter']
+        )
         for rule in rules:
-            table.add_row([rule['target'], rule['protocol'], rule['source'],
-                           rule['destination'], rule['filter']])
-        puts("\n%s\n%s\n" % (server.id, str(table)))
-
-
-@task
-@hosts('cellj1.rc.nectar.org.au')
-def sync_vm_rules(project_id=None):
-    """Sync security groups for the given instance UUID (-I)"""
-    if not env.instance_uuid and project_id is None:
-        error("No instance ID or project specified.")
-    if env.instance_uuid:
-        uuid = env.instance_uuid
-        nova_client = client()
-        server = nova_client.servers.get(uuid)
-        project_id = server.tenant_id
-    with show('stdout', 'stderr'):
-        run('nova-manage project sync_secgroups %s' % project_id)
+            table.add_row(
+                [
+                    rule['target'],
+                    rule['protocol'],
+                    rule['source'],
+                    rule['destination'],
+                    rule['filter'],
+                ]
+            )
+        puts(f"\n{server.id}\n{str(table)}\n")

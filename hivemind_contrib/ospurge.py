@@ -17,9 +17,14 @@ def run(command):
 
 @configurable('creds')
 def get_creds(username=None, password=None):
-    msg = " ".join(("No ospurge credentials.", "Please set username",
-                    "and password for the ospurge user in",
-                    "[cfg:hivemind_contrib.ospurge.creds]"))
+    msg = " ".join(
+        (
+            "No ospurge credentials.",
+            "Please set username",
+            "and password for the ospurge user in",
+            "[cfg:hivemind_contrib.ospurge.creds]",
+        )
+    )
     if username is None or password is None:
         error(msg)
     return username, password
@@ -31,7 +36,7 @@ def is_in_project(tenant, user):
 
 @task
 def purge_project(tenant_name, dry_run=True):
-    """Purge resources and disable a given project """
+    """Purge resources and disable a given project"""
     if not shutil.which('ospurge'):
         error('ospurge not found in path. Please ensure it is installed.')
     username, password = get_creds()
@@ -57,10 +62,10 @@ def purge_project(tenant_name, dry_run=True):
     else:
         run_opt = '--verbose'
 
-    cmd = ("ospurge --dont-delete-project --own-project --username {username} "
-           "--password {password} --admin-project {tenant} {run_opt}"
-           "".format(username=username, password=password,
-                     tenant=tenant.name, run_opt=run_opt))
+    cmd = (
+        f"ospurge --dont-delete-project --own-project --username {username} "
+        f"--password {password} --admin-project {tenant.name} {run_opt}"
+    )
     print("Running: {}".format(cmd.replace(password, 'xxxx')))
     run(cmd)
 
@@ -74,6 +79,6 @@ def purge_project(tenant_name, dry_run=True):
         else:
             print("Disabling project")
             tenant.update(enabled=False)
-            keystone.set_project_metadata(tenant_name,
-                                          'ospurge_date',
-                                          str(datetime.datetime.now()))
+            keystone.set_project_metadata(
+                tenant_name, 'ospurge_date', str(datetime.datetime.now())
+            )

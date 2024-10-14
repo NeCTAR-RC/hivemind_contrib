@@ -6,7 +6,7 @@ from fabric.api import run
 
 def get_package(package):
     with hide("everything"):
-        res = run("dpkg -s {0}".format(package))
+        res = run(f"dpkg -s {package}")
     return email.message_from_string(res)
 
 
@@ -20,5 +20,5 @@ def current_versions(package):
     if isinstance(package, list):
         package = " ".join(package)
     with hide("everything"):
-        res = run("dpkg -l {0}".format(package))
+        res = run(f"dpkg -l {package}")
     return res

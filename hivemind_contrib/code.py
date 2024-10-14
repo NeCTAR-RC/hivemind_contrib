@@ -50,26 +50,31 @@ def setup_github(org_name, name, team_id, fork_from):
             repo = None
         if not repo:
             repo = org.create_fork(fork_repo)
-            print("Created fork %s" % repo.name)
+            print(f"Created fork {repo.name}")
     else:
         fork_repo = None
         try:
             repo = org.get_repo(name)
         except UnknownObjectException:
             repo = org.create_repo(name)
-            print("Created repo %s" % repo.name)
+            print(f"Created repo {repo.name}")
 
     team = org.get_team(team_id)
     team.add_to_repos(repo)
-    print("Added %s team to repo" % team.name)
+    print(f"Added {team.name} team to repo")
     return fork_repo
 
 
 @task
 @verbose
-def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
-                  openstack_version=None, team_id=338031,
-                  stable_ref='openstack/stable/'):
+def setup_project(
+    name,
+    org_name='NeCTAR-RC',
+    fork_from=None,
+    openstack_version=None,
+    team_id=338031,
+    stable_ref='openstack/stable/',
+):
     """Create a new project.
 
     org_name:
@@ -106,7 +111,7 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
 
     try:
         gerrit.create(full_name, parent=parent)
-        print("Added gerrit project %s" % full_name)
+        print(f"Added gerrit project {full_name}")
     except:  # noqa
         pass
 
@@ -118,43 +123,44 @@ def setup_project(name, org_name='NeCTAR-RC', fork_from=None,
 
     if fork_repo:
         try:
-            local('git remote add openstack %s' % fork_repo.clone_url)
+            local(f'git remote add openstack {fork_repo.clone_url}')
         except:  # noqa
             pass
 
     if openstack_version:
-        default_branch = "nectar/%s" % openstack_version
+        default_branch = f"nectar/{openstack_version}"
     else:
         default_branch = 'master'
 
     if org_name == 'internal':
         try:
-            local('git remote add origin git@git.rc.nectar.org.au:%s' %
-                  full_name)
+            local(
+                f'git remote add origin git@git.rc.nectar.org.au:{full_name}'
+            )
         except:  # noqa
             pass
     else:
         try:
-            local('git remote add nectar https://github.com/%s.git' %
-                  full_name)
+            local(f'git remote add nectar https://github.com/{full_name}.git')
         except:  # noqa
             pass
 
     local('git fetch --all')
     if openstack_version:
-        local('git checkout -b nectar/%s %s%s' % (openstack_version,
-                                                  stable_ref,
-                                                  openstack_version))
+        local(
+            f'git checkout -b nectar/{openstack_version} {stable_ref}{openstack_version}'
+        )
 
-    local('git push ssh://%s@review.rc.nectar.org.au:29418/%s %s' % (
-        gerrit_user, full_name, default_branch))
+    local(
+        f'git push ssh://{gerrit_user}@review.rc.nectar.org.au:29418/{full_name} {default_branch}'
+    )
 
-    gerrit_config = """[gerrit]
+    gerrit_config = f"""[gerrit]
 host=review.rc.nectar.org.au
 port=29418
-project=%(org_name)s/%(name)s.git
-defaultbranch=%(default_branch)s
-""" % {'name': name, 'org_name': org_name, 'default_branch': default_branch}
+project={org_name}/{name}.git
+defaultbranch={default_branch}
+"""
     gerrit_config_file = open('.gitreview', 'w')
     gerrit_config_file.write(gerrit_config)
     gerrit_config_file.close()

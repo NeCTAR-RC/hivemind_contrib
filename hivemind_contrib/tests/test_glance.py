@@ -7,10 +7,13 @@ TESTNAME = 'Nectar Test Image Name'
 TESTBUILD = '5'
 
 
-class FakeImage(object):
-
-    def __init__(self, image_id='039d104b7a5c4631b4ba6524d0b9e981',
-                 name='FakeImage', **kwargs):
+class FakeImage:
+    def __init__(
+        self,
+        image_id='039d104b7a5c4631b4ba6524d0b9e981',
+        name='FakeImage',
+        **kwargs,
+    ):
         for k, v in kwargs.items():
             if v:
                 setattr(self, k, v)
@@ -22,7 +25,6 @@ class FakeImage(object):
 
 
 class GlanceTestCase(unittest.TestCase):
-
     def test_match_no_name(self):
         image = FakeImage()
         result = glance.match(TESTNAME, TESTBUILD, image)

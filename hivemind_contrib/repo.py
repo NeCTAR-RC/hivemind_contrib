@@ -1,4 +1,3 @@
-from __future__ import print_function
 import sys
 
 from fabric import api as fapi
@@ -9,7 +8,7 @@ from hivemind.decorators import verbose
 
 def reprepro(command):
     with fapi.cd("/srv/nectar-ubuntu"):
-        fapi.run("reprepro {0}".format(command))
+        fapi.run(f"reprepro {command}")
 
 
 @fapi.task
@@ -17,7 +16,7 @@ def reprepro(command):
 @fapi.hosts("repo@download.rc.nectar.org.au")
 def list(distribution):
     """List all packages in a distribution."""
-    reprepro("list {0}".format(distribution))
+    reprepro(f"list {distribution}")
 
 
 @fapi.task
@@ -25,19 +24,26 @@ def list(distribution):
 @fapi.hosts("repo@download.rc.nectar.org.au")
 def ls(package):
     """List the package version across all distributions."""
-    reprepro("ls {0}".format(package))
+    reprepro(f"ls {package}")
 
 
 @fapi.task
 @verbose
 @fapi.hosts("repo@download.rc.nectar.org.au")
-def compare_distribution(distribution1, distribution2=None, show_all=False,
-                         binary=False, promote=False):
+def compare_distribution(
+    distribution1,
+    distribution2=None,
+    show_all=False,
+    binary=False,
+    promote=False,
+):
     """Compare package versions across two distributions."""
 
     if promote and binary:
-        print("Error: --promote cannot be used with binary packages.\n",
-              file=sys.stderr)
+        print(
+            "Error: --promote cannot be used with binary packages.\n",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     if distribution2 is None:
@@ -48,8 +54,11 @@ def compare_distribution(distribution1, distribution2=None, show_all=False,
         return (name, version)
 
     def get_packages(distribution):
-        packages = fapi.run("reprepro list {0} | grep {1} '|source: '".format(
-                            distribution, '-v' if binary else ''))
+        packages = fapi.run(
+            "reprepro list {} | grep {} '|source: '".format(
+                distribution, '-v' if binary else ''
+            )
+        )
         return dict(map(parse_line, packages.split('\r\n')))
 
     with fapi.cd("/srv/nectar-ubuntu"), fapi.hide("stdout"):
@@ -74,18 +83,19 @@ def compare_distribution(distribution1, distribution2=None, show_all=False,
             version2 = packages2.get(name)
             promotable = version2 is not None and version1 != version2
             if promotable:
-                print("Promoting {0}".format(name))
-                print("  Old version: {0}".format(version1 or "(not present)"))
-                print("  New version: {0}".format(version2))
+                print(f"Promoting {name}")
+                print("  Old version: {}".format(version1 or "(not present)"))
+                print(f"  New version: {version2}")
                 _input = input("Proceed? (y/n/q) ")
                 print("")
                 if _input == 'y':
-                    fapi.execute(cp_package, name,
-                                 distribution2, distribution1)
+                    fapi.execute(
+                        cp_package, name, distribution2, distribution1
+                    )
                 elif _input == 'q':
                     break
                 else:
-                    print("Skipping promotion of {0}".format(name))
+                    print(f"Skipping promotion of {name}")
                 print("")
 
 
@@ -104,16 +114,20 @@ def list_distributions():
 def cp_package(package, source, dest):
     """Copy a package from a source to a destination distribution."""
     with fapi.cd("/srv/nectar-ubuntu"), fapi.hide("stdout"):
-        packages = fapi.run("reprepro listfilter %s '$Source (==%s)' | "
-                            "awk '{print $2}' | sort | uniq" % (source,
-                                                                package))
+        packages = fapi.run(
+            f"reprepro listfilter {source} '$Source (=={package})' | "
+            "awk '{print $2}' | sort | uniq"
+        )
         if packages == '':
-            print("Unable to find packages with source name '%s'" % package)
+            print(f"Unable to find packages with source name '{package}'")
             print("Find source name from debian/control file in source")
             return
 
-        fapi.run("reprepro copy %s %s %s" %
-            (dest, source, " ".join(packages.splitlines())))
+        fapi.run(
+            "reprepro copy {} {} {}".format(
+                dest, source, " ".join(packages.splitlines())
+            )
+        )
 
 
 @fapi.task
@@ -121,4 +135,4 @@ def cp_package(package, source, dest):
 @fapi.hosts("repo@download.rc.nectar.org.au")
 def rm_packages(distribution, source_package):
     """Remove distribution packages that belong to the given source package."""
-    reprepro("removesrc {0} {1}".format(distribution, source_package))
+    reprepro(f"removesrc {distribution} {source_package}")

@@ -5,13 +5,16 @@ from hivemind_contrib.puppetdb.puppetdb import Puppetdb
 
 
 @configurable('puppetdb.host')
-def puppetdb(environment, host='puppetdb', port=8080, api_version=4,
-             timeout=20):
-    db = Puppetdb(hostname=host,
-                  port=port,
-                  api_version=api_version,
-                  environment=environment,
-                  timeout=float(timeout))
+def puppetdb(
+    environment, host='puppetdb', port=8080, api_version=4, timeout=20
+):
+    db = Puppetdb(
+        hostname=host,
+        port=port,
+        api_version=api_version,
+        environment=environment,
+        timeout=float(timeout),
+    )
     return db
 
 
@@ -37,7 +40,7 @@ def affected_hosts(env, classes, subdomain=None):
     classes = classes.split(',')
     certname = None
     if subdomain is not None:
-        certname = r'.*\\.%s\\.rc\\.nectar\\.org\\.au' % subdomain
+        certname = rf'.*\\.{subdomain}\\.rc\\.nectar\\.org\\.au'
     hosts = get_affected_hosts(classes, env, certname)
     for host in hosts:
         print(host)

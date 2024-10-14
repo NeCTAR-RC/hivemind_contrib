@@ -13,14 +13,17 @@ import sqlalchemy as sa
 
 # Database schema
 metadata = sa.MetaData()
-environment = sa.Table('environment', metadata,
-                  sa.Column('created', sa.DateTime()),
-                  sa.Column('updated', sa.DateTime()),
-                  sa.Column('id', sa.String(length=255)),
-                  sa.Column('name', sa.String(length=255)),
-                  sa.Column('tenant_id', sa.String(length=36)),
-                  sa.Column('version', sa.BigInteger()),
-                  sa.Column('description', sa.Text()))
+environment = sa.Table(
+    'environment',
+    metadata,
+    sa.Column('created', sa.DateTime()),
+    sa.Column('updated', sa.DateTime()),
+    sa.Column('id', sa.String(length=255)),
+    sa.Column('name', sa.String(length=255)),
+    sa.Column('tenant_id', sa.String(length=36)),
+    sa.Column('version', sa.BigInteger()),
+    sa.Column('description', sa.Text()),
+)
 
 
 @configurable('connection')
@@ -32,14 +35,14 @@ def connect(uri):
 @configurable('nectar.openstack.client')
 def client(version='1', project_name=None):
     sess = keystone.get_session(tenant_name=project_name)
-    return murano.Client(version, session=sess,
-                         service_type='application-catalog')
+    return murano.Client(
+        version, session=sess, service_type='application-catalog'
+    )
 
 
 @task
 def report():
-    """Fetch records from DB and generate usage report
-    """
+    """Fetch records from DB and generate usage report"""
     db = connect()
     sql = sa.select([environment])
     env_list = db.execute(sql)
@@ -50,19 +53,21 @@ def report():
         data = json.loads(env[environment.c.description])
         pkgs = get_packages(data)
         for pkg in pkgs:
-            print('{0},{1},{2},{3},{4},{5},{6}'.format(
-                report_date,
-                env[environment.c.created],
-                env[environment.c.tenant_id],
-                env[environment.c.name],
-                pkg['name'],
-                pkg['az'],
-                pkg['inst']))
+            print(
+                '{},{},{},{},{},{},{}'.format(
+                    report_date,
+                    env[environment.c.created],
+                    env[environment.c.tenant_id],
+                    env[environment.c.name],
+                    pkg['name'],
+                    pkg['az'],
+                    pkg['inst'],
+                )
+            )
 
 
 def get_packages(data):
-    """get list of packages and instance info from json data
-    """
+    """get list of packages and instance info from json data"""
     instances = []
     packages = []
     objects = data.get('Objects')
@@ -141,21 +146,23 @@ def _package_set(package_id, state, dry_run):
     elif state == 'private':
         set_public = False
     else:
-        error('Invalid state: {0}'.format(state))
+        error(f'Invalid state: {state}')
 
     mc = client()
     package = mc.packages.get(package_id)
 
     if package.is_public != set_public:
         if dry_run:
-            print("Would set %s flag for package %s (%s)" %
-                (state, package.name, package_id))
+            print(
+                f"Would set {state} flag for package {package.name} ({package_id})"
+            )
         else:
-            print("Setting %s flag for package %s for %s" %
-                (state, package.name, package_id))
+            print(
+                f"Setting {state} flag for package {package.name} for {package_id}"
+            )
             mc.packages.toggle_public(package_id)
     else:
-        print("Package is already %s" % state)
+        print(f"Package is already {state}")
 
 
 @task

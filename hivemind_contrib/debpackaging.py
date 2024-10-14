@@ -7,6 +7,7 @@ Uploading
 sixpack uploadpackage:./packaging/cpuset_1.5.6-3.1~nectar0_amd64.changes
 
 """
+
 import email
 import os
 import re
@@ -58,14 +59,15 @@ GIT_DESCRIBE_VERSION_REGEX = re.compile(
     (?:\.(?P<patch>\d+(\.\w+){0,1})){0,1}
     (?:-(?P<commits>\d+)
     -g(?P<revision>[0-9a-f]+)){0,1}$""",
-    re.VERBOSE)
+    re.VERBOSE,
+)
 
 
 def git_version():
     version = git.describe()
     match = GIT_DESCRIBE_VERSION_REGEX.search(version)
     if not match:
-        raise Exception("Unable to parse version %s" % version)
+        raise Exception(f"Unable to parse version {version}")
     return match.groupdict()
 
 
@@ -88,7 +90,7 @@ def debian_version(old_version, version):
 
 
 def backport_version(version, revision=1):
-    return "%s+nectar%s" % (version, revision)
+    return f"{version}+nectar{revision}"
 
 
 def version_without_epoc(version):
@@ -103,13 +105,14 @@ def dpkg_parsechangelog():
 
 
 def package_filepath(source_package, extension):
-    return "{0}/{1}/{2}_{3}_{4}.{5}".format(
+    return "{}/{}/{}_{}_{}.{}".format(
         pbuilder.package_export_dir(),
         source_package["Distribution"],
         source_package["Source"],
         version_without_epoc(source_package["Version"]),
         pbuilder.ARCH,
-        extension)
+        extension,
+    )
 
 
 def changes_filepath(source_package):
@@ -125,12 +128,15 @@ def pbuilder_buildpackage(release, name=None):
         local("git-pbuilder -sa")
 
 
-def git_buildpackage(current_branch, upstream_tree, release,
-                     ubuntu_release=None, name=None):
+def git_buildpackage(
+    current_branch, upstream_tree, release, ubuntu_release=None, name=None
+):
     with pbuilder.pbuilder_env(release, name, ubuntu_release):
-        local("gbp buildpackage -sa --git-debian-branch={0} "
-              "--git-upstream-tree={1} --git-no-pristine-tar "
-              "--git-force-create".format(current_branch, upstream_tree))
+        local(
+            f"gbp buildpackage -sa --git-debian-branch={current_branch} "
+            f"--git-upstream-tree={upstream_tree} --git-no-pristine-tar "
+            "--git-force-create"
+        )
 
 
 @task
@@ -143,38 +149,40 @@ def uploadpackage(changes, delete_existing=False):
         source_package = deb822.Changes(data)
         # Delete .upload file so dupload always refreshes the files.
         upload = upload_filepath(source_package)
-        local("rm -f {0}".format(upload))
-    local("dupload {0}".format(changes))
+        local(f"rm -f {upload}")
+    local(f"dupload {changes}")
     if delete_existing:
         # Remove previous package from repository.
-        distribution = "{0}-testing".format(source_package["Distribution"])
+        distribution = "{}-testing".format(source_package["Distribution"])
         execute(repo.rm_packages, distribution, source_package["Source"])
     # Import new packages into repository.
     run("import-new-debs.sh")
 
 
 def get_debian_commit_number():
-    upstream_date = local("git log -1 --pretty='%ci' ORIG_HEAD",
-                          capture=True)
-    command = "git log --oneline --no-merges --since='{0}' | wc -l".format(
-        upstream_date)
+    upstream_date = local("git log -1 --pretty='%ci' ORIG_HEAD", capture=True)
+    command = (
+        f"git log --oneline --no-merges --since='{upstream_date}' | wc -l"
+    )
     return local(command, capture=True)
 
 
-def discover_debian_branch(current_branch, version, os_release,
-                           ubuntu_release=None):
+def discover_debian_branch(
+    current_branch, version, os_release, ubuntu_release=None
+):
     if os.path.exists(os.path.join(git.root_dir(), 'debian/')):
         deb_branch = current_branch
     else:
-        deb_branch = "debian/%s-%s" % (ubuntu_release, os_release)
+        deb_branch = f"debian/{ubuntu_release}-{os_release}"
         if not git.branch_exists(deb_branch):
             deb_branch = debian_branch(version)
         if not git.branch_exists(deb_branch):
-            deb_branch = "debian/{0}".format(os_release)
+            deb_branch = f"debian/{os_release}"
         if not git.branch_exists(deb_branch):
             deb_branch = 'debian'
-        assert git.branch_exists(deb_branch), \
-            "Debian branch %s doesn't exist" % deb_branch
+        assert git.branch_exists(
+            deb_branch
+        ), f"Debian branch {deb_branch} doesn't exist"
     return deb_branch
 
 
@@ -188,8 +196,9 @@ def buildpackage(os_release=None, name=None, upload=True, ubuntu_release=None):
     current_branch = git.current_branch()
     if os_release is None:
         os_release = parse_openstack_release(current_branch)
-    deb_branch = discover_debian_branch(current_branch, version, os_release,
-                                        ubuntu_release)
+    deb_branch = discover_debian_branch(
+        current_branch, version, os_release, ubuntu_release
+    )
     with git.temporary_merge(deb_branch) as merge:
         source_package = dpkg_parsechangelog()
         current_version = source_package["Version"]
@@ -201,13 +210,18 @@ def buildpackage(os_release=None, name=None, upload=True, ubuntu_release=None):
         dist_release = pbuilder.get_build_env(os_release, ubuntu_release)
         version['distribution'] = dist
         release_version = debian_version(current_version, version)
-        local("dch -v {0} -D {1} --force-distribution 'Released'"
-              .format(release_version, dist_release))
+        local(
+            f"dch -v {release_version} -D {dist_release} --force-distribution 'Released'"
+        )
         local("git add debian/changelog")
-        local("git commit -m \"{0}\"".format("Updated Changelog"))
-        git_buildpackage(current_branch, upstream_tree=merge.old_head,
-                         release=os_release, name=name,
-                         ubuntu_release=ubuntu_release)
+        local("git commit -m \"{}\"".format("Updated Changelog"))
+        git_buildpackage(
+            current_branch,
+            upstream_tree=merge.old_head,
+            release=os_release,
+            name=name,
+            ubuntu_release=ubuntu_release,
+        )
         # Regenerate the source package information since it's changed
         # since we updated the changelog.
         source_package = dpkg_parsechangelog()
@@ -230,8 +244,9 @@ def buildbackport(os_release=None, name=None, revision=1, upload=True):
     dist = pbuilder.dist_from_release(os_release)
     release_version = backport_version(current_version, revision)
     if 'nectar' not in current_version:
-        local("dch -v {0} -D {1}-{2} --force-distribution 'Backported'"
-              .format(release_version, dist, os_release))
+        local(
+            f"dch -v {release_version} -D {dist}-{os_release} --force-distribution 'Backported'"
+        )
     pbuilder_buildpackage(release=os_release, name=name)
     if upload:
         # Regenerate the source package information since it's changed
@@ -243,10 +258,10 @@ def buildbackport(os_release=None, name=None, revision=1, upload=True):
 
 @task
 @verbose
-def promote(package_name,
-            release='%s-%s' % (
-                pbuilder.dist_from_release(pbuilder.STABLE_RELEASE),
-                pbuilder.STABLE_RELEASE)):
+def promote(
+    package_name,
+    release=f'{pbuilder.dist_from_release(pbuilder.STABLE_RELEASE)}-{pbuilder.STABLE_RELEASE}',
+):
     execute(repo.cp_package, package_name, release + '-testing', release)
 
 
@@ -257,13 +272,15 @@ def create_deb_branch(branch_name, source_debian_dir):
     # Make sure the repo is clean, since we run git clean later
     # without confirmation.
     git.assert_clean_repository()
-    local("git symbolic-ref HEAD refs/heads/{0}".format(branch_name))
+    local(f"git symbolic-ref HEAD refs/heads/{branch_name}")
     local("rm .git/index")
     local("git clean -fdx")
-    local("cp -r {0} debian".format(source_debian_dir))
-    local(r"""sed -i "/export DH_VERBOSE/ a\
+    local(f"cp -r {source_debian_dir} debian")
+    local(
+        r"""sed -i "/export DH_VERBOSE/ a\
            export OSLO_PACKAGE_VERSION=\$(shell dpkg-parsechangelog """
-           """| sed -n -e 's/^Version: //p')" debian/rules""")
+        """| sed -n -e 's/^Version: //p')" debian/rules"""
+    )
     local("git add debian")
     local('git commit -m "Initial import of debian package"')
 
@@ -277,14 +294,14 @@ def refresh_patches():
     version = git_version()
     deb_branch = discover_debian_branch(current_branch, version, os_release)
     with settings(warn_only=True):
-        local("git checkout %s -- debian" % deb_branch)
+        local(f"git checkout {deb_branch} -- debian")
         more_patches = True
         while more_patches:
             rv = local("quilt push && quilt refresh")
             more_patches = rv.return_code == 0
         local("quilt pop -a")
-        local("git checkout %s" % deb_branch)
+        local(f"git checkout {deb_branch}")
         local("git add -u")
         local('git commit -m "Refreshed patches"')
-        local("git checkout %s" % current_branch)
+        local(f"git checkout {current_branch}")
         local("git clean -fdx")

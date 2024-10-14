@@ -22,8 +22,7 @@ def gerrit(command):
 def cmd(*args):
     user = gitreview_username()
     command = ' '.join(args)
-    local('ssh -p 29418 %s@review.rc.nectar.org.au %s' % (
-        user, command))
+    local(f'ssh -p 29418 {user}@review.rc.nectar.org.au {command}')
 
 
 @task
@@ -37,7 +36,7 @@ def ls():
 @verbose
 def create(name, parent='All-Projects'):
     """Create a new project in gerrit."""
-    gerrit('create-project %s -p %s' % (name, parent))
+    gerrit(f'create-project {name} -p {parent}')
 
 
 @task
@@ -45,37 +44,35 @@ def create(name, parent='All-Projects'):
 def clone(project_name):
     """Clone a repository from gerrit.
 
-       :param str project_name: The name of the repository you wish to
-         clone. (e.g NeCTAR-RC/puppet-openstack)
+    :param str project_name: The name of the repository you wish to
+      clone. (e.g NeCTAR-RC/puppet-openstack)
 
     """
     user = gitreview_username()
     project = project_name.split('/')[-1]
-    local('git clone ssh://%s@review.rc.nectar.org.au:29418/%s %s' % (
-          user, project_name, project))
+    local(
+        f'git clone ssh://{user}@review.rc.nectar.org.au:29418/{project_name} {project}'
+    )
 
 
 @task
 @verbose
 def checkout_config(remote='gerrit'):
-    """Checkout a projects configuration branch.
-
-    """
+    """Checkout a projects configuration branch."""
     git.assert_in_repository()
-    local('git fetch %(remote)s '
-          'refs/meta/config:refs/remotes/%(remote)s/meta/config' %
-          {'remote': remote})
+    local(
+        f'git fetch {remote} '
+        f'refs/meta/config:refs/remotes/{remote}/meta/config'
+    )
     local('git checkout meta/config')
 
 
 @task
 @verbose
 def push_config(remote='gerrit'):
-    """Push a projects configuration branch.
-
-    """
+    """Push a projects configuration branch."""
     git.assert_in_repository()
-    local('git push %s meta/config:refs/meta/config' % remote)
+    local(f'git push {remote} meta/config:refs/meta/config')
 
 
 @task
@@ -84,8 +81,10 @@ def push_without_review(project_name, branch):
     """Push the given git branch to a remote gerrit repo."""
     git.assert_in_repository()
     user = gitreview_username()
-    local('git push ssh://%s@review.rc.nectar.org.au:29418/%s '
-          '%s:refs/heads/%s' % (user, project_name, branch, branch))
+    local(
+        f'git push ssh://{user}@review.rc.nectar.org.au:29418/{project_name} '
+        f'{branch}:refs/heads/{branch}'
+    )
 
 
 @task
@@ -99,7 +98,7 @@ def replicate(url=None):
     if url is None:
         arg = '--all'
     else:
-        arg = '--url %s' % url
+        arg = f'--url {url}'
     cmd('replication start', arg)
 
 

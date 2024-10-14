@@ -17,7 +17,6 @@ from prettytable import PrettyTable
 
 import collections
 import datetime
-import io
 import logging
 import os
 import re
@@ -31,21 +30,24 @@ import yaml
 
 @decorators.configurable('smtp')
 @decorators.verbose
-def get_smtp_config(smtp_server=None,
-                    sender='NeCTAR Research Cloud <bounces@rc.nectar.org.au>'):
+def get_smtp_config(
+    smtp_server=None, sender='NeCTAR Research Cloud <bounces@rc.nectar.org.au>'
+):
     """fetch smtp parameters from config file"""
-    msg = '\n'.join([
-        'No smtp server parameter in either command options'
-        + ' or your Hivemind config file.',
-        '',
-        'Use option --smtp-server SMTP_SERVER or',
-        '',
-        'Add the following config to your Hivemind configuration',
-        'file (~/.hivemind/hivemind/config.ini):',
-        '',
-        '[cfg:hivemind_contrib.notification.smtp]',
-        'smtp_server = <SMTP SERVER ADDRESS>',
-    ])
+    msg = '\n'.join(
+        [
+            'No smtp server parameter in either command options'
+            + ' or your Hivemind config file.',
+            '',
+            'Use option --smtp-server SMTP_SERVER or',
+            '',
+            'Add the following config to your Hivemind configuration',
+            'file (~/.hivemind/hivemind/config.ini):',
+            '',
+            '[cfg:hivemind_contrib.notification.smtp]',
+            'smtp_server = <SMTP SERVER ADDRESS>',
+        ]
+    )
 
     if smtp_server is None:
         error(msg)
@@ -55,8 +57,7 @@ def get_smtp_config(smtp_server=None,
     return config
 
 
-class Mail_Sender(object):
-
+class Mail_Sender:
     def __init__(self, config, debug=False):
         self.debug = debug
         self.smtp_server = config["smtp_server"]
@@ -87,7 +88,7 @@ class Mail_Sender(object):
             try:
                 self.smtp_obj.quit()
             except Exception as err:
-                sys.stderr.write('Exception quit-ing SMTP:\n%s\n' % str(err))
+                sys.stderr.write(f'Exception quit-ing SMTP:\n{str(err)}\n')
             finally:
                 self.smtp_obj = None
 
@@ -99,56 +100,66 @@ class Mail_Sender(object):
             self.smtp_obj.sendmail(msg['From'], recipients, msg.as_string())
         except smtplib.SMTPRecipientsRefused as err:
             sys.stderr.write('SMTP Recipients Refused:\n')
-            sys.stderr.write('%s\n' % str(err))
+            sys.stderr.write(f'{str(err)}\n')
         except smtplib.SMTPException:
             # could maybe do some retry here
-            sys.stderr.write('Error sending to %s ...\n' % recipient)
+            sys.stderr.write(f'Error sending to {recipient} ...\n')
             raise
-        sys.stdout.write('Successfully send mail to %s' % recipient)
+        sys.stdout.write(f'Successfully send mail to {recipient}')
 
 
-class Generator(object):
+class Generator:
     def __init__(self, template, subject):
         self.template_path, self.template_name = os.path.split(template)
         self.template_name = self.template_name.split('.')[0]
         self.subject_template = Template(subject)
-        self.env = Environment(loader=FileSystemLoader(self.template_path),
-                               trim_blocks=True)
-        self.text_template = self.env.get_template('%s.tmpl' %
-                                                   self.template_name)
+        self.env = Environment(
+            loader=FileSystemLoader(self.template_path), trim_blocks=True
+        )
+        self.text_template = self.env.get_template(
+            f'{self.template_name}.tmpl'
+        )
         try:
-            self.html_template = self.env.get_template('%s.html.tmpl' %
-                                                       self.template_name)
+            self.html_template = self.env.get_template(
+                f'{self.template_name}.html.tmpl'
+            )
         except TemplateNotFound:
             self.html_template = None
 
-    def render_templates(self, instances, subject, start_ts, end_ts, tz, zone,
-                         affected, nodes):
+    def render_templates(
+        self, instances, subject, start_ts, end_ts, tz, zone, affected, nodes
+    ):
         duration = end_ts - start_ts if start_ts and end_ts else None
         days = duration.days if duration else None
         hours = duration.seconds // 3600 if duration else None
 
         text = self.text_template.render(
-            {'instances': instances,
-             'zone': zone,
-             'start_ts': start_ts,
-             'end_ts': end_ts,
-             'days': days,
-             'hours': hours,
-             'tz': tz,
-             'nodes': nodes,
-             'affected': affected})
+            {
+                'instances': instances,
+                'zone': zone,
+                'start_ts': start_ts,
+                'end_ts': end_ts,
+                'days': days,
+                'hours': hours,
+                'tz': tz,
+                'nodes': nodes,
+                'affected': affected,
+            }
+        )
         if self.html_template:
             html = self.html_template.render(
-                {'instances': instances,
-                 'zone': zone,
-                 'start_ts': start_ts,
-                 'end_ts': end_ts,
-                 'days': days,
-                 'hours': hours,
-                 'tz': tz,
-                 'nodes': nodes,
-                 'affected': affected})
+                {
+                    'instances': instances,
+                    'zone': zone,
+                    'start_ts': start_ts,
+                    'end_ts': end_ts,
+                    'days': days,
+                    'hours': hours,
+                    'tz': tz,
+                    'nodes': nodes,
+                    'affected': affected,
+                }
+            )
         else:
             html = None
 
@@ -158,8 +169,7 @@ class Generator(object):
         '''The default behavior is to perform template expansion on the
         subject parameter.
         '''
-        return self.subject_template.render(
-            {'instances': instances})
+        return self.subject_template.render({'instances': instances})
 
 
 # populate_data() changes instances data structure from
@@ -192,14 +202,16 @@ def _populate_project_dict(instances):
                     continue
                 for uid in members.keys():
                     user = keystone.get_user(ksclient, uid, use_cache=True)
-                    if getattr(user, 'enabled', None) and \
-                       getattr(user, 'email', None):
+                    if getattr(user, 'enabled', None) and getattr(
+                        user, 'email', None
+                    ):
                         cclist.append(user.email)
             # rule out the projects where has no valid recipients(tempest. etc)
             if cclist:
                 project[instance['project_name']] = {'instances': [instance]}
                 project[instance['project_name']].update(
-                    {'recipients': cclist})
+                    {'recipients': cclist}
+                )
 
     return project
 
@@ -212,15 +224,17 @@ def print_dict(dictionary, tofile=None, ident='', braces=1):
 
     for key, value in dictionary.iteritems():
         if isinstance(value, dict):
-            print("{}{}{}{}".format(ident, braces * "[",
-                                    key, braces * "]"), file = tofile)
+            print(
+                "{}{}{}{}".format(ident, braces * "[", key, braces * "]"),
+                file=tofile,
+            )
             print_dict(value, tofile, ident + '  ', braces + 1)
         else:
             table = _pretty_table_instances(value)
             if not isinstance(table, PrettyTable):
-                print("{}{} = {}\n".format(ident, key, value), file = tofile)
+                print(f"{ident}{key} = {value}\n", file=tofile)
             else:
-                print("{}{} = \n{}\n".format(ident, key, table), file = tofile)
+                print(f"{ident}{key} = \n{table}\n", file=tofile)
 
 
 def _pretty_table_instances(instances):
@@ -248,9 +262,18 @@ def normalize_filename(filename):
     return filename
 
 
-def generate_notification_mails(subject, template, data, work_dir,
-                               start_time, end_time, timezone,
-                               zone, affected, nodes):
+def generate_notification_mails(
+    subject,
+    template,
+    data,
+    work_dir,
+    start_time,
+    end_time,
+    timezone,
+    zone,
+    affected,
+    nodes,
+):
     count = 0
     instances_list = []
     for proj, projvalues in data.items():
@@ -259,15 +282,22 @@ def generate_notification_mails(subject, template, data, work_dir,
         inst = projvalues['instances']
         recipients = ','.join(projvalues['recipients'])
         generator = Generator(template, subject)
-        msg, html = generator.render_templates(inst, subject, start_time,
-                                               end_time, timezone, zone,
-                                               affected, nodes)
+        msg, html = generator.render_templates(
+            inst,
+            subject,
+            start_time,
+            end_time,
+            timezone,
+            zone,
+            affected,
+            nodes,
+        )
         if not html:
             # convert to simple html, freshdesk supports html format only
             html = msg.replace("\n", "<br />\n")
             html = html.replace(r"\s", "&#160&#160&#160&#160")
         filename = normalize_filename("notification@" + proj)
-        with io.open(os.path.join(work_dir, filename), 'w') as mail:
+        with open(os.path.join(work_dir, filename), 'w') as mail:
             count += 1
             content = {'Body': html, 'Sendto': recipients}
             yaml.dump(content, mail, default_flow_style=False)
@@ -277,9 +307,9 @@ def generate_notification_mails(subject, template, data, work_dir,
 
     with open(os.path.join(work_dir, "instances.list"), 'w') as i:
         for ins in instances_list:
-            i.write("%s\n" % ins)
+            i.write(f"{ins}\n")
 
-    print("Totally %s mail(s) is generated" % count)
+    print(f"Totally {count} mail(s) is generated")
 
 
 def is_email_address(mail):
@@ -292,13 +322,13 @@ def get_email_address(mail):
     regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
     match = regex.search(mail)
     if match:
-        return [match.group(0), mail[match.end() + 1:]]
+        return [match.group(0), mail[match.end() + 1 :]]
     else:
         return [None, None]
 
 
 def get_instances_from_file(client, filename):
-    with open(filename, 'r') as server_ids:
+    with open(filename) as server_ids:
         for server_id in server_ids:
             yield client.servers.get(server_id.strip('\n'))
 
@@ -313,8 +343,7 @@ def query_yes_no(question, default="yes"):
 
     The "answer" return value is True for "yes" or False for "no".
     """
-    valid = {"yes": True, "y": True, "ye": True,
-             "no": False, "n": False}
+    valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
     if default is None:
         prompt = " [y/n] "
     elif default == "yes":
@@ -322,7 +351,7 @@ def query_yes_no(question, default="yes"):
     elif default == "no":
         prompt = " [y/N] "
     else:
-        raise ValueError("invalid default answer: '%s'" % default)
+        raise ValueError(f"invalid default answer: '{default}'")
 
     while True:
         sys.stdout.write(question + prompt)
@@ -332,19 +361,24 @@ def query_yes_no(question, default="yes"):
         elif choice in valid:
             return valid[choice]
         else:
-            sys.stdout.write("Please respond with 'yes' or 'no' "
-                             "(or 'y' or 'n').\n")
+            sys.stdout.write(
+                "Please respond with 'yes' or 'no' " "(or 'y' or 'n').\n"
+            )
 
 
-def _validate_paramters(start_time, duration, instances_file, template):
+def _validate_parameters(start_time, duration, instances_file, template):
     if not instances_file:
         if not start_time:
-            print("No --start-time START_TIME: Please specify an outage\
-                  start time. (e.g. '09:00 25-06-2015')")
+            print(
+                "No --start-time START_TIME: Please specify an outage\
+                  start time. (e.g. '09:00 25-06-2015')"
+            )
             sys.exit(2)
         if not duration:
-            print("No --duration DURATIOn: Please specify outage duratioan\
-                  in hours.")
+            print(
+                "No --duration DURATIOn: Please specify outage duratioan\
+                  in hours."
+            )
             sys.exit(2)
 
     if not os.path.exists(template):
@@ -355,28 +389,37 @@ def _validate_paramters(start_time, duration, instances_file, template):
 def mailout(work_dir, data, subject, config):
     """Mailout the generated announcement emails
 
-       :param str dir: Path to mail content
-       :param str subject: Mail subject
-       :param str config: mail sending configuration
+    :param str dir: Path to mail content
+    :param str subject: Mail subject
+    :param str config: mail sending configuration
 
     """
-    print("You should run: hivemind notification.announcement_mailout "
-          + "WITHOUT --no-dry-run first\n")
-    print("It's also recommended to verify the email sending by: hivemind"
-          + "notification.verify_mailout before proceeding with --no-dry-run")
+    print(
+        "You should run: hivemind notification.announcement_mailout "
+        + "WITHOUT --no-dry-run first\n"
+    )
+    print(
+        "It's also recommended to verify the email sending by: hivemind"
+        + "notification.verify_mailout before proceeding with --no-dry-run"
+    )
 
     sender = Mail_Sender(config)
-    mails = [f for f in os.listdir(work_dir) if os.path.isfile(
-        os.path.join(work_dir, f)) and "notification@" in f]
+    mails = [
+        f
+        for f in os.listdir(work_dir)
+        if os.path.isfile(os.path.join(work_dir, f)) and "notification@" in f
+    ]
 
-    query = '\nMailout could send massive emails, please be cautious!!!!!\n'\
-            'There are totally %s mails to be sent, still continue?'
+    query = (
+        '\nMailout could send massive emails, please be cautious!!!!!\n'
+        'There are totally %s mails to be sent, still continue?'
+    )
     if not query_yes_no(query % len(mails), default='no'):
         sys.exit(1)
 
     print("Starting emails sending.....")
     for mail in mails:
-        with io.open(os.path.join(work_dir, mail), 'rb') as f:
+        with open(os.path.join(work_dir, mail), 'rb') as f:
             content = yaml.load(f)
         addresses = content['Sendto'].split(',')
         toaddress = addresses.pop(0)
@@ -393,12 +436,24 @@ def make_archive(work_dir):
 
 @task
 @decorators.verbose
-def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
-                         status="ALL", project=None, user=None,
-                         subject="Important announcement concerning your "
-                         "instance(s)", start_time=None, duration=0,
-                         timezone="AEDT", smtp_server=None, sender=None,
-                         instances_file=None, dry_run=True):
+def announcement_mailout(
+    template,
+    zone=None,
+    ip=None,
+    nodes=None,
+    image=None,
+    status="ALL",
+    project=None,
+    user=None,
+    subject="Important announcement concerning your " "instance(s)",
+    start_time=None,
+    duration=0,
+    timezone="AEDT",
+    smtp_server=None,
+    sender=None,
+    instances_file=None,
+    dry_run=True,
+):
     """Generate mail announcements based on options.
 
        Some files will be generated and written into
@@ -425,19 +480,31 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
        :param str sender: Specify the mail sender
     """
 
-    _validate_paramters(start_time, duration, instances_file, template)
+    _validate_parameters(start_time, duration, instances_file, template)
     config = get_smtp_config(smtp_server, sender)
 
-    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
-                 if start_time else None
-    end_time = start_time + datetime.timedelta(hours=int(duration))\
-               if (start_time and duration) else None
+    start_time = (
+        datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')
+        if start_time
+        else None
+    )
+    end_time = (
+        start_time + datetime.timedelta(hours=int(duration))
+        if (start_time and duration)
+        else None
+    )
 
     # find the impacted instances and construct data
     if not instances_file:
-        instances = nova.list_instances(zone=zone, nodes=nodes, ip=ip,
-                                        project=project, user=user,
-                                        status=status, image=image)
+        instances = nova.list_instances(
+            zone=zone,
+            nodes=nodes,
+            ip=ip,
+            project=project,
+            user=user,
+            status=status,
+            image=image,
+        )
     else:
         inst = get_instances_from_file(nova.client(), instances_file)
         instances = nova.extract_servers_info(inst)
@@ -445,17 +512,27 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
     data = populate_data(instances)
 
     # write to logs and generate emails
-    work_dir = os.path.join(os.path.expanduser('~/.cache/hivemind-mailout'),
-                            datetime.datetime.now().strftime(
-                                "%y-%m-%d_" + "%H:%M:%S"))
+    work_dir = os.path.join(
+        os.path.expanduser('~/.cache/hivemind-mailout'),
+        datetime.datetime.now().strftime("%y-%m-%d_" + "%H:%M:%S"),
+    )
     print("Creating Outbox: " + work_dir)
     os.makedirs(work_dir)
     affected = len(data)
     if affected:
         generate_logs(work_dir, data)
-        generate_notification_mails(subject, template, data, work_dir,
-                                    start_time, end_time, timezone,
-                                    zone, affected, nodes)
+        generate_notification_mails(
+            subject,
+            template,
+            data,
+            work_dir,
+            start_time,
+            end_time,
+            timezone,
+            zone,
+            affected,
+            nodes,
+        )
     else:
         print("No notification is needed, exit!")
         sys.exit(0)
@@ -464,9 +541,16 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
         print("Finish writing email announcement in: " + work_dir)
         print("\nOnce you have checked the log file and generated emails")
         print("Use the command below to verify emails sending to test user:")
-        print("\n hivemind notification.verify_mailout " + work_dir + " "
-              + "SUBJECT" + " " + "[--mailto TEST_ADDRESS]" + " "
-              + "[--smtp_server SMTP_SEVRVER]")
+        print(
+            "\n hivemind notification.verify_mailout "
+            + work_dir
+            + " "
+            + "SUBJECT"
+            + " "
+            + "[--mailto TEST_ADDRESS]"
+            + " "
+            + "[--smtp_server SMTP_SEVRVER]"
+        )
         print("\nThen rerun the command with --no-dry-run to mail ALL users")
     else:
         mailout(work_dir, data, subject, config)
@@ -478,17 +562,20 @@ def announcement_mailout(template, zone=None, ip=None, nodes=None, image=None,
 def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
     """Verify mail sending to specific test address.
 
-       The command should be used after announcement_mailout command run.
+    The command should be used after announcement_mailout command run.
 
-       :param str dir: Path to mail content genearted by announcement_mailout
-       :param str subject: Mail subject
-       :param str sender: Specify the mail sender
-       :param str mailto: Test mail address, xxxx@yyy.zzz
-       :param str smtp_server: SMTP configuration
+    :param str dir: Path to mail content generated by announcement_mailout
+    :param str subject: Mail subject
+    :param str sender: Specify the mail sender
+    :param str mailto: Test mail address, xxxx@yyy.zzz
+    :param str smtp_server: SMTP configuration
     """
     config = get_smtp_config(smtp_server, sender)
-    mails = [f for f in os.listdir(dir) if os.path.isfile(
-        os.path.join(dir, f)) and "notification@" in f]
+    mails = [
+        f
+        for f in os.listdir(dir)
+        if os.path.isfile(os.path.join(dir, f)) and "notification@" in f
+    ]
 
     mail = mails[-1]
     sender = Mail_Sender(config)
@@ -500,7 +587,7 @@ def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
     else:
         mailto = content['Sendto']
         if not get_email_address(mailto):
-            print("The mail address %s is not valid" % mailto)
+            print(f"The mail address {mailto} is not valid")
             sys.exit(1)
         addresses = content['Sendto'].split(',')
         toaddress = addresses.pop(0)
@@ -510,14 +597,25 @@ def verify_mailout(dir, subject, sender=None, mailto=None, smtp_server=None):
 
 @task
 @decorators.verbose
-def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
-                      status="ALL", project=None, user=None,
-                      subject="Important announcement concerning your "
-                      "instance(s)", start_time=None, duration=None,
-                      timezone="AEDT", instances_file=None,
-                      dry_run=True, record_metadata=False,
-                      metadata_field="notification:fd_ticket",
-                      test_recipient=None):
+def freshdesk_mailout(
+    template,
+    zone=None,
+    ip=None,
+    nodes=None,
+    image=None,
+    status="ALL",
+    project=None,
+    user=None,
+    subject="Important announcement concerning your " "instance(s)",
+    start_time=None,
+    duration=None,
+    timezone="AEDT",
+    instances_file=None,
+    dry_run=True,
+    record_metadata=False,
+    metadata_field="notification:fd_ticket",
+    test_recipient=None,
+):
     """Mailout announcements from freshdesk (Recommended).
 
        Freshdesk ticket per project will be created along with outbound email.
@@ -550,26 +648,39 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                metadata field in the nova instance."
     """
     fd_config = security.get_freshdesk_config()
-    fd = security.get_freshdesk_client(fd_config['domain'],
-                                       fd_config['api_key'])
+    fd = security.get_freshdesk_client(
+        fd_config['domain'], fd_config['api_key']
+    )
 
     nc = nova.client()
 
-    _validate_paramters(start_time, duration, instances_file, template)
+    _validate_parameters(start_time, duration, instances_file, template)
 
-    start_time = datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')\
-                 if start_time else None
-    end_time = start_time + datetime.timedelta(hours=int(duration))\
-               if (start_time and duration) else None
+    start_time = (
+        datetime.datetime.strptime(start_time, '%H:%M %d-%m-%Y')
+        if start_time
+        else None
+    )
+    end_time = (
+        start_time + datetime.timedelta(hours=int(duration))
+        if (start_time and duration)
+        else None
+    )
 
     work_dir = os.path.expanduser('~/.cache/hivemind-mailout/freshdesk/')
 
     if dry_run:
         # find the impacted instances and construct data
         if not instances_file:
-            instances = nova.list_instances(zone=zone, nodes=nodes, ip=ip,
-                                            project=project, user=user,
-                                            status=status, image=image)
+            instances = nova.list_instances(
+                zone=zone,
+                nodes=nodes,
+                ip=ip,
+                project=project,
+                user=user,
+                status=status,
+                image=image,
+            )
         else:
             inst = get_instances_from_file(nova.client(), instances_file)
             instances = nova.extract_servers_info(inst)
@@ -587,38 +698,60 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
             os.makedirs(work_dir)
         work_dir = tempfile.mkdtemp(dir=work_dir)
         print("Creating Outbox: " + work_dir)
-        print('\nPlease export the environment variable for the no-dry-run: '
-              'export %s=%s' % ('HIVEMIND_MAILOUT_FRESHDESK', work_dir))
+        print(
+            '\nPlease export the environment variable for the no-dry-run: '
+            'export {}={}'.format('HIVEMIND_MAILOUT_FRESHDESK', work_dir)
+        )
         # render email content
         generate_logs(work_dir, data)
-        generate_notification_mails(subject, template, data, work_dir,
-                                    start_time, end_time, timezone,
-                                    zone, affected, nodes)
+        generate_notification_mails(
+            subject,
+            template,
+            data,
+            work_dir,
+            start_time,
+            end_time,
+            timezone,
+            zone,
+            affected,
+            nodes,
+        )
     else:
         work_dir = os.environ.get('HIVEMIND_MAILOUT_FRESHDESK')
         if not work_dir or not os.path.isdir(work_dir):
             print('Workdir environment variable is not found!')
-            print('Please run the command without --no-dry-run and '
-                  'export environment variable as prompted!')
+            print(
+                'Please run the command without --no-dry-run and '
+                'export environment variable as prompted!'
+            )
             sys.exit(0)
 
-        email_files = [name for name in os.listdir(work_dir)
-                       if os.path.isfile(os.path.join(work_dir, name))
-                       and "notification@" in name]
+        email_files = [
+            name
+            for name in os.listdir(work_dir)
+            if os.path.isfile(os.path.join(work_dir, name))
+            and "notification@" in name
+        ]
 
         if test_recipient:
-            print('You have specified the test_recipient option, '
-                  'all the emails will be sent to %s' % test_recipient)
+            print(
+                'You have specified the test_recipient option, '
+                f'all the emails will be sent to {test_recipient}'
+            )
 
-        query = '\nYou are running notification script in no-dry-run mode'\
-                '\nIt will use previously generated emails under %s\n'\
-                'Make sure the contents are all good before you do next step'\
-                '\nOne outbounding email will create a separate ticket. '\
-                'Be cautious since it could generate massive tickets!!!\n'\
-                'There are %s tickets to be created, it takes roughly %s min '\
-                'to finish all the creation, still continue?'
-        if not query_yes_no(query % (work_dir, len(email_files),
-                                     len(email_files) / 60 + 1), default='no'):
+        query = (
+            '\nYou are running notification script in no-dry-run mode'
+            '\nIt will use previously generated emails under %s\n'
+            'Make sure the contents are all good before you do next step'
+            '\nOne outbounding email will create a separate ticket. '
+            'Be cautious since it could generate massive tickets!!!\n'
+            'There are %s tickets to be created, it takes roughly %s min '
+            'to finish all the creation, still continue?'
+        )
+        if not query_yes_no(
+            query % (work_dir, len(email_files), len(email_files) / 60 + 1),
+            default='no',
+        ):
             sys.exit(1)
 
         log.logger(os.path.join(work_dir, 'notify_freshdesk.log'))
@@ -643,7 +776,8 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
                 group_id=int(fd_config['group_id']),
                 priority=2,
                 status=5,  # set ticket initial status is closed
-                tags=['notification'])
+                tags=['notification'],
+            )
             ticket_id = ticket.id
 
             # Use friendly domain name if using prod
@@ -652,24 +786,25 @@ def freshdesk_mailout(template, zone=None, ip=None, nodes=None, image=None,
             else:
                 domain = fd.domain
 
-            ticket_url = 'https://{}/helpdesk/tickets/{}'\
-                         .format(domain, ticket_id)
-
+            ticket_url = f'https://{domain}/helpdesk/tickets/{ticket_id}'
             proj = email_file.split("@", 1)[1]
-            logging.info('Ticket #{} has been created: <{}> for project <{}>'
-                         .format(ticket_id, ticket_url, proj))
-            logging.debug('Ticket #{} has email recipients: {}'
-                         .format(ticket_id, addresses))
+            logging.info(
+                f'Ticket #{ticket_id} has been created: <{ticket_url}> for project <{proj}>'
+            )
+            logging.debug(
+                f'Ticket #{ticket_id} has email recipients: {addresses}'
+            )
 
             if record_metadata:
                 # Record the ticket URL in the server metadata
                 for server in email[4]:
-                    nc.servers.set_meta(server['id'],
-                        {metadata_field: ticket_url})
+                    nc.servers.set_meta(
+                        server['id'], {metadata_field: ticket_url}
+                    )
 
             # delay for freshdesk api rate limit consideration
             time.sleep(1)
 
-        # make achive the outbox folder
-        logging.info('Make archive after the mailout for %s' % work_dir)
+        # make archive the outbox folder
+        logging.info(f'Make archive after the mailout for {work_dir}')
         make_archive(work_dir)

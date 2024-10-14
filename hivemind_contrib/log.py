@@ -5,7 +5,7 @@ logging_level = {
     'INFO': logging.INFO,
     'WARNING': logging.WARN,
     'ERROR': logging.ERROR,
-    }
+}
 
 
 def logger(logfile, loglevel='INFO'):

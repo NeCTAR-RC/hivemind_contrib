@@ -89,15 +89,13 @@ target     prot opt source               destination
 
 
 class NodeFixture(mock.MagicMock):
-
     def __init__(self, *args, **kwargs):
-        super(NodeFixture, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.roledefs = {"nova-node": ["test.home"]}
         self.host_string = "test.home"
 
 
 class IptablesTestCase(unittest.TestCase):
-
     @mock.patch('hivemind_contrib.iptables.run')
     @mock.patch('hivemind.decorators.env', new_callable=NodeFixture)
     def test_list(self, mock_env, mock_run):
@@ -106,93 +104,130 @@ class IptablesTestCase(unittest.TestCase):
         rules = iptables.parse_rules()
         self.assertEqual(
             rules,
-            {'37779': [{'destination': '0.0.0.0/0',
+            {
+                '37779': [
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'state INVALID',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'DROP'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'DROP',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'state RELATED,ESTABLISHED',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': '',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'nova-compute-provider'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'nova-compute-provider',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'udp spt:67 dpt:68',
                         'options': '--',
                         'protocol': 'udp',
                         'source': '213.234.38.24',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'tcp dpt:22',
                         'options': '--',
                         'protocol': 'tcp',
                         'source': '0.0.0.0/0',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': '',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'nova-compute-sg-fallback'}],
-             '38222': [{'destination': '0.0.0.0/0',
+                        'target': 'nova-compute-sg-fallback',
+                    },
+                ],
+                '38222': [
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'state INVALID',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'DROP'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'DROP',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'state RELATED,ESTABLISHED',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': '',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'nova-compute-provider'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'nova-compute-provider',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'udp spt:67 dpt:68',
                         'options': '--',
                         'protocol': 'udp',
                         'source': '89.34.3.9',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': '',
                         'options': '--',
                         'protocol': 'icmp',
                         'source': '0.0.0.0/0',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'tcp dpt:22',
                         'options': '--',
                         'protocol': 'tcp',
                         'source': '0.0.0.0/0',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'tcp dpt:80',
                         'options': '--',
                         'protocol': 'tcp',
                         'source': '0.0.0.0/0',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': 'tcp dpt:443',
                         'options': '--',
                         'protocol': 'tcp',
                         'source': '0.0.0.0/0',
-                        'target': 'ACCEPT'},
-                       {'destination': '0.0.0.0/0',
+                        'target': 'ACCEPT',
+                    },
+                    {
+                        'destination': '0.0.0.0/0',
                         'filter': '',
                         'options': '--',
                         'protocol': 'all',
                         'source': '0.0.0.0/0',
-                        'target': 'nova-compute-sg-fallback'}]})
+                        'target': 'nova-compute-sg-fallback',
+                    },
+                ],
+            },
+        )

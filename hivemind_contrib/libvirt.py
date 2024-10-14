@@ -20,7 +20,7 @@ def list_instances():
             continue
         row = dict(zip(headers, line.split()))
         with quiet():
-            row["uuid"] = f_run("virsh domuuid %s" % row["id"])
+            row["uuid"] = f_run("virsh domuuid {}".format(row["id"]))
             row["nova_id"] = int(row['name'].split('-')[1], 16)
         servers.append(row)
     return servers
@@ -32,8 +32,7 @@ def list():
     servers = list_instances()
     table = PrettyTable(["ID", "UUID", "Name", "State"])
     for server in servers:
-        table.add_row([server["id"],
-                       server['uuid'],
-                       server['name'],
-                       server["state"]])
+        table.add_row(
+            [server["id"], server['uuid'], server['name'], server["state"]]
+        )
     puts("\n" + str(table) + "\n")

@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Hivemind Contrib's documentation!
-======================================
+============================================
 
 Contents:
 
@@ -14,7 +14,6 @@ Contents:
    readme
    installation
    usage
-   contributing
    authors
    history
 

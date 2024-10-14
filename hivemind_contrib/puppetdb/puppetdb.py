@@ -23,18 +23,28 @@
 # SOFTWARE.
 
 
-class Puppetdb(object):
-    def __init__(self, hostname, port, api_version,
-                 query=None, environment=None,
-                 ssl_key=None, ssl_cert=None,
-                 timeout=20):
+class Puppetdb:
+    def __init__(
+        self,
+        hostname,
+        port,
+        api_version,
+        query=None,
+        environment=None,
+        ssl_key=None,
+        ssl_cert=None,
+        timeout=20,
+    ):
         from pypuppetdb import connect
-        self.db = connect(host=hostname,
-                          port=port,
-                          ssl_key=ssl_key,
-                          ssl_cert=ssl_cert,
-                          api_version=api_version,
-                          timeout=timeout)
+
+        self.db = connect(
+            host=hostname,
+            port=port,
+            ssl_key=ssl_key,
+            ssl_cert=ssl_cert,
+            api_version=api_version,
+            timeout=timeout,
+        )
         self.db.resources = self.db.resources
         self.environment = environment
         if query is None:
@@ -43,7 +53,7 @@ class Puppetdb(object):
 
     @staticmethod
     def cmp(comparator, key, value):
-        return '["%s", "%s", "%s"]' % (comparator, key, value)
+        return f'["{comparator}", "{key}", "{value}"]'
 
     @classmethod
     def regex(cls, key, value):
@@ -55,11 +65,11 @@ class Puppetdb(object):
 
     @staticmethod
     def and_(parts):
-        return '["and", %s]' % ", ".join(parts)
+        return '["and", {}]'.format(", ".join(parts))
 
     @staticmethod
     def or_(parts):
-        return '["or", %s]' % ", ".join(parts)
+        return '["or", {}]'.format(", ".join(parts))
 
     def query_string(self, **kwargs):
         query_parts = []
@@ -71,8 +81,7 @@ class Puppetdb(object):
         return self.db.resources(query=query, environment=self.environment)
 
     def get_nodes_for_resource(self, query):
-        """Get all the nodes for a particular resource from puppetdb.
-        """
+        """Get all the nodes for a particular resource from puppetdb."""
         self.nodes = set()
         for resource in self.query_resources(query):
             self.nodes.add(resource.node)

@@ -22,16 +22,22 @@ def client():
 def get_images_project(project_id_or_name, project_type):
     """fetch project id from config file"""
     if project_id_or_name is None:
-        msg = " ".join(("No project set.", "Please set project in",
-                        "[cfg:hivemind_contrib.glance.%s]" % project_type))
+        msg = " ".join(
+            (
+                "No project set.",
+                "Please set project in",
+                f"[cfg:hivemind_contrib.glance.{project_type}]",
+            )
+        )
         error(msg)
 
     try:
         ks_client = keystone.client()
         project = keystone.get_project(ks_client, project_id_or_name)
     except ks_exc.NotFound:
-        raise error("Project {} not found. Check your settings."
-                    .format(project_id_or_name))
+        raise error(
+            f"Project {project_id_or_name} not found. Check your settings."
+        )
     except ks_exc.Forbidden:
         raise error("Permission denied. Check you're using admin credentials.")
     except Exception as e:
@@ -74,7 +80,6 @@ def match(name, build, image):
 @task
 @decorators.verbose
 def promote(image_id, dry_run=True, project=None, contributed=False):
-
     gc = client()
     try:
         image = gc.images.get(image_id)
@@ -94,32 +99,34 @@ def promote_contributed(gc, image, dry_run, project):
         print("Running in dry run mode")
 
         if project:
-            print("Would change ownership of image {} ({}) to "
-                  "project {} ({})".format(image.name, image.id,
-                      project.name, project.id))
+            print(
+                f"Would change ownership of image {image.name} ({image.id}) to "
+                f"project {project.name} ({project.id})"
+            )
     else:
         if project:
-            print("Changing ownership of image {} ({}) to "
-                  "project {} ({})".format(image.name, image.id,
-                      project.name, project.id))
+            print(
+                f"Changing ownership of image {image.name} ({image.id}) to "
+                f"project {project.name} ({project.id})"
+            )
             now = datetime.datetime.now()
             publish_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
             expire = now + datetime.timedelta(days=180)
             expiry_date = expire.strftime("%Y-%m-%dT%H:%M:%SZ")
-            gc.images.update(image.id, owner=project.id,
-                             published_at=publish_date,
-                             expires_at=expiry_date)
+            gc.images.update(
+                image.id,
+                owner=project.id,
+                published_at=publish_date,
+                expires_at=expiry_date,
+            )
 
     if image.visibility == 'public':
-        print("Image {} ({}) already set public"
-              .format(image.name, image.id))
+        print(f"Image {image.name} ({image.id}) already set public")
     else:
         if dry_run:
-            print("Would set image {} ({}) to public"
-                  .format(image.name, image.id))
+            print(f"Would set image {image.name} ({image.id}) to public")
         else:
-            print("Setting image {} ({}) to public"
-                  .format(image.name, image.id))
+            print(f"Setting image {image.name} ({image.id}) to public")
             gc.images.update(image.id, visibility='public')
 
 
@@ -134,34 +141,31 @@ def promote_official(gc, image, dry_run, project):
 
     try:
         name = image.nectar_name
-        build = (int(image.nectar_build))
+        build = int(image.nectar_build)
     except AttributeError:
         error("nectar_name or nectar_build not found for image.")
 
     m_check = partial(match, name, build)
-    matchingimages = filter(m_check,
-                            gc.images.list(filters={'owner': image.owner}))
+    matchingimages = filter(
+        m_check, gc.images.list(filters={'owner': image.owner})
+    )
 
     for i in matchingimages:
         archive_official(gc, i, dry_run, project)
 
     if image.visibility == 'public':
-        print("Image {} ({}) already set public"
-              .format(image.name, image.id))
+        print(f"Image {image.name} ({image.id}) already set public")
     else:
         if dry_run:
-            print("Would set image {} ({}) to public"
-                  .format(image.name, image.id))
+            print(f"Would set image {image.name} ({image.id}) to public")
         else:
-            print("Setting image {} ({}) to public"
-                  .format(image.name, image.id))
+            print(f"Setting image {image.name} ({image.id}) to public")
             gc.images.update(image.id, visibility='public')
 
 
 @task
 @decorators.verbose
 def archive(image_id, dry_run=True, project=None, contributed=False):
-
     gc = client()
     try:
         image = gc.images.get(image_id)
@@ -179,12 +183,13 @@ def archive(image_id, dry_run=True, project=None, contributed=False):
 def archive_contributed(gc, image, dry_run, project):
     if dry_run:
         print("Running in dry run mode")
-        print("Would archive image {} ({}) to project {} ({})"
-              .format(image.name, image.id,
-                      project.name, project.id))
+        print(
+            f"Would archive image {image.name} ({image.id}) to project {project.name} ({project.id})"
+        )
     else:
-        print("Archiving image {} ({}) to project {} ({})"
-              .format(image.name, image.id, project.name, project.id))
+        print(
+            f"Archiving image {image.name} ({image.id}) to project {project.name} ({project.id})"
+        )
         gc.images.update(image.id, owner=project.id, visibility='community')
 
 
@@ -195,38 +200,38 @@ def archive_official(gc, image, dry_run, project):
     """
     name = image.name
     try:
-        build = '[v%s]' % image.nectar_build
+        build = f'[v{image.nectar_build}]'
     except AttributeError:
         error("nectar_build not found for image.")
 
     # Add build number to name if it's not already there
     # E.g. NeCTAR Ubuntu 17.10 LTS (Artful) amd64 (v10)
     if build not in name:
-        name = '%s %s' % (name, build)
+        name = f'{name} {build}'
 
     if dry_run:
         print("Running in dry run mode")
-        print("Would archive image {} ({}) to project {} ({})"
-              .format(name, image.id,
-                      project.name, project.id))
+        print(
+            f"Would archive image {name} ({image.id}) to project {project.name} ({project.id})"
+        )
         if 'murano_image_info' in image:
-            print('Would remove murano image properties from {}'
-                  .format(image.id))
+            print(f'Would remove murano image properties from {image.id}')
     else:
-        print("Archiving image {} ({}) to project {} ({})"
-              .format(name, image.id, project.name, project.id))
-        gc.images.update(image.id, name=name, owner=project.id,
-                         visibility='community')
+        print(
+            f"Archiving image {name} ({image.id}) to project {project.name} ({project.id})"
+        )
+        gc.images.update(
+            image.id, name=name, owner=project.id, visibility='community'
+        )
 
         if 'murano_image_info' in image:
-            print('Removing murano image properties from {}'.format(image.id))
+            print(f'Removing murano image properties from {image.id}')
             gc.images.update(image.id, remove_props=['murano_image_info'])
 
 
 @task
 def public_audit():
-    """Print usage information about all public images
-    """
+    """Print usage information about all public images"""
     gc = client()
     nc = nova.client()
     db = nova.db_connect()
@@ -235,8 +240,9 @@ def public_audit():
     images = gc.images.list(visibility='public')
     public = [i for i in images if i['visibility'] == 'public']
 
-    table = PrettyTable(["ID", "Name", "Official", "Build", "Running",
-                         "Boots", "Last Boot"])
+    table = PrettyTable(
+        ["ID", "Name", "Official", "Build", "Running", "Boots", "Last Boot"]
+    )
 
     table.align = 'l'
     table.align['Running'] = 'r'
@@ -254,8 +260,10 @@ def public_audit():
         instances = nova.all_servers(nc, image=i['id'])
 
         # NeCTAR-Images, NeCTAR-Images-Archive
-        official_projects = ['28eadf5ad64b42a4929b2fb7df99275c',
-                             'c9217cb583f24c7f96567a4d6530e405']
+        official_projects = [
+            '28eadf5ad64b42a4929b2fb7df99275c',
+            'c9217cb583f24c7f96567a4d6530e405',
+        ]
         if i.owner in official_projects:
             official = 'Y'
         else:
@@ -265,16 +273,16 @@ def public_audit():
         build = i.get('nectar_build', 'n/a')
 
         num = len(instances) if instances else 0
-        table.add_row([i.id, name, official, build,
-                       num, boot_count, last_boot])
+        table.add_row(
+            [i.id, name, official, build, num, boot_count, last_boot]
+        )
 
     print(table.get_string(sortby="Running", reversesort=True))
 
 
 @task
 def official_audit():
-    """Print usage information about official images
-    """
+    """Print usage information about official images"""
     data = {}
     gc = client()
     nc = nova.client()
@@ -283,8 +291,10 @@ def official_audit():
     images = []
 
     # NeCTAR-Images, NeCTAR-Images-Archive
-    official_projects = ['28eadf5ad64b42a4929b2fb7df99275c',
-                         'c9217cb583f24c7f96567a4d6530e405']
+    official_projects = [
+        '28eadf5ad64b42a4929b2fb7df99275c',
+        'c9217cb583f24c7f96567a4d6530e405',
+    ]
 
     for project in official_projects:
         images += list(gc.images.list(filters={'owner': project}))
@@ -308,8 +318,7 @@ def official_audit():
                 data[i.name]['running'] += len(instances)
                 data[i.name]['boots'] += boot_count
             else:
-                data[i.name] = {'running': len(instances),
-                                'boots': boot_count}
+                data[i.name] = {'running': len(instances), 'boots': boot_count}
 
     for d in data.iteritems():
         table.add_row([d[0], d[1]['running'], d[1]['boots']])
@@ -319,8 +328,7 @@ def official_audit():
 
 @task
 def official_images():
-    """Print usage information about official images
-    """
+    """Print usage information about official images"""
     gc = client()
     filters = {
         'visibility': 'public',

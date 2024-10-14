@@ -13,11 +13,13 @@ def client(url=None, username=None, password=None, tenant=None):
     password = os.environ.get('OS_PASSWORD', password)
     tenant = os.environ.get('OS_TENANT_NAME', tenant)
     assert url and username and password and tenant
-    return swift_client.Connection(authurl=url,
-                                   user=username,
-                                   key=password,
-                                   tenant_name=tenant,
-                                   auth_version=2)
+    return swift_client.Connection(
+        authurl=url,
+        user=username,
+        key=password,
+        tenant_name=tenant,
+        auth_version=2,
+    )
 
 
 def size_to_bytes(num):
@@ -27,11 +29,11 @@ def size_to_bytes(num):
     elif num[-1:].isalpha():
         num, unit = (num[:-1], num[-1])
     else:
-        raise ValueError("No units found in number '%s'" % num)
+        raise ValueError(f"No units found in number '{num}'")
     try:
         power = units.index(unit)
     except Exception:
-        raise ValueError("Unit %s is not one of %s" % (unit, units))
+        raise ValueError(f"Unit {unit} is not one of {units}")
     return int(num) * pow(1042, power)
 
 
@@ -50,6 +52,8 @@ def set_quota(tenant_id, quota):
     base_url = url.split('_')[0] + '_'
     tenant_url = base_url + tenant_id
 
-    swift_client.post_account(url=tenant_url,
-                              token=token,
-                              headers={'X-Account-Meta-Quota-Bytes': quota})
+    swift_client.post_account(
+        url=tenant_url,
+        token=token,
+        headers={'X-Account-Meta-Quota-Bytes': quota},
+    )

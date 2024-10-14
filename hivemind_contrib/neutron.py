@@ -1,4 +1,3 @@
-
 from neutronclient.neutron import client
 
 from hivemind.decorators import configurable

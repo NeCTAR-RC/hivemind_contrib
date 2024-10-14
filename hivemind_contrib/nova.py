@@ -35,10 +35,13 @@ FILE_TYPES = {
 }
 
 metadata = MetaData()
-instances_table = Table('instances', metadata,
-                        Column('created_at', DateTime()),
-                        Column('uuid', String(36)),
-                        Column('image_ref', String(255)))
+instances_table = Table(
+    'instances',
+    metadata,
+    Column('created_at', DateTime()),
+    Column('uuid', String(36)),
+    Column('image_ref', String(255)),
+)
 
 
 @decorators.configurable('connection')
@@ -49,8 +52,9 @@ def db_connect(uri):
 
 @decorators.configurable('nectar.openstack.client')
 def client(url=None, username=None, password=None, tenant=None, version='2.1'):
-    sess = keystone.get_session(username=username, password=password,
-                                tenant_name=tenant, auth_url=url)
+    sess = keystone.get_session(
+        username=username, password=password, tenant_name=tenant, auth_url=url
+    )
     return nova_client.Client(version, session=sess)
 
 
@@ -69,8 +73,7 @@ def list_services():
 def host_services(host=None):
     if not host:
         host = current_host()
-    return [service for service in list_services()
-            if service["host"] == host]
+    return [service for service in list_services() if service["host"] == host]
 
 
 @decorators.only_for("nova-node", "nova-controller")
@@ -78,8 +81,11 @@ def disable_host_services(host=None):
     if not host:
         host = current_host()
     for service in host_services(host):
-        run("nova-manage service disable --host %s --service %s" %
-            (service["host"], service["binary"]))
+        run(
+            "nova-manage service disable --host {} --service {}".format(
+                service["host"], service["binary"]
+            )
+        )
 
 
 @decorators.only_for("nova-node", "nova-controller")
@@ -87,8 +93,11 @@ def enable_host_services(host=None):
     if not host:
         host = current_host()
     for service in host_services(host):
-        run("nova-manage service enable --host %s --service %s" %
-            (service["host"], service["binary"]))
+        run(
+            "nova-manage service enable --host {} --service {}".format(
+                service["host"], service["binary"]
+            )
+        )
 
 
 def get_flavor_id(client, flavor_name):
@@ -96,7 +105,7 @@ def get_flavor_id(client, flavor_name):
     for flavor in flavors:
         if flavor.name == flavor_name:
             return flavor.id
-    raise Exception("Can't find flavor %s" % flavor_name)
+    raise Exception(f"Can't find flavor {flavor_name}")
 
 
 def get_flavor(client, flavor_id):
@@ -132,9 +141,18 @@ def server_address(client, id):
 
 
 @Spinner
-def all_servers(client, zone=None, host=None, status=None, ip=None,
-                image=None, project=None, user=None, limit=None,
-                changes_since=None):
+def all_servers(
+    client,
+    zone=None,
+    host=None,
+    status=None,
+    ip=None,
+    image=None,
+    project=None,
+    user=None,
+    limit=None,
+    changes_since=None,
+):
     print("\nListing the instances... ", end="")
     marker = None
     opts = {}
@@ -150,13 +168,15 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
     if project:
         try:
             opts['tenant_id'] = keystone.get_project(
-                keystone.client(), project, use_cache=True).id
+                keystone.client(), project, use_cache=True
+            ).id
         except Exception:
             sys.exit(1)
     if user:
         try:
             opts['user_id'] = keystone.get_user(
-                keystone.client(), user, use_cache=True).id
+                keystone.client(), user, use_cache=True
+            ).id
         except Exception:
             sys.exit(1)
 
@@ -180,10 +200,12 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
             instances = client.servers.list(search_opts=opts)
             if not instances:
                 continue
-            instances = filter(lambda x: _match_availability_zone(x, az_list),
-                               instances)
-            instances = filter(lambda x: _match_ip_address(x, ip_list),
-                               instances)
+            instances = filter(
+                lambda x: _match_availability_zone(x, az_list), instances
+            )
+            instances = filter(
+                lambda x: _match_ip_address(x, ip_list), instances
+            )
             inst.extend(instances)
             if limit and len(inst) >= int(limit):
                 break
@@ -197,15 +219,17 @@ def all_servers(client, zone=None, host=None, status=None, ip=None,
                 return inst
             # for some instances stuck in build phase, servers.list api
             # will always return the marker instance. Add old marker and
-            # new marker comparision to avoid the dead loop
+            # new marker comparison to avoid the dead loop
             marker_new = instances[-1].id
             if marker == marker_new:
                 return inst
             marker = marker_new
-            instances = filter(lambda x: _match_availability_zone(x, az_list),
-                               instances)
-            instances = filter(lambda x: _match_ip_address(x, ip_list),
-                               instances)
+            instances = filter(
+                lambda x: _match_availability_zone(x, az_list), instances
+            )
+            instances = filter(
+                lambda x: _match_ip_address(x, ip_list), instances
+            )
             if not instances:
                 continue
             inst.extend(instances)
@@ -222,10 +246,14 @@ def _search_trove_instances(client, opts):
     trove_opts = opts.copy()
     trove_opts.pop('user_id', None)
     trove_opts['tenant_id'] = keystone.get_project(
-        keystone.client(), 'trove', use_cache=True).id
+        keystone.client(), 'trove', use_cache=True
+    ).id
     trove_instances = client.servers.list(search_opts=trove_opts)
-    trove_instances = [instance for instance in trove_instances
-                       if _match_proj_user(instance, proj_id, user_id)]
+    trove_instances = [
+        instance
+        for instance in trove_instances
+        if _match_proj_user(instance, proj_id, user_id)
+    ]
     return trove_instances
 
 
@@ -251,8 +279,12 @@ def _match_ip_address(server, ips):
     if not ips:
         return True
     for ip in ips:
-        if any(map(lambda a: any(map(lambda aa: ip in aa['addr'], a)),
-                        server.addresses.values())):
+        if any(
+            map(
+                lambda a: any(map(lambda aa: ip in aa['addr'], a)),
+                server.addresses.values(),
+            )
+        ):
             return True
     return False
 
@@ -276,8 +308,11 @@ def extract_server_info(server, ksclient):
             server_info['image'] = None
 
         # handle some tier2 services which using "global" service user/project
-        if server.metadata and 'user_id' in server.metadata.keys()\
-            and 'project_id' in server.metadata.keys():
+        if (
+            server.metadata
+            and 'user_id' in server.metadata.keys()
+            and 'project_id' in server.metadata.keys()
+        ):
             server_info['user'] = server.metadata['user_id']
             server_info['project'] = server.metadata['project_id']
         else:
@@ -287,22 +322,23 @@ def extract_server_info(server, ksclient):
         server_info['addresses'] = _extract_ip(server)
 
         server_info['project_name'] = keystone.get_project(
-            ksclient, server_info['project'], use_cache=True).name
-        user = keystone.get_user(
-            ksclient, server_info['user'], use_cache=True)
+            ksclient, server_info['project'], use_cache=True
+        ).name
+        user = keystone.get_user(ksclient, server_info['user'], use_cache=True)
 
-        # handle instaces created by jenkins/tempest and users without fullname
+        # handle instances created by jenkins/tempest and users without fullname
         # set disabled user's email/fullname as None as it should be ruled out
         if not user.enabled:
             server_info['email'], server_info['fullname'] = None, None
         elif getattr(user, 'email', None):
-            server_info['email'], server_info['fullname']\
-                    = user.email, getattr(user, 'full_name', None)
+            server_info['email'], server_info['fullname'] = (
+                user.email,
+                getattr(user, 'full_name', None),
+            )
         else:
-            server_info['email'], server_info['fullname']\
-                    = user.name, None
+            server_info['email'], server_info['fullname'] = user.name, None
     except KeyError as e:
-        raise type(e)(e.message + ' missing in context: %s' % server.to_dict())
+        raise type(e)(e.message + f' missing in context: {server.to_dict()}')
 
     return server_info
 
@@ -321,8 +357,11 @@ def parse_dash(range_str):
     """Unpack the dash syntax into a set of number"""
     hosts = range_str.split("-")
     leading = len(hosts[0])
-    range_list = range(int(hosts[0]), int(hosts[1]) + 1) if len(hosts) > 1 \
-                 else [range_str]
+    range_list = (
+        range(int(hosts[0]), int(hosts[1]) + 1)
+        if len(hosts) > 1
+        else [range_str]
+    )
     return map(lambda x: str(x).zfill(leading), range_list)
 
 
@@ -338,10 +377,15 @@ def parse_nodes(nodes):
         # Parse qh2-rcc[112-114,115] syntax
         match = re.search(r"(.*?)\[(.*?)\](.*)", nodes[0])
         if match:
-            host_ranges = [host for hosts in parse_nodes(match.group(2))
-                           for host in parse_dash(hosts)]
-            nodes = set("%s%s%s" % (match.group(1), host, match.group(3))
-                        for host in host_ranges)
+            host_ranges = [
+                host
+                for hosts in parse_nodes(match.group(2))
+                for host in parse_dash(hosts)
+            ]
+            nodes = set(
+                f"{match.group(1)}{host}{match.group(3)}"
+                for host in host_ranges
+            )
     return nodes
 
 
@@ -352,13 +396,18 @@ def combine_files(file_contents):
             if contents.startswith(start):
                 break
         else:
-            raise Exception("Can't find handler for '%s'" %
-                            contents.split('\n', 1)[0])
+            raise Exception(
+                "Can't find handler for '{}'".format(
+                    contents.split('\n', 1)[0]
+                )
+            )
 
-        sub_message = MIMEText(contents, content_type,
-                               sys.getdefaultencoding())
-        sub_message.add_header('Content-Disposition',
-                               'attachment; filename="file-%s"' % i)
+        sub_message = MIMEText(
+            contents, content_type, sys.getdefaultencoding()
+        )
+        sub_message.add_header(
+            'Content-Disposition', f'attachment; filename="file-{i}"'
+        )
         combined_message.attach(sub_message)
     return combined_message
 
@@ -373,28 +422,31 @@ def file_contents(filenames):
             with open(url.path) as fh:
                 yield fh.read()
         else:
-            raise ValueError('Unrecognised url scheme %s' % url.scheme)
+            raise ValueError(f'Unrecognised url scheme {url.scheme}')
 
 
 def _scenario_compute_failure(novaclient, server, changes_since):
     try:
         last_action = list_instance_actions(novaclient, server['id'])[0]
-        if _normalize_time(last_action.start_time) >= _normalize_time(
-            changes_since) and last_action.action == "stop" \
-                           and not last_action.project_id \
-                           and not last_action.user_id:
+        if (
+            _normalize_time(last_action.start_time)
+            >= _normalize_time(changes_since)
+            and last_action.action == "stop"
+            and not last_action.project_id
+            and not last_action.user_id
+        ):
             return True
         else:
             return False
     except Exception as e:
         # bypass the failure when instance action call return failures
-        print("\nException %s with server %s" % (e, server['id']))
+        print("\nException {} with server {}".format(e, server['id']))
         return False
 
 
 def _normalize_time(string):
     t1 = dateutil.parser.parse(string)
-    t2 = t1.replace(tzinfo = dateutil.tz.tzutc())
+    t2 = t1.replace(tzinfo=dateutil.tz.tzutc())
     return t2
 
 
@@ -403,40 +455,49 @@ def extract_servers_info(servers, ksclient=None):
     print("\nExtracting instances information... ", end="")
     if ksclient is None:
         ksclient = keystone.client()
-    return [extract_server_info(server, ksclient=ksclient)
-            for server in servers]
+    return [
+        extract_server_info(server, ksclient=ksclient) for server in servers
+    ]
 
 
 @Spinner
 def match_scenario(servers, func, novaclient, changes_since):
     print("\nFiltering by scenario checking... ", end="")
-    return [server for server in servers if func(novaclient, server,
-                                                 changes_since)]
+    return [
+        server for server in servers if func(novaclient, server, changes_since)
+    ]
 
 
 @task
 @decorators.verbose
-def boot(name, key_name=None, image_id=None, flavor='m1.small',
-         security_groups=DEFAULT_SECURITY_GROUPS,
-         networks=[], userdata=[], availability_zone=DEFAULT_AZ):
+def boot(
+    name,
+    key_name=None,
+    image_id=None,
+    flavor='m1.small',
+    security_groups=DEFAULT_SECURITY_GROUPS,
+    networks=[],
+    userdata=[],
+    availability_zone=DEFAULT_AZ,
+):
     """Boot a new server.
 
-       :param str name: The name you want to give the VM.
-       :param str keyname: Key name of keypair that should be used.
-       :param str flavor: Name or ID of flavor,
-       :param str security_groups: Comma separated list of security
-         group names.
-       :param list userdata: User data file to pass to be exposed by
-         the metadata server.
-       :param list networks: A list of networks that the VM should
-         connect to. net-id: attach NIC to network with this UUID
-         (required if no port-id), v4-fixed-ip: IPv4 fixed address
-         for NIC (optional), port-id: attach NIC to port with this
-         UUID (required if no net-id).
-         (e.g. net-id=<net-uuid>;v4-fixed-ip=<ip-addr>;port-id=<port-uuid>,...)
-       :param str availability_zone: The availability zone for
-         instance placement.
-       :param choices ubuntu: The version of ubuntu you would like to use.
+    :param str name: The name you want to give the VM.
+    :param str keyname: Key name of keypair that should be used.
+    :param str flavor: Name or ID of flavor,
+    :param str security_groups: Comma separated list of security
+      group names.
+    :param list userdata: User data file to pass to be exposed by
+      the metadata server.
+    :param list networks: A list of networks that the VM should
+      connect to. net-id: attach NIC to network with this UUID
+      (required if no port-id), v4-fixed-ip: IPv4 fixed address
+      for NIC (optional), port-id: attach NIC to port with this
+      UUID (required if no net-id).
+      (e.g. net-id=<net-uuid>;v4-fixed-ip=<ip-addr>;port-id=<port-uuid>,...)
+    :param str availability_zone: The availability zone for
+      instance placement.
+    :param choices ubuntu: The version of ubuntu you would like to use.
 
     """
     nova = client()
@@ -458,11 +519,14 @@ def boot(name, key_name=None, image_id=None, flavor='m1.small',
         image=image_id,
         nics=nics,
         availability_zone=availability_zone,
-        key_name=key_name)
+        key_name=key_name,
+    )
 
     server_id = resp.id
-    ip_address = wait_for(lambda: server_address(nova, resp.id),
-                          "Server never got an IP address.")
+    ip_address = wait_for(
+        lambda: server_address(nova, resp.id),
+        "Server never got an IP address.",
+    )
     print(server_id)
     print(ip_address)
 
@@ -472,10 +536,10 @@ def boot(name, key_name=None, image_id=None, flavor='m1.small',
 def list_host_aggregates(availability_zone, hostname=[]):
     """Prints a pretty table of hosts in for each aggregate in AZ
 
-       :param str availability_zone: The availability zone that the aggregates
-         are in
-       :param str hostname: Only display hostname in table. Use multiple times
-         for more then one host
+    :param str availability_zone: The availability zone that the aggregates
+      are in
+    :param str hostname: Only display hostname in table. Use multiple times
+      for more then one host
     """
 
     nova = client()
@@ -518,34 +582,52 @@ def list_host_aggregates(availability_zone, hostname=[]):
 
 @task
 @decorators.verbose
-def list_instances(zone=None, nodes=None, project=None, user=None,
-                   status="ACTIVE", ip=None, image=None, limit=None,
-                   changes_since=None, scenario=None):
+def list_instances(
+    zone=None,
+    nodes=None,
+    project=None,
+    user=None,
+    status="ACTIVE",
+    ip=None,
+    image=None,
+    limit=None,
+    changes_since=None,
+    scenario=None,
+):
     """Prints a pretty table of instances based on specific conditions
 
-       :param str zone: Availability zone or availability zone range
-            that the instances are in, e.g. az[1-4,9]
-       :param str nodes: Compute host name or host neme range that the
-            instances are in, e.g. cc[2-3,5]
-       :param str project: Project name or id that the instances belong to
-       :param str user: User name or id that the instances belong to
-       :param str status: Instances status. Use 'ALL' to list all instances
-       :param str ip: Ip address or ip address range that instances are in,
-            e.g. 192.168.122.[124-127]
-       :param str image: Image id that the instances are launched based on
-       :param str limit: Number of returned instances
-       :param str changes_since: List only instances changed after a certain
-            point of time. The provided time should be an ISO 8061 formatted
-            time. e.g. 2016-03-04T06:27:59Z
-       :param str scenario: List only instances which match with specific
-            scenario checking, available ones are ["compute_failure"]
+    :param str zone: Availability zone or availability zone range
+         that the instances are in, e.g. az[1-4,9]
+    :param str nodes: Compute host name or host neme range that the
+         instances are in, e.g. cc[2-3,5]
+    :param str project: Project name or id that the instances belong to
+    :param str user: User name or id that the instances belong to
+    :param str status: Instances status. Use 'ALL' to list all instances
+    :param str ip: Ip address or ip address range that instances are in,
+         e.g. 192.168.122.[124-127]
+    :param str image: Image id that the instances are launched based on
+    :param str limit: Number of returned instances
+    :param str changes_since: List only instances changed after a certain
+         point of time. The provided time should be an ISO 8061 formatted
+         time. e.g. 2016-03-04T06:27:59Z
+    :param str scenario: List only instances which match with specific
+         scenario checking, available ones are ["compute_failure"]
     """
     novaclient = client()
     if status == 'ALL':
         status = None
-    result = all_servers(novaclient, zone=zone, host=nodes, status=status,
-                         ip=ip, image=image, project=project, user=user,
-                         limit=limit, changes_since=changes_since)
+    result = all_servers(
+        novaclient,
+        zone=zone,
+        host=nodes,
+        status=status,
+        ip=ip,
+        image=image,
+        project=project,
+        user=user,
+        limit=limit,
+        changes_since=changes_since,
+    )
     if not result:
         print("No instances found!")
         sys.exit(0)
@@ -555,7 +637,7 @@ def list_instances(zone=None, nodes=None, project=None, user=None,
         func = globals()["_scenario_" + scenario]
         result = match_scenario(result, func, novaclient, changes_since)
         if not result:
-            print("No %s instances found!" % scenario)
+            print(f"No {scenario} instances found!")
             sys.exit(0)
 
     print("\n")

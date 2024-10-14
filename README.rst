@@ -39,7 +39,7 @@ This will only purge the following resources:
 
 ### git-buildpackage
 
-The pbuilder packaging commands require the Ubuntu `git-buildpackge` package
+The pbuilder packaging commands require the Ubuntu `git-buildpackage` package
 to be installed. You should modify your sudoers configuration so that
 cowbuilder can be run as root without entering a password. So create a file
 /etc/sudoers.d/cowbuilder with content like the following::
