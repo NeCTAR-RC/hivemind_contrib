@@ -1,22 +1,7 @@
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from fabric.api import task
-from fabric.utils import error
-from hivemind import decorators
-from hivemind_contrib import keystone
-from hivemind_contrib import log
-from hivemind_contrib import nova
-from hivemind_contrib import security
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
-from jinja2 import Template
-
-from jinja2.exceptions import TemplateNotFound
-
-from prettytable import PrettyTable
-
 import collections
 import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import logging
 import os
 import re
@@ -26,6 +11,20 @@ import sys
 import tempfile
 import time
 import yaml
+
+from fabric.api import task
+from fabric.utils import error
+from hivemind import decorators
+from jinja2 import Environment
+from jinja2.exceptions import TemplateNotFound
+from jinja2 import FileSystemLoader
+from jinja2 import Template
+from prettytable import PrettyTable
+
+from hivemind_contrib import freshdesk
+from hivemind_contrib import keystone
+from hivemind_contrib import log
+from hivemind_contrib import nova
 
 
 @decorators.configurable('smtp')
@@ -219,15 +218,12 @@ def _populate_project_dict(instances):
 # modified from activestate recipes: http://code.activestate.com/recipes/
 # 578094-recursively-print-nested-dictionaries/
 # Pass 'tofile' the file handler to write, pass None to print in stdout
-def print_dict(dictionary, tofile=None, ident='', braces=1):
+def print_dict(dictionary, tofile, ident='', braces=1):
     """Recursively prints nested dictionaries."""
 
-    for key, value in dictionary.iteritems():
+    for key, value in dictionary.items():
         if isinstance(value, dict):
-            print(
-                "{}{}{}{}".format(ident, braces * "[", key, braces * "]"),
-                file=tofile,
-            )
+            tofile.write(f"{ident}{braces * '['}{key}{braces * ']'}\n")
             print_dict(value, tofile, ident + '  ', braces + 1)
         else:
             table = _pretty_table_instances(value)
@@ -251,7 +247,7 @@ def _pretty_table_instances(instances):
 
 
 def generate_logs(work_dir, data):
-    with open(os.path.join(work_dir, "notify.log"), 'wb') as log:
+    with open(os.path.join(work_dir, "notify.log"), 'w') as log:
         print_dict(data, log)
 
 
@@ -647,8 +643,8 @@ def freshdesk_mailout(
        :param str metadata_field: set the name of the freshdesk ticket URL\
                metadata field in the nova instance."
     """
-    fd_config = security.get_freshdesk_config()
-    fd = security.get_freshdesk_client(
+    fd_config = freshdesk.get_freshdesk_config()
+    fd = freshdesk.get_freshdesk_client(
         fd_config['domain'], fd_config['api_key']
     )
 
@@ -760,7 +756,7 @@ def freshdesk_mailout(
         for email_file in email_files:
             logging.info('Creating new Freshdesk ticket')
             with open(os.path.join(work_dir, email_file), 'rb') as f:
-                email = yaml.load(f)
+                email = yaml.load(f, Loader=yaml.FullLoader)
             if test_recipient:
                 addresses = [test_recipient]
             else:
