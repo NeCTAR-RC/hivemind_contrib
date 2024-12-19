@@ -407,7 +407,7 @@ def user_projects(user, show_disabled=False):
 
 
 def generate_random_password(length=24):
-    chars = string.letters + string.digits
+    chars = string.ascii_letters + string.digits
     return ''.join((random.choice(chars)) for x in range(length))
 
 
