@@ -13,7 +13,7 @@ def reprepro(command):
 
 @fapi.task
 @verbose
-@fapi.hosts("repo@download.rc.nectar.org.au")
+@fapi.hosts("repo@debrepo.svc.artm.rc.nectar.org.au")
 def list(distribution):
     """List all packages in a distribution."""
     reprepro(f"list {distribution}")
@@ -21,7 +21,7 @@ def list(distribution):
 
 @fapi.task
 @verbose
-@fapi.hosts("repo@download.rc.nectar.org.au")
+@fapi.hosts("repo@debrepo.svc.artm.rc.nectar.org.au")
 def ls(package):
     """List the package version across all distributions."""
     reprepro(f"ls {package}")
@@ -29,7 +29,7 @@ def ls(package):
 
 @fapi.task
 @verbose
-@fapi.hosts("repo@download.rc.nectar.org.au")
+@fapi.hosts("repo@debrepo.svc.artm.rc.nectar.org.au")
 def compare_distribution(
     distribution1,
     distribution2=None,
@@ -101,7 +101,7 @@ def compare_distribution(
 
 @fapi.task
 @verbose
-@fapi.hosts("repo@download.rc.nectar.org.au")
+@fapi.hosts("repo@debrepo.svc.artm.rc.nectar.org.au")
 def list_distributions():
     """List all the distributions."""
     with fapi.cd("/srv/nectar-ubuntu/dists"):
@@ -110,7 +110,7 @@ def list_distributions():
 
 @fapi.task
 @verbose
-@fapi.hosts("repo@download.rc.nectar.org.au")
+@fapi.hosts("repo@debrepo.svc.artm.rc.nectar.org.au")
 def cp_package(package, source, dest):
     """Copy a package from a source to a destination distribution."""
     with fapi.cd("/srv/nectar-ubuntu"), fapi.hide("stdout"):
@@ -132,7 +132,7 @@ def cp_package(package, source, dest):
 
 @fapi.task
 @verbose
-@fapi.hosts("repo@download.rc.nectar.org.au")
+@fapi.hosts("repo@debrepo.svc.artm.rc.nectar.org.au")
 def rm_packages(distribution, source_package):
     """Remove distribution packages that belong to the given source package."""
     reprepro(f"removesrc {distribution} {source_package}")
