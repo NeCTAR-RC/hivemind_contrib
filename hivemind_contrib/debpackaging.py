@@ -141,7 +141,7 @@ def git_buildpackage(
 
 @task
 @verbose
-@hosts("repo@debrepo.svc.artm.rc.nectar.org.au")
+@hosts("repo@download.rc.nectar.org.au")
 def uploadpackage(changes, delete_existing=False):
     """Upload a package to the repository, using the changes file."""
     if delete_existing:
