@@ -188,6 +188,14 @@ mirrors = {
         "deb " + NECTAR_REPO + " jammy-testing main",
         "deb " + UBUNTU_MIRROR + " jammy-updates main universe",
     ],
+    'jammy-2024.1': [
+        "deb " + CLOUD_ARCHIVE + " jammy-updates/caracal main",
+        "deb " + NECTAR_REPO + " jammy main",
+        "deb " + NECTAR_REPO + " jammy-2024.1 main",
+        "deb " + NECTAR_REPO + " jammy-2024.1-testing main",
+        "deb " + NECTAR_REPO + " jammy-testing main",
+        "deb " + UBUNTU_MIRROR + " jammy-updates main universe",
+    ],
     'noble-2024.1': [
         "deb " + NECTAR_REPO + " noble main",
         "deb " + NECTAR_REPO + " noble-2024.1 main",
