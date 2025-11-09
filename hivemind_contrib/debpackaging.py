@@ -57,6 +57,7 @@ GIT_DESCRIBE_VERSION_REGEX = re.compile(
     ^v?(?P<major>\d+)\.
     (?P<minor>\d+)
     (?:\.(?P<patch>\d+(\.\w+){0,1})){0,1}
+    (?:-(?P<eol>eol)){0,1}
     (?:-(?P<commits>\d+)
     -g(?P<revision>[0-9a-f]+)){0,1}$""",
     re.VERBOSE,
