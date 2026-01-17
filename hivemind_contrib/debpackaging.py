@@ -85,7 +85,7 @@ def debian_version(old_version, version):
     else:
         deb_version += ".0"
     if new_version['revision'] is not None:
-        deb_version += ".{commits}.g{revision}"
+        deb_version += "+{commits}.g{revision}"
     deb_version += "-{debian}+{distribution}"
     return deb_version.format(**new_version)
 
