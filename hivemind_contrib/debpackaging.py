@@ -45,11 +45,20 @@ def split_branch(branch):
 
 def parse_openstack_release(branch):
     release = split_branch(branch)
+
+    if not release:
+        # not openstack project
+        return None
+
     if release in pbuilder.OPENSTACK_RELEASES:
         return release
+    # NOTE(jake): deprecated? this doesn't make sense
     elif release in pbuilder.UBUNTU_RELEASES:
         return release
-    return pbuilder.STABLE_RELEASE
+    else:
+        raise Exception(
+            f"Unable to find release {release} in {pbuilder.OPENSTACK_RELEASES}"
+        )
 
 
 GIT_DESCRIBE_VERSION_REGEX = re.compile(

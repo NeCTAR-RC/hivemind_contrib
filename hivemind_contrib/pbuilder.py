@@ -55,7 +55,11 @@ def dist_from_release(release):
         return DEFAULT_UBUNTU
 
 
-def get_build_env(os_release, ubuntu_release=None):
+def get_build_env(os_release=None, ubuntu_release=None):
+    # non-openstack projects provide only ubuntu_release
+    if not os_release and ubuntu_release:
+        return ubuntu_release
+    # deprecated - this should not be a case anymore
     if os_release in UBUNTU_RELEASES:
         return os_release
     if not ubuntu_release:
