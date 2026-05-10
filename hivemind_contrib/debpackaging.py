@@ -181,19 +181,22 @@ def discover_debian_branch(
     current_branch, version, os_release, ubuntu_release=None
 ):
     if os.path.exists(os.path.join(git.root_dir(), 'debian/')):
-        deb_branch = current_branch
-    else:
-        deb_branch = f"debian/{ubuntu_release}-{os_release}"
-        if not git.branch_exists(deb_branch):
-            deb_branch = debian_branch(version)
-        if not git.branch_exists(deb_branch):
-            deb_branch = f"debian/{os_release}"
-        if not git.branch_exists(deb_branch):
-            deb_branch = 'debian'
-        assert git.branch_exists(
-            deb_branch
-        ), f"Debian branch {deb_branch} doesn't exist"
-    return deb_branch
+        return current_branch
+
+    candidates = []
+    if ubuntu_release and os_release:
+        candidates.append(f"debian/{ubuntu_release}-{os_release}")
+    if ubuntu_release:
+        candidates.append(f"debian/{ubuntu_release}")
+    candidates.append(debian_branch(version))
+    if os_release:
+        candidates.append(f"debian/{os_release}")
+    candidates.append('debian')
+
+    for deb_branch in candidates:
+        if git.branch_exists(deb_branch):
+            return deb_branch
+    raise AssertionError(f"No Debian branch found. Tried: {candidates}")
 
 
 @task
