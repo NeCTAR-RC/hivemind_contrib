@@ -369,8 +369,6 @@ def remove_tenant_manager(project, user):
 @decorators.verbose
 def user_projects(user, show_disabled=False):
     keystone = client(version=3)
-    projects = keystone.projects.list()
-    projects = {project.id: project for project in projects}
     roles = keystone.roles.list()
     roles = {role.id: role for role in roles}
 
@@ -398,7 +396,10 @@ def user_projects(user, show_disabled=False):
     table.align = 'l'
     for project_id, roles in user_project_roles.items():
         roles = ', '.join(sorted([role.name for role in roles]))
-        project = projects[project_id]
+        try:
+            project = keystone.projects.get(project_id)
+        except NotFound:
+            continue
         if not show_disabled and not project.enabled:
             continue
         table.add_row([project.id, project.name, roles])
