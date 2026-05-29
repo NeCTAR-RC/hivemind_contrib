@@ -39,6 +39,7 @@ def setup_github(org_name, name, team_id, fork_from):
     github_token = get_github_token()
     g = github.Github(auth=github.Auth.Token(github_token))
     org = g.get_organization(org_name)
+    created_repo = False
 
     if fork_from:
         fork_repo = g.get_repo(fork_from)
@@ -49,6 +50,7 @@ def setup_github(org_name, name, team_id, fork_from):
         if not repo:
             repo = org.create_fork(fork_repo)
             print(f"Created fork {repo.name}")
+            created_repo = True
     else:
         fork_repo = None
         try:
@@ -56,10 +58,12 @@ def setup_github(org_name, name, team_id, fork_from):
         except UnknownObjectException:
             repo = org.create_repo(name)
             print(f"Created repo {repo.name}")
+            created_repo = True
 
-    team = org.get_team(team_id)
-    team.add_to_repos(repo)
-    print(f"Added {team.name} team to repo")
+    if created_repo:
+        team = org.get_team(team_id)
+        team.add_to_repos(repo)
+        print(f"Added {team.name} team to repo")
     return fork_repo
 
 
