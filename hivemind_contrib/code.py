@@ -11,13 +11,12 @@ from hivemind_contrib import gerrit
 from hivemind_contrib import gitea
 
 
-def get_github_username():
-    with util.hide_and_ignore():
-        username = local('git config --get github.user', capture=True)
-    return username
-
-
 def get_github_token():
+    with util.hide_and_ignore():
+        token = local('gh auth token', capture=True)
+        if token.startswith("gho_"):
+            return token
+
     with util.hide_and_ignore():
         token = local('git config --get github.token', capture=True)
     return token
@@ -37,9 +36,8 @@ def setup_gitea(org_name, name):
 
 def setup_github(org_name, name, team_id, fork_from):
     fork_repo = None
-    github_user = get_github_username()
     github_token = get_github_token()
-    g = github.Github(github_user, github_token)
+    g = github.Github(auth=github.Auth.Token(github_token))
     org = g.get_organization(org_name)
 
     if fork_from:
