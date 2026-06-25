@@ -26,6 +26,7 @@ logs/*
 .coverage/*
 .coverage
 .coverage*
+!.coveragerc
 .cache
 .tox
 nosetests.xml

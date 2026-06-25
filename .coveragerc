@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = hivemind_contrib
+omit = hivemind_contrib/tests/*
+
+[report]
+ignore_errors = True
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
