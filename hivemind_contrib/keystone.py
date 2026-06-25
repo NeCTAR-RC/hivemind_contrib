@@ -27,10 +27,12 @@ def get_session(
     project_name=None,
     tenant_name=None,
     auth_url=None,
+    auth_type=None,
+    token=None,
 ):
     auth_url = os.environ.get('OS_AUTH_URL', auth_url)
-    username = os.environ.get('OS_USERNAME', username)
-    password = os.environ.get('OS_PASSWORD', password)
+    # default to password auth for backwards compatibility
+    auth_type = os.environ.get('OS_AUTH_TYPE', auth_type) or 'password'
     project_name = os.environ.get('OS_PROJECT_NAME', project_name)
     # allow tenant_name for backwards compatibility
     if not project_name:
@@ -38,14 +40,18 @@ def get_session(
 
     auth_args = {
         'auth_url': auth_url,
-        'username': username,
-        'password': password,
         'project_name': project_name,
-        'user_domain_name': 'default',
         'project_domain_name': 'default',
     }
 
-    loader = loading.get_plugin_loader('password')
+    if auth_type == 'token':
+        auth_args['token'] = os.environ.get('OS_TOKEN', token)
+    else:
+        auth_args['username'] = os.environ.get('OS_USERNAME', username)
+        auth_args['password'] = os.environ.get('OS_PASSWORD', password)
+        auth_args['user_domain_name'] = 'default'
+
+    loader = loading.get_plugin_loader(auth_type)
     auth = loader.load_from_options(**auth_args)
 
     return session.Session(auth=auth)

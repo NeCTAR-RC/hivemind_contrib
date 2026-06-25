@@ -4,7 +4,7 @@
 # Description: Utility function for using Openstack API
 #
 
-from keystoneauth1 import identity as keystone_identity
+from keystoneauth1 import loading
 from keystoneauth1 import session as keystone_session
 import os
 import re
@@ -22,26 +22,38 @@ class c:
 
 
 def get_session(
-    url=None, username=None, password=None, tenant=None, version=3
+    url=None,
+    username=None,
+    password=None,
+    tenant=None,
+    version=3,
+    auth_type=None,
+    token=None,
 ):
     """Get the keystone session for Openstack clients."""
     url = os.environ.get('OS_AUTH_URL', url)
-    username = os.environ.get('OS_USERNAME', username)
-    user_domain_name = 'Default'
-    password = os.environ.get('OS_PASSWORD', password)
+    # default to password auth for backwards compatibility
+    auth_type = os.environ.get('OS_AUTH_TYPE', auth_type) or 'password'
     tenant = os.environ.get('OS_TENANT_NAME', tenant) or os.environ.get(
         'OS_PROJECT_NAME', tenant
     )
-    project_domain_name = 'Default'
-    assert url and username and password and tenant
-    auth = keystone_identity.Password(
-        username=username,
-        password=password,
-        tenant_name=tenant,
-        auth_url=url,
-        user_domain_name=user_domain_name,
-        project_domain_name=project_domain_name,
-    )
+
+    auth_args = {
+        'auth_url': url,
+        'project_name': tenant,
+        'project_domain_name': 'Default',
+    }
+
+    if auth_type == 'token':
+        auth_args['token'] = os.environ.get('OS_TOKEN', token)
+    else:
+        auth_args['username'] = os.environ.get('OS_USERNAME', username)
+        auth_args['password'] = os.environ.get('OS_PASSWORD', password)
+        auth_args['user_domain_name'] = 'Default'
+
+    loader = loading.get_plugin_loader(auth_type)
+    auth = loader.load_from_options(**auth_args)
+
     return keystone_session.Session(auth=auth)
 
 

@@ -1,25 +1,12 @@
-import os
-
 from fabric.api import task
 import swiftclient.client as swift_client
 
-from hivemind.decorators import configurable
+from hivemind_contrib import keystone
 
 
-@configurable('nectar.openstack.client')
-def client(url=None, username=None, password=None, tenant=None):
-    url = os.environ.get('OS_AUTH_URL', url)
-    username = os.environ.get('OS_USERNAME', username)
-    password = os.environ.get('OS_PASSWORD', password)
-    tenant = os.environ.get('OS_TENANT_NAME', tenant)
-    assert url and username and password and tenant
-    return swift_client.Connection(
-        authurl=url,
-        user=username,
-        key=password,
-        tenant_name=tenant,
-        auth_version=2,
-    )
+def client():
+    sess = keystone.get_session()
+    return swift_client.Connection(session=sess)
 
 
 def size_to_bytes(num):
