@@ -77,7 +77,7 @@ def add_team_to_repo(org_name, name, team_id):
     # no point trying to process team names, test for number
     try:
         int(team_id)
-        url_team = "{}/teams/{}/repos/{}/{}" "".format(
+        url_team = "{}/teams/{}/repos/{}/{}".format(
             config["url"], team_id, org_name, name
         )
     except ValueError as e:

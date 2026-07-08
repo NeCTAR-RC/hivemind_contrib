@@ -668,7 +668,7 @@ def stat(
         projects[project_name]['ram'] += int(ins._info['flavor']['ram'])
 
     data['common'] = ',\n'.join(
-        '%s: %d' % (k, v) for k, v in projects_counter.most_common(3)
+        f'{k}: {v:d}' for k, v in projects_counter.most_common(3)
     )
     # Convert the data to bytes for humanization
     data['ram'] = data['ram'] * 1024 * 1024

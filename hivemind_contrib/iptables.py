@@ -14,7 +14,7 @@ from hivemind.operations import run
 from hivemind_contrib.libvirt import list_instances
 from hivemind_contrib.nova import client
 
-comput_rule_re = re.compile(r"^Chain nova-compute-inst-(\d+) ")
+compute_rule_re = re.compile(r"^Chain nova-compute-inst-(\d+) ")
 
 
 def parse_rules():
@@ -24,7 +24,7 @@ def parse_rules():
     host_rules = defaultdict(list)
 
     for line in output.split('\n'):
-        match = comput_rule_re.match(line)
+        match = compute_rule_re.match(line)
         if match:
             instance_id = match.groups()[0]
             in_host_rules = True

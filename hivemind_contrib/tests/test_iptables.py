@@ -8,7 +8,7 @@ IPTABLES_OUTPUT = """Chain INPUT (policy ACCEPT)
 target     prot opt source               destination
 nova-compute-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
 nova-network-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
-nova-api-metadat-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+nova-api-metadata-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
 NECTAR-ADMIN  all  --  0.0.0.0/0            0.0.0.0/0
 
 Chain FORWARD (policy ACCEPT)
@@ -16,14 +16,14 @@ target     prot opt source               destination
 nova-filter-top  all  --  0.0.0.0/0            0.0.0.0/0
 nova-compute-FORWARD  all  --  0.0.0.0/0            0.0.0.0/0
 nova-network-FORWARD  all  --  0.0.0.0/0            0.0.0.0/0
-nova-api-metadat-FORWARD  all  --  0.0.0.0/0            0.0.0.0/0
+nova-api-metadata-FORWARD  all  --  0.0.0.0/0            0.0.0.0/0
 
 Chain OUTPUT (policy ACCEPT)
 target     prot opt source               destination
 nova-filter-top  all  --  0.0.0.0/0            0.0.0.0/0
 nova-compute-OUTPUT  all  --  0.0.0.0/0            0.0.0.0/0
 nova-network-OUTPUT  all  --  0.0.0.0/0            0.0.0.0/0
-nova-api-metadat-OUTPUT  all  --  0.0.0.0/0            0.0.0.0/0
+nova-api-metadata-OUTPUT  all  --  0.0.0.0/0            0.0.0.0/0
 
 Chain LOGDROP (0 references)
 target     prot opt source               destination
@@ -35,17 +35,17 @@ target     prot opt source               destination
 LOG        all  --  0.0.0.0/0            0.0.0.0/0            limit: avg 10/min burst 7 LOG flags 0 level 4
 REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
 
-Chain nova-api-metadat-FORWARD (1 references)
+Chain nova-api-metadata-FORWARD (1 references)
 target     prot opt source               destination
 
-Chain nova-api-metadat-INPUT (1 references)
+Chain nova-api-metadata-INPUT (1 references)
 target     prot opt source               destination
 ACCEPT     tcp  --  0.0.0.0/0            192.168.1.1        tcp dpt:8775
 
-Chain nova-api-metadat-OUTPUT (1 references)
+Chain nova-api-metadata-OUTPUT (1 references)
 target     prot opt source               destination
 
-Chain nova-api-metadat-local (1 references)
+Chain nova-api-metadata-local (1 references)
 target     prot opt source               destination
 
 Chain nova-compute-FORWARD (1 references)
